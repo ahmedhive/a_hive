@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-gray: var(--gray);
+  --color-black-secondary: var(--black-secondary);
+  --color-vivid-yellow: var(--vivid-yellow);
+  --color-vivid-yellow-active: var(--vivid-yellow-active);
+  --color-vivid-orange: var(--vivid-orange);
+  --color-yellow: var(--yellow);
+  --color-linen: var(--linen);
+  --color-transparent: var(--transparent);
+  --color-white: var(--white);
+  --font-sans: var(--font-dm-sans);
+  --font-heading: var(--font-bebas-neue);
+}
+
+:root {
+  --gray: #383838;
+  --black-secondary: #1a1a1a;
+  --vivid-yellow: #bce70c;
+  --vivid-yellow-active: #c9ec3d;
+  --vivid-orange: #ff691e;
+  --yellow: #fdbc53;
+  --linen: #e9dcd2;
+  --transparent: #fff0;
+  --white: #fff;
+  --gradient-vivid-yellow: linear-gradient(
+    180deg,
+    var(--vivid-yellow) 0%,
+    var(--vivid-yellow-active) 100%
+  );
+  --_typography---font-sizes--heading--h5: clamp(
+    1.75rem,
+    1.5376rem + 0.9061vw,
+    2.625rem
+  );
+  --_typography---font-sizes--heading--h4: clamp(
+    2rem,
+    1.2112rem + 3.3657vw,
+    5.25rem
+  );
+}
+
+@layer base {
+  body {
+    @apply bg-white text-gray;
+  }
+  html {
+    @apply font-sans;
+    /* scrollbar-width: none;
+    -ms-overflow-style: none; */
+  }
+  /* html::-webkit-scrollbar {
+    display: none;
+  } */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+
+  /* GSAP SplitText's mask wrapper clips tightly to each character's
+     advance-width box, which cuts off diagonal glyphs (e.g. "A") whose ink
+     slightly overhangs that box in condensed display fonts. charsClass:"char"
+     names the wrapper "char-mask" (SplitText's own "-mask" suffix convention)
+     so it can be given breathing room here instead of at every call site. */
+  .char-mask {
+    overflow-clip-margin: 0.12em;
+  }
+}
+
+.has-custom-cursor {
+  cursor: none;
+}
+
+.has-custom-cursor a,
+.has-custom-cursor button {
+  cursor: none;
+}

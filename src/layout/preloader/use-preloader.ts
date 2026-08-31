@@ -1,0 +1,90 @@
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
+import {
+  COVER_EXIT_DURATION_S,
+  COVER_EXIT_EASE,
+  COVER_EXIT_Y_PERCENT,
+  HOLD_DURATION_S,
+  TEXT_REVEAL_DELAY_S,
+  TEXT_REVEAL_DURATION_S,
+  TEXT_REVEAL_EASE,
+  TEXT_REVEAL_STAGGER_S,
+} from "./preloader.data";
+import { TPreloaderPhase } from "./preloader.interface";
+
+gsap.registerPlugin(SplitText);
+
+// Runs before paint so the SplitText mask/GSAP "from" state is applied
+// before the browser ever shows the raw, unsplit text.
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+export default function usePreloader() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [phase, setPhase] = useState<TPreloaderPhase>("loading");
+
+  useIsomorphicLayoutEffect(() => {
+    const container = containerRef.current;
+    const text = textRef.current;
+    if (!container || !text) return;
+
+    // charsClass names the generated mask wrapper "char-mask" so globals.css
+    // can give it overflow-clip-margin — otherwise diagonal glyphs (e.g. "A")
+    // that ink slightly past their advance-width box get visibly clipped.
+    const split = SplitText.create(text, {
+      type: "chars",
+      mask: "chars",
+      charsClass: "char",
+    });
+
+    // Text starts at opacity-0 in the static markup (see preloader/index.tsx)
+    // so the server-rendered, unsplit text is never shown. Flip it back to
+    // visible here, in the same synchronous pre-paint pass that positions
+    // the freshly-split chars at their hidden "from" state below — so by
+    // the time the browser paints, what's visible is the masked chars ready
+    // to animate in, never a flash of the raw, un-split string.
+    gsap.set(text, { opacity: 1 });
+
+    const tl = gsap.timeline({
+      onComplete: () => setPhase("hidden"),
+    });
+
+    tl.from(split.chars, {
+      yPercent: -100,
+      duration: TEXT_REVEAL_DURATION_S,
+      stagger: TEXT_REVEAL_STAGGER_S,
+      ease: TEXT_REVEAL_EASE,
+      delay: TEXT_REVEAL_DELAY_S,
+    })
+      // Whole cover — text included, since it's a child of this element —
+      // rides out as one solid block. Text has no exit animation of its own.
+      .to(
+        container,
+        {
+          yPercent: COVER_EXIT_Y_PERCENT,
+          duration: COVER_EXIT_DURATION_S,
+          ease: COVER_EXIT_EASE,
+          onStart: () => setPhase("exiting"),
+        },
+        `+=${HOLD_DURATION_S}`,
+      );
+
+    return () => {
+      tl.kill();
+      split.revert();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (phase === "hidden") return;
+
+    document.documentElement.classList.add("overflow-hidden");
+    return () => {
+      document.documentElement.classList.remove("overflow-hidden");
+    };
+  }, [phase]);
+
+  return { containerRef, textRef, phase };
+}
