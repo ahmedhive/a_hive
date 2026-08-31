@@ -80,3 +80,15 @@
 .has-custom-cursor button {
   cursor: none;
 }
+
+.cursor-dot {
+  display: none;
+}
+.has-custom-cursor .cursor-dot {
+  display: block;
+}
+@media (pointer: coarse) {
+  .cursor-dot {
+    display: none !important;
+  }
+}

@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const [isCoarse, setIsCoarse] = useState(true);
 
   useEffect(() => {
-    const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+    setIsCoarse(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
+  useEffect(() => {
     if (isCoarse || !cursorRef.current) return;
 
     const reduceMotion = window.matchMedia(
@@ -56,13 +60,15 @@ export default function CustomCursor() {
       document.removeEventListener("mouseout", out);
       document.documentElement.classList.remove("has-custom-cursor");
     };
-  }, []);
+  }, [isCoarse]);
+
+  if (isCoarse) return null;
 
   return (
     <div
       ref={cursorRef}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-9999 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white mix-blend-difference"
+      className="cursor-dot pointer-events-none fixed left-0 top-0 z-9999 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white mix-blend-difference"
     />
   );
 }
