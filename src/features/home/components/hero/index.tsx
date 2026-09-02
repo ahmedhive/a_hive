@@ -166,7 +166,7 @@ export default function Hero() {
       />
 
       <div ref={imageRef} className="pointer-events-none absolute inset-0 z-20">
-        <div className="absolute inset-x-0 bottom-0 h-full scale-110 sm:scale-100 lg:translate-y-20">
+        <div className="absolute inset-x-0 bottom-0 h-full scale-110 sm:scale-100 lg:translate-y-20 xl:translate-y-70">
           <Image
             ref={foregroundImgRef}
             src={HeroForegroundImg}

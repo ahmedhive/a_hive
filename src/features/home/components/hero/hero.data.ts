@@ -61,6 +61,23 @@ export const STAT_REVEAL_START_S = 5.05;
 // Debounces recomputeNeckLineGap's resize-observer trigger (see use-hero.ts).
 export const HERO_LAYOUT_RESIZE_DEBOUNCE_MS = 150;
 
+// Cursor-follow parallax on the foreground image (see use-hero.ts's
+// startParallax). Max px the image translates toward the cursor at full
+// deflection (cursor at the section's own edge). X has zero interaction
+// with recomputeNeckLineGap's neck-line safety net below, so it's kept
+// close to the reference design's magnitude. Y is capped far below
+// HERO_NECK_LINE_BUFFER_PX: a downward Y offset here isn't compensated in
+// real time by that safety net (it only recomputes on image load / debounced
+// resize, not on pointer move) — 6px leaves >70% of the 20px buffer intact
+// even at the cursor's most extreme (bottom-edge) position, and quickTo's
+// power3.out easing never overshoots, so this is a hard ceiling.
+export const PARALLAX_MAX_OFFSET_X_PX = 18;
+export const PARALLAX_MAX_OFFSET_Y_PX = 6;
+// Longer than custom-cursor's 0.25s dot-follow: a large background layer
+// should read as "heavy"/parallax, not as a second cursor.
+export const PARALLAX_QUICK_TO_DURATION_S = 0.6;
+export const PARALLAX_QUICK_TO_EASE = "power3.out";
+
 // The subtitle/description block must never render over the person's face
 // or beard in hero-foreground-img.webp — see use-hero.ts's
 // recomputeNeckLineGap. Calibrated against the natural image (1440x1268px)

@@ -15,6 +15,10 @@ import {
   IMAGE_REVEAL_SCALE_X_FROM,
   IMAGE_REVEAL_SCALE_Y_FROM,
   IMAGE_REVEAL_START_S,
+  PARALLAX_MAX_OFFSET_X_PX,
+  PARALLAX_MAX_OFFSET_Y_PX,
+  PARALLAX_QUICK_TO_DURATION_S,
+  PARALLAX_QUICK_TO_EASE,
   PROOF_AREA_REVEAL_DURATION_S,
   PROOF_AREA_REVEAL_EASE,
   PROOF_AREA_REVEAL_Y_PX,
@@ -267,6 +271,7 @@ export default function useHero() {
   }, []);
 
   useIsomorphicLayoutEffect(() => {
+    const section = sectionRef.current;
     const bg = bgRef.current;
     const image = imageRef.current;
     const title = titleRef.current;
@@ -275,6 +280,7 @@ export default function useHero() {
     const socialLinks = socialLinksRef.current;
     const stat = statRef.current;
     if (
+      !section ||
       !bg ||
       !image ||
       !title ||
@@ -284,6 +290,57 @@ export default function useHero() {
       !stat
     )
       return;
+
+    // Cursor-follow parallax on the foreground image only — text refs above
+    // are never touched. Deferred (via the tl.call below) until the intro's
+    // scale-in settles, so it never fights that tween; imageRef is safe to
+    // reuse as both targets since GSAP tracks x/y and scaleX/scaleY as
+    // independent transform components (proven in this codebase already by
+    // custom-cursor/index.tsx, which combines quickTo-driven x/y with a
+    // separate scale tween on the same element).
+    let removeParallaxListeners: (() => void) | null = null;
+    const startParallax = () => {
+      if (window.matchMedia("(pointer: coarse)").matches) return;
+
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const xTo = gsap.quickTo(image, "x", {
+        duration: reduceMotion ? 0 : PARALLAX_QUICK_TO_DURATION_S,
+        ease: PARALLAX_QUICK_TO_EASE,
+      });
+      const yTo = gsap.quickTo(image, "y", {
+        duration: reduceMotion ? 0 : PARALLAX_QUICK_TO_DURATION_S,
+        ease: PARALLAX_QUICK_TO_EASE,
+      });
+
+      const handlePointerMove = (e: PointerEvent) => {
+        const rect = section.getBoundingClientRect();
+        const nx = gsap.utils.clamp(
+          -1,
+          1,
+          (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2),
+        );
+        const ny = gsap.utils.clamp(
+          -1,
+          1,
+          (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2),
+        );
+        xTo(nx * PARALLAX_MAX_OFFSET_X_PX);
+        yTo(ny * PARALLAX_MAX_OFFSET_Y_PX);
+      };
+      const handlePointerLeave = () => {
+        xTo(0);
+        yTo(0);
+      };
+
+      section.addEventListener("pointermove", handlePointerMove);
+      section.addEventListener("pointerleave", handlePointerLeave);
+      removeParallaxListeners = () => {
+        section.removeEventListener("pointermove", handlePointerMove);
+        section.removeEventListener("pointerleave", handlePointerLeave);
+      };
+    };
 
     // type includes "words" (not just "chars"): with chars-only, each letter
     // is its own atomic inline-block with no DOM whitespace tying it to its
@@ -340,6 +397,7 @@ export default function useHero() {
         [],
         IMAGE_REVEAL_START_S + IMAGE_REVEAL_DURATION_S,
       )
+      .call(startParallax, [], IMAGE_REVEAL_START_S + IMAGE_REVEAL_DURATION_S)
       .from(
         titleSplit.chars,
         {
@@ -395,6 +453,8 @@ export default function useHero() {
 
     return () => {
       tl.kill();
+      removeParallaxListeners?.();
+      gsap.killTweensOf(image, ["x", "y"]);
       titleSplit.revert();
       subtitleSplit.revert();
       descriptionSplit.revert();
