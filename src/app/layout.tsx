@@ -14,12 +14,6 @@ const bebasNeue = Bebas_Neue({
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
-  // Without this, next/font instances away DM Sans's optical-size axis and
-  // pins it to opsz:9 (its smallest/lightest cut) regardless of rendered
-  // font-size. Ariyana's self-hosted copy keeps this axis live, so the
-  // browser's default font-optical-sizing:auto bumps it up at larger sizes —
-  // same numeric font-weight otherwise renders visibly thinner without it.
-  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -80,7 +74,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   colorScheme: "light",
-  themeColor: "#fff",
+  themeColor: "#FDFDFD",
 };
 export default function RootLayout({
   children,

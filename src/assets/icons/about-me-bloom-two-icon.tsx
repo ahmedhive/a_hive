@@ -159,8 +159,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="119.699"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_39_741"
@@ -170,8 +170,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="138.551"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_39_741"
@@ -181,8 +181,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="154.411"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_39_741"
@@ -192,8 +192,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="165.887"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_39_741"
@@ -203,8 +203,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="171.98"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_39_741"
@@ -214,8 +214,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="172.154"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_39_741"
@@ -225,8 +225,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="166.4"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint7_linear_39_741"
@@ -236,8 +236,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="155.216"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint8_linear_39_741"
@@ -247,8 +247,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="139.579"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint9_linear_39_741"
@@ -258,8 +258,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="120.863"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint10_linear_39_741"
@@ -269,8 +269,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint11_linear_39_741"
@@ -280,8 +280,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint12_linear_39_741"
@@ -291,8 +291,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint13_linear_39_741"
@@ -302,8 +302,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint14_linear_39_741"
@@ -313,8 +313,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint15_linear_39_741"
@@ -324,8 +324,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint16_linear_39_741"
@@ -335,8 +335,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint17_linear_39_741"
@@ -346,8 +346,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint18_linear_39_741"
@@ -357,8 +357,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint19_linear_39_741"
@@ -368,8 +368,8 @@ export default function AboutMeBloomTwoIcon(props: SVGProps<SVGSVGElement>) {
           y2="19.5836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#B0DB01" />
-          <stop offset="1" stopColor="#B0DB01" stopOpacity="0" />
+          <stop stopColor="#250B0F" />
+          <stop offset="1" stopColor="#0C0C0C" stopOpacity="0" />
         </linearGradient>
       </defs>
     </svg>

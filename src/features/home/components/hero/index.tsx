@@ -14,6 +14,7 @@ import useHero from "./use-hero";
 
 export default function Hero() {
   const {
+    sectionRef,
     bgRef,
     imageRef,
     titleRef,
@@ -21,12 +22,16 @@ export default function Hero() {
     descriptionRef,
     socialLinksRef,
     statRef,
+    neckLineSpacerRef,
+    subtitleRowRef,
+    contentBlockRef,
     foregroundImgRef,
     handleForegroundImageLoad,
   } = useHero();
 
   return (
     <section
+      ref={sectionRef}
       className="relative flex min-h-258 flex-col justify-between overflow-clip bg-white pt-27.5 pb-8 text-black-secondary
         sm:h-auto sm:block sm:pb-16
         md:pt-32.5 md:pb-25
@@ -45,12 +50,33 @@ export default function Hero() {
       </div>
 
       <div className="relative z-30 mt-112 px-[5%] sm:mt-12 md:mt-0">
-        <div className="mx-auto w-full max-w-[1680px]">
+        {/* Height is 0 by default (matching use-hero.ts's own reset value,
+            so there's no hydration mismatch) and only ever grows into
+            space that already exists but sits unused below the content at
+            this breakpoint (sm:+ block layout doesn't redistribute
+            min-height's leftover space toward content the way flex does) —
+            see recomputeNeckLineGap's "tier 0" for why this is free (never
+            moves the image) up to that existing amount, and a no-op
+            otherwise. */}
+        <div ref={neckLineSpacerRef} aria-hidden style={{ height: 0 }} />
+        <div ref={contentBlockRef} className="mx-auto w-full max-w-[1680px]">
+          {/* mb-* here is the baseline gap; use-hero.ts's
+              recomputeNeckLineGap can additionally shrink it (never grow it
+              past this) via an inline marginBottom override, as a safety
+              net for the cases where this baseline still isn't enough to
+              keep the row below from overlapping the person's face/beard —
+              see that function for why shrinking this specific gap is the
+              lever (the image is bottom-anchored, so growing anything
+              can't create separation, but this wrapper's own bottom is
+              itself pinned near the section's bottom, so shrinking this
+              gap pushes its top — and everything in it — down by close to
+              the same amount). */}
           <div
+            ref={subtitleRowRef}
             className="mb-8 flex flex-col items-center justify-between gap-x-6 gap-y-4
               sm:mb-10 sm:flex-row sm:flex-wrap sm:items-center
-              md:mb-18 md:flex-nowrap md:gap-y-6
-              lg:mb-62.5"
+              md:mb-14 md:flex-nowrap md:gap-y-6
+              lg:mb-20"
           >
             <h2
               ref={subtitleRef}

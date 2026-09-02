@@ -151,3 +151,49 @@ export function isRegionDark(
     stats.darkRatio >= minDarkRatio
   );
 }
+
+// Inverse of mapRectToNaturalSpace's Y-axis math: given a Y coordinate in the
+// image's natural pixel space, returns where that row of pixels currently
+// renders in client (viewport) space, given the image's rendered box
+// (boxRect, e.g. img.getBoundingClientRect()) and the current object-fit
+// mode. Deliberately duplicates (does not share) the scale formula from
+// mapRectToNaturalSpace: that function backs the working contrast feature
+// and is intentionally left untouched here.
+//
+// Unlike mapRectToNaturalSpace (which assumes centered object-position —
+// true everywhere it's actually used, since the contrast feature only ever
+// samples in a regime with no vertical crop/letterbox slack, where the
+// vertical anchor can't matter), this assumes object-position: bottom —
+// the hero foreground image's actual, always-on "object-bottom" class,
+// confirmed via getComputedStyle. This function IS exercised in regimes
+// with real vertical slack (object-fit: contain, width-bound), where the
+// anchor matters: whatever the correct anchor is, the scaled image's
+// bottom edge aligns with the box's bottom edge in both cover and contain,
+// so a single offset formula (no cover/contain branch needed here) is
+// correct for both.
+// Returns null when boxRect is degenerate (not yet laid out).
+export function mapNaturalYToClientY(
+  naturalY: number,
+  boxRect: IRect,
+  naturalWidth: number,
+  naturalHeight: number,
+  objectFit: TObjectFit,
+): number | null {
+  if (boxRect.width <= 0 || boxRect.height <= 0) return null;
+
+  const scale =
+    objectFit === "cover"
+      ? Math.max(boxRect.width / naturalWidth, boxRect.height / naturalHeight)
+      : Math.min(boxRect.width / naturalWidth, boxRect.height / naturalHeight);
+  if (!Number.isFinite(scale) || scale <= 0) return null;
+
+  const offsetY = boxRect.height - naturalHeight * scale;
+  const localY = naturalY * scale + offsetY;
+
+  // Clamp into the visible box: an extreme crop could in theory place the
+  // requested natural-Y off-screen; clamp to a safe, in-bounds fallback
+  // rather than returning a client-Y outside the image's own rendered box.
+  const clampedLocalY = Math.max(0, Math.min(localY, boxRect.height));
+
+  return boxRect.y + clampedLocalY;
+}

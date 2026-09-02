@@ -12,6 +12,9 @@ import {
   DESCRIPTION_REVEAL_EASE,
   DESCRIPTION_REVEAL_STAGGER_AMOUNT_S,
   DESCRIPTION_REVEAL_START_S,
+  HERO_NECK_LINE_BUFFER_PX,
+  HERO_NECK_LINE_MAX_SHRINK_PASSES,
+  HERO_NECK_LINE_RATIO,
   IMAGE_REVEAL_DURATION_S,
   IMAGE_REVEAL_EASE,
   IMAGE_REVEAL_SCALE_X_FROM,
@@ -34,6 +37,7 @@ import {
 import {
   getRegionStatsFromImageData,
   isRegionDark,
+  mapNaturalYToClientY,
   mapRectToNaturalSpace,
   naturalRectToCanvasRect,
   TObjectFit,
@@ -47,6 +51,7 @@ const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function useHero() {
+  const sectionRef = useRef<HTMLElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -54,6 +59,9 @@ export default function useHero() {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const socialLinksRef = useRef<HTMLDivElement>(null);
   const statRef = useRef<HTMLDivElement>(null);
+  const neckLineSpacerRef = useRef<HTMLDivElement>(null);
+  const subtitleRowRef = useRef<HTMLDivElement>(null);
+  const contentBlockRef = useRef<HTMLDivElement>(null);
   const foregroundImgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const resizeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -144,6 +152,190 @@ export default function useHero() {
     applyContrast(descriptionCharsRef.current);
   };
 
+  // Guarantees the subtitle/description/socials/stats block never renders
+  // over the person's face/beard, at any breakpoint or aspect ratio, as a
+  // safety net with three tiers, tried in order, each only ever moving
+  // things further in the safe direction and never past its own natural
+  // limit:
+  //  0. Grow neckLineSpacerRef into space that already exists but sits
+  //     unused below the content (see below).
+  //  1. Shrink subtitleRowRef's margin-bottom (the gap to the socials/stat
+  //     row below it) — only while the section is already min-height-
+  //     clamped (see below); a no-op otherwise.
+  //  2. Shrink subtitleRowRef's row-gap (the gap between the subtitle and
+  //     description themselves — only relevant at the base breakpoint's
+  //     flex-col layout, where they stack; sm:+ lays them out side by side,
+  //     so row-gap has no visual effect there) — same gating as tier 1.
+  //
+  // Deliberately doesn't touch font-size: an earlier version added a 4th/5th
+  // tier shrinking the subtitle's and description's own font-size as a
+  // last resort (tiers 1-2 alone are structurally capped short of what's
+  // needed on some viewports — see below), but that visibly shrank the text
+  // more than wanted. Left out for now; tiers 1-2 alone won't guarantee
+  // zero overlap on every possible viewport the way the full version did.
+  //
+  // Growing the section itself (e.g. its min-height) is not an option: the
+  // foreground photo is object-position: bottom (index.tsx's always-on
+  // "object-bottom" class) inside a box that tracks the section's own
+  // rendered height 1:1, so a bottom-anchored image slides down at the same
+  // rate the section grows — any "make the section actually taller"
+  // mechanism chases its own growth and can never open up separation
+  // (confirmed both by proof and by an earlier, reverted attempt at exactly
+  // that).
+  //
+  // Tier 0 is different: at sm:+ (block layout), when natural content is
+  // shorter than the CSS min-height floor (min-h-258), the browser still
+  // clamps the section to that floor, but block layout — unlike the base
+  // breakpoint's flex layout — doesn't redistribute that leftover space
+  // toward the content; it just sits unused below it. Growing
+  // neckLineSpacer to consume that *already-existing, already-paid-for*
+  // slack doesn't change the section's actual rendered height at all (still
+  // clamped at the same min-height), so it doesn't move the image either —
+  // genuinely free, up to the exact amount of that slack.
+  //
+  // Tiers 1-2 (shrinking) are gated on that same min-height clamp actually
+  // being active right now (see isMinHeightClamped below) — that's what
+  // makes shrinking free in exactly the same way tier 0's growth is: with
+  // the clamp active, shrinking margin/row-gap doesn't reduce the section's
+  // rendered height at all, so it can't move the image. The moment natural
+  // content instead exceeds the floor, the clamp isn't active — the
+  // section's height *is* the content's height, with no slack to absorb a
+  // shrink, so every px shaved off there shaves the same px off the
+  // (bottom-anchored) image too, for *zero* benefit: in that regime the
+  // content column's own top is set by whatever sits above it, not by its
+  // own height, so shrinking it can't move it down at all — confirmed
+  // empirically (an earlier version that didn't gate on this pulled the
+  // photo visibly upward, and caused a mid-intro layout jump, exactly on
+  // the viewports where this regime applies). So on those viewports, this
+  // safety net now does less — no image movement, but also no guarantee of
+  // fully closing the gap — a known, accepted trade-off.
+  const recomputeNeckLineGap = () => {
+    const img = foregroundImgRef.current;
+    const imageContainer = imageRef.current;
+    const section = sectionRef.current;
+    const spacer = neckLineSpacerRef.current;
+    const subtitleRow = subtitleRowRef.current;
+    const contentBlock = contentBlockRef.current;
+    if (
+      !img ||
+      !imageContainer ||
+      !section ||
+      !spacer ||
+      !subtitleRow ||
+      !contentBlock
+    )
+      return;
+
+    const scaleX = gsap.getProperty(imageContainer, "scaleX") as number;
+    const scaleY = gsap.getProperty(imageContainer, "scaleY") as number;
+    if (Math.abs(scaleX - 1) > 0.01 || Math.abs(scaleY - 1) > 0.01) return;
+
+    spacer.style.height = "0px";
+    subtitleRow.style.marginBottom = "";
+    subtitleRow.style.rowGap = "";
+    const baselineMarginPx =
+      parseFloat(getComputedStyle(subtitleRow).marginBottom) || 0;
+    const baselineRowGapPx =
+      parseFloat(getComputedStyle(subtitleRow).rowGap) || 0;
+    const totalBudgetPx = baselineMarginPx + baselineRowGapPx;
+
+    const measureDeficit = (): number | null => {
+      const boxRect = img.getBoundingClientRect();
+      if (boxRect.width <= 0 || boxRect.height <= 0) return null;
+      const objectFit = getComputedStyle(img).objectFit as TObjectFit;
+      const naturalY = img.naturalHeight * HERO_NECK_LINE_RATIO;
+      const neckLineClientY = mapNaturalYToClientY(
+        naturalY,
+        boxRect,
+        img.naturalWidth,
+        img.naturalHeight,
+        objectFit,
+      );
+      if (neckLineClientY === null) return null;
+
+      const contentTop = contentBlock.getBoundingClientRect().top;
+      return neckLineClientY + HERO_NECK_LINE_BUFFER_PX - contentTop;
+    };
+
+    // Tier 0: how much room already sits unused, right now, between the
+    // end of the actual content and the section's own (already-min-height-
+    // clamped) bottom edge — measured directly rather than computed
+    // algebraically, since the browser has already applied the min-height
+    // clamp by the time anything here can observe it. Grows the spacer to
+    // consume it, capped at whatever's actually needed.
+    //
+    // Called twice: once up front, and again after tiers 1-3 (which is why
+    // it *grows* spacer relative to its current value rather than resetting
+    // to 0 first) — shrinking margin/row-gap/font-size reduces natural
+    // content height further, which in block layout can reopen more of
+    // this same kind of unused slack that only a second pass can claim.
+    const fillFreeSlack = (): number | null => {
+      const deficit = measureDeficit();
+      if (deficit === null || deficit <= 0) return deficit;
+
+      const sectionPaddingBottomPx =
+        parseFloat(getComputedStyle(section).paddingBottom) || 0;
+      const freeSlackPx = Math.max(
+        0,
+        section.getBoundingClientRect().bottom -
+          sectionPaddingBottomPx -
+          contentBlock.getBoundingClientRect().bottom,
+      );
+      if (freeSlackPx <= 0) return deficit;
+
+      const currentSpacerPx = parseFloat(spacer.style.height) || 0;
+      const additionalSpacerPx = Math.min(freeSlackPx, Math.ceil(deficit));
+      spacer.style.height = `${currentSpacerPx + additionalSpacerPx}px`;
+      return measureDeficit();
+    };
+
+    if (fillFreeSlack() === null) return;
+
+    // Tier 1+2 is only safe to run while the section is *already*
+    // min-height-clamped (natural content ≤ the CSS min-height floor) — in
+    // that regime shrinking margin/row-gap doesn't reduce the section's
+    // actual rendered height at all (still clamped at the same floor), so
+    // it can't move the image. The moment natural content instead exceeds
+    // the floor (nothing clamping it), the section's height *is* the
+    // content's height, with no slack to absorb a shrink — so every px
+    // shaved off margin/row-gap there shaves the same px off the section,
+    // and the bottom-anchored image right along with it, for zero benefit
+    // to the content's position (in that regime the content column's own
+    // top is set by what's *above* it, not by its own height — shrinking
+    // it can't move it down at all). Skipping tier 1+2 there means some
+    // viewports keep whatever margin the deficit check would otherwise
+    // have tried to close — accepted for now in exchange for never
+    // shrinking the photo.
+    const minHeightPx = parseFloat(getComputedStyle(section).minHeight) || 0;
+    const isMinHeightClamped =
+      section.getBoundingClientRect().height <= minHeightPx + 1;
+
+    if (isMinHeightClamped) {
+      // Consumes the margin-bottom budget first, then the row-gap budget —
+      // applied as one combined `shrink` total each pass so a single
+      // measured deficit can span both knobs at once rather than needing
+      // an extra pass per knob.
+      let shrink = 0;
+      for (let pass = 0; pass <= HERO_NECK_LINE_MAX_SHRINK_PASSES; pass++) {
+        const deficit = measureDeficit();
+        if (deficit === null || deficit <= 0) return;
+        if (shrink >= totalBudgetPx) break; // tier 1+2 exhausted
+
+        shrink = Math.min(totalBudgetPx, shrink + Math.ceil(deficit));
+        const marginShrink = Math.min(baselineMarginPx, shrink);
+        const rowGapShrink = shrink - marginShrink;
+        subtitleRow.style.marginBottom = `${baselineMarginPx - marginShrink}px`;
+        subtitleRow.style.rowGap = `${baselineRowGapPx - rowGapShrink}px`;
+      }
+
+      // Tiers 1-2 each only ever shrink content, which can reopen the same
+      // kind of unused slack tier 0 already claimed once — now that
+      // content is as small as these tiers can make it, claim whatever's
+      // left.
+      fillFreeSlack();
+    }
+  };
+
   // Draws the raw foreground photo (alpha intact) into a downscaled offscreen
   // canvas once it's decoded — the photo content never changes, only its
   // on-screen crop does, so this only needs to run once per image load.
@@ -164,6 +356,13 @@ export default function useHero() {
     if (!ctx) return;
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
+    recomputeHeroLayout();
+  };
+
+  // Gap must resolve before contrast re-samples character positions, so it
+  // runs first here.
+  const recomputeHeroLayout = () => {
+    recomputeNeckLineGap();
     recomputeContrast();
   };
 
@@ -171,17 +370,17 @@ export default function useHero() {
   // subtitle/description stay hidden behind their SplitText reveal mask
   // until several seconds into the intro (see SUBTITLE_REVEAL_START_S /
   // DESCRIPTION_REVEAL_START_S), which is ample time for the image to load
-  // and the first recomputeContrast() to land before either is ever shown.
+  // and the first recomputeHeroLayout() to land before either is ever shown.
   useEffect(() => {
     const img = foregroundImgRef.current;
     if (!img) return;
 
     const debouncedRecompute = () => {
       if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
-      resizeTimeoutRef.current = setTimeout(
-        recomputeContrast,
-        CONTRAST_RESIZE_DEBOUNCE_MS,
-      );
+      resizeTimeoutRef.current = setTimeout(() => {
+        recomputeNeckLineGap();
+        recomputeContrast();
+      }, CONTRAST_RESIZE_DEBOUNCE_MS);
     };
 
     const resizeObserver = new ResizeObserver(debouncedRecompute);
@@ -260,6 +459,15 @@ export default function useHero() {
       },
       IMAGE_REVEAL_START_S,
     )
+      // Commits the neck-line safety gap as soon as the image reveal tween
+      // settles at scale 1, and before the subtitle's char reveal starts
+      // (SUBTITLE_REVEAL_START_S) — so the block never becomes visible in a
+      // pre-safety-net position and then visibly jumps down.
+      .call(
+        recomputeNeckLineGap,
+        [],
+        IMAGE_REVEAL_START_S + IMAGE_REVEAL_DURATION_S,
+      )
       .from(
         titleSplit.chars,
         {
@@ -324,6 +532,7 @@ export default function useHero() {
   }, []);
 
   return {
+    sectionRef,
     bgRef,
     imageRef,
     titleRef,
@@ -331,6 +540,9 @@ export default function useHero() {
     descriptionRef,
     socialLinksRef,
     statRef,
+    neckLineSpacerRef,
+    subtitleRowRef,
+    contentBlockRef,
     foregroundImgRef,
     handleForegroundImageLoad,
   };

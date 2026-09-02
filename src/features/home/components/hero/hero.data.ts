@@ -76,3 +76,21 @@ export const CONTRAST_MIN_DARK_RATIO = 0.5;
 // to sample accurately rather than a handful of blocky downscaled pixels.
 export const CONTRAST_CANVAS_MAX_DIMENSION_PX = 960;
 export const CONTRAST_RESIZE_DEBOUNCE_MS = 150;
+
+// The subtitle/description block must never render over the person's face
+// or beard in hero-foreground-img.webp — see use-hero.ts's
+// recomputeNeckLineGap. Calibrated against the natural image (1440x1268px)
+// by rendering horizontal guide lines at candidate ratios and checking them
+// against the source photo directly: the beard's lowest point (at its
+// longest, off-center) sits right at ~67.5% down the image with zero
+// clearance, so this is set past that with real margin. Re-tune this single
+// ratio (and re-check the same way) if the art asset changes.
+export const HERO_NECK_LINE_RATIO = 0.71;
+// Extra breathing room below the calibrated line, beyond the strict pixel
+// boundary.
+export const HERO_NECK_LINE_BUFFER_PX = 20;
+// Hard cap on recomputeNeckLineGap's shrink passes — shrinking this gap is
+// a well-behaved, converging lever (unlike growing the section, which this
+// replaced), so it settles in 1-2 passes in practice; this is
+// defense-in-depth against a pathological case ever looping unbounded.
+export const HERO_NECK_LINE_MAX_SHRINK_PASSES = 4;
