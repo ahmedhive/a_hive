@@ -75,15 +75,15 @@ export default function Hero() {
             ref={subtitleRowRef}
             className="mb-8 flex flex-col items-center justify-between gap-x-6 gap-y-4
               sm:mb-10 sm:flex-row sm:flex-wrap sm:items-center
-              md:mb-14 md:flex-nowrap md:gap-y-6
-              lg:mb-20"
+              md:mb-18 md:flex-nowrap md:gap-y-6
+              lg:mb-62.5"
           >
             <h2
               ref={subtitleRef}
               className="text-center text-[44px] leading-none tracking-tight
                 sm:text-left sm:text-[8vw]
                 lg:text-[6vw]
-                2xl:text-[96px]"
+                3xl:text-[96px]"
             >
               {HERO_SUBTITLE_LINES[0]}{" "}
               {/* Below sm, this drops max-width entirely and lets the text
@@ -96,7 +96,7 @@ export default function Hero() {
             </h2>
             <p
               ref={descriptionRef}
-              className="max-w-none text-center text-[16px] font-bold leading-[1.4] tracking-[-0.01em]
+              className="max-w-none text-center text-[16px] font-medium leading-[1.4] tracking-[-0.01em]
                 sm:text-left
                 md:max-w-75
                 lg:max-w-112.5 lg:text-[20px]"
@@ -113,7 +113,7 @@ export default function Hero() {
               ref={socialLinksRef}
               className="flex items-center justify-center gap-3"
             >
-              <p className="text-[16px] font-bold leading-normal tracking-tight lg:text-[20px]">
+              <p className="text-[16px] font-medium leading-normal tracking-tight lg:text-[20px]">
                 Reach via
               </p>
               <div className="h-px w-10 bg-white-secondary" />
@@ -139,12 +139,12 @@ export default function Hero() {
                 md:gap-5
                 lg:gap-6"
             >
-              <StatBadgeIcon className="size-11 md:size-12.5 lg:size-15.25" />
+              <StatBadgeIcon className="size-8.5 md:size-10 lg:size-12.75" />
               <div>
                 <p className="mb-1 font-heading text-(length:--_typography---font-sizes--heading--h5) leading-none font-bold">
                   {HERO_STAT.value}
                 </p>
-                <p className="text-[16px] font-semibold tracking-[-0.01em]">
+                <p className="text-[16px] font-normal tracking-[-0.01em]">
                   {HERO_STAT.label}
                 </p>
               </div>
@@ -174,7 +174,7 @@ export default function Hero() {
             fill
             preload
             sizes="100vw"
-            className="object-cover object-bottom xl:object-contain"
+            className="object-cover object-bottom"
             onLoad={handleForegroundImageLoad}
           />
         </div>

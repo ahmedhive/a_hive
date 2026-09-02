@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-3xl: 120rem;
+}
+
 @theme inline {
   --color-gray: var(--gray);
   --color-black-secondary: var(--black-secondary);
