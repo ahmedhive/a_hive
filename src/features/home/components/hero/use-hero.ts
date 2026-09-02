@@ -2,16 +2,11 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import {
-  CONTRAST_ALPHA_THRESHOLD,
-  CONTRAST_CANVAS_MAX_DIMENSION_PX,
-  CONTRAST_DARK_LUMINANCE_THRESHOLD,
-  CONTRAST_MIN_DARK_RATIO,
-  CONTRAST_MIN_PHOTO_COVERAGE_RATIO,
-  CONTRAST_RESIZE_DEBOUNCE_MS,
   DESCRIPTION_REVEAL_DURATION_S,
   DESCRIPTION_REVEAL_EASE,
   DESCRIPTION_REVEAL_STAGGER_AMOUNT_S,
   DESCRIPTION_REVEAL_START_S,
+  HERO_LAYOUT_RESIZE_DEBOUNCE_MS,
   HERO_NECK_LINE_BUFFER_PX,
   HERO_NECK_LINE_MAX_SHRINK_PASSES,
   HERO_NECK_LINE_RATIO,
@@ -34,14 +29,7 @@ import {
   TITLE_REVEAL_STAGGER_AMOUNT_S,
   TITLE_REVEAL_START_S,
 } from "./hero.data";
-import {
-  getRegionStatsFromImageData,
-  isRegionDark,
-  mapNaturalYToClientY,
-  mapRectToNaturalSpace,
-  naturalRectToCanvasRect,
-  TObjectFit,
-} from "./hero.utils";
+import { mapNaturalYToClientY, TObjectFit } from "./hero.utils";
 
 gsap.registerPlugin(SplitText);
 
@@ -63,94 +51,7 @@ export default function useHero() {
   const subtitleRowRef = useRef<HTMLDivElement>(null);
   const contentBlockRef = useRef<HTMLDivElement>(null);
   const foregroundImgRef = useRef<HTMLImageElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const resizeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Populated with the SplitText .char spans once the intro's split runs
-  // (see the GSAP effect below) — the same per-character elements used for
-  // the reveal animation double as the units recomputeContrast colors
-  // independently, so only the glyphs actually over a dark region switch.
-  const subtitleCharsRef = useRef<HTMLElement[]>([]);
-  const descriptionCharsRef = useRef<HTMLElement[]>([]);
-
-  // Re-measures where each subtitle/description character currently sits
-  // relative to the foreground photo and samples the already-drawn offscreen
-  // canvas (see handleForegroundImageLoad) to decide whether that single
-  // character should switch to a light color — colors are set directly on
-  // each char span (same imperative-DOM style GSAP itself uses here), not
-  // via React state, so only the overlapping glyphs change, never the whole
-  // block. Safe to call before its refs/canvas/chars are ready (no-ops) so
-  // it can be triggered from onLoad, the GSAP intro's onComplete, and a
-  // resize observer without any ordering requirement between them.
-  const recomputeContrast = () => {
-    const img = foregroundImgRef.current;
-    const canvas = canvasRef.current;
-    const imageContainer = imageRef.current;
-    if (!img || !canvas || !imageContainer) return;
-    if (
-      subtitleCharsRef.current.length === 0 &&
-      descriptionCharsRef.current.length === 0
-    )
-      return;
-
-    // The image container is scaled in by GSAP (see the intro timeline
-    // below); getBoundingClientRect() on the <img> reflects that transform,
-    // so a call mid-tween (e.g. onLoad firing before the intro even starts)
-    // would measure a squashed box and produce garbage geometry. Skip until
-    // GSAP reports the scale has actually settled at 1 — a later trigger
-    // (onComplete, or the next resize) will produce the real computation.
-    const scaleX = gsap.getProperty(imageContainer, "scaleX") as number;
-    const scaleY = gsap.getProperty(imageContainer, "scaleY") as number;
-    if (Math.abs(scaleX - 1) > 0.01 || Math.abs(scaleY - 1) > 0.01) return;
-
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
-
-    const objectFit = getComputedStyle(img).objectFit as TObjectFit;
-    const boxRect = img.getBoundingClientRect();
-    // One canvas readback per recompute (not per character): each char below
-    // just indexes into this same buffer.
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-    const applyContrast = (chars: HTMLElement[]) => {
-      for (const char of chars) {
-        const targetRect = char.getBoundingClientRect();
-        const naturalRect = mapRectToNaturalSpace(
-          targetRect,
-          boxRect,
-          img.naturalWidth,
-          img.naturalHeight,
-          objectFit,
-        );
-        if (!naturalRect) {
-          char.style.color = "";
-          continue;
-        }
-
-        const canvasRect = naturalRectToCanvasRect(
-          naturalRect,
-          img.naturalWidth,
-          img.naturalHeight,
-          canvas.width,
-          canvas.height,
-        );
-        const stats = getRegionStatsFromImageData(
-          imageData,
-          canvasRect,
-          CONTRAST_ALPHA_THRESHOLD,
-          CONTRAST_DARK_LUMINANCE_THRESHOLD,
-        );
-        const isDark = isRegionDark(
-          stats,
-          CONTRAST_MIN_PHOTO_COVERAGE_RATIO,
-          CONTRAST_MIN_DARK_RATIO,
-        );
-        char.style.color = isDark ? "var(--white)" : "";
-      }
-    };
-
-    applyContrast(subtitleCharsRef.current);
-    applyContrast(descriptionCharsRef.current);
-  };
 
   // Guarantees the subtitle/description/socials/stats block never renders
   // over the person's face/beard, at any breakpoint or aspect ratio, as a
@@ -336,41 +237,15 @@ export default function useHero() {
     }
   };
 
-  // Draws the raw foreground photo (alpha intact) into a downscaled offscreen
-  // canvas once it's decoded — the photo content never changes, only its
-  // on-screen crop does, so this only needs to run once per image load.
   const handleForegroundImageLoad = () => {
-    const img = foregroundImgRef.current;
-    if (!img) return;
-
-    if (!canvasRef.current)
-      canvasRef.current = document.createElement("canvas");
-    const canvas = canvasRef.current;
-
-    const longEdge = Math.max(img.naturalWidth, img.naturalHeight);
-    const downscale = Math.min(1, CONTRAST_CANVAS_MAX_DIMENSION_PX / longEdge);
-    canvas.width = Math.round(img.naturalWidth * downscale);
-    canvas.height = Math.round(img.naturalHeight * downscale);
-
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    recomputeHeroLayout();
-  };
-
-  // Gap must resolve before contrast re-samples character positions, so it
-  // runs first here.
-  const recomputeHeroLayout = () => {
     recomputeNeckLineGap();
-    recomputeContrast();
   };
 
   // Not gated by useIsomorphicLayoutEffect like the GSAP setup below: the
   // subtitle/description stay hidden behind their SplitText reveal mask
   // until several seconds into the intro (see SUBTITLE_REVEAL_START_S /
   // DESCRIPTION_REVEAL_START_S), which is ample time for the image to load
-  // and the first recomputeHeroLayout() to land before either is ever shown.
+  // and the first recomputeNeckLineGap() to land before either is ever shown.
   useEffect(() => {
     const img = foregroundImgRef.current;
     if (!img) return;
@@ -379,8 +254,7 @@ export default function useHero() {
       if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
       resizeTimeoutRef.current = setTimeout(() => {
         recomputeNeckLineGap();
-        recomputeContrast();
-      }, CONTRAST_RESIZE_DEBOUNCE_MS);
+      }, HERO_LAYOUT_RESIZE_DEBOUNCE_MS);
     };
 
     const resizeObserver = new ResizeObserver(debouncedRecompute);
@@ -429,10 +303,8 @@ export default function useHero() {
     const titleSplit = SplitText.create(title, splitConfig);
     const subtitleSplit = SplitText.create(subtitle, splitConfig);
     const descriptionSplit = SplitText.create(description, splitConfig);
-    subtitleCharsRef.current = subtitleSplit.chars as HTMLElement[];
-    descriptionCharsRef.current = descriptionSplit.chars as HTMLElement[];
 
-    const tl = gsap.timeline({ onComplete: recomputeContrast });
+    const tl = gsap.timeline();
 
     // fromTo (not from) for persistent DOM nodes: React StrictMode's dev-only
     // double-invoke (mount -> cleanup -> mount) kills the first timeline right
@@ -526,8 +398,6 @@ export default function useHero() {
       titleSplit.revert();
       subtitleSplit.revert();
       descriptionSplit.revert();
-      subtitleCharsRef.current = [];
-      descriptionCharsRef.current = [];
     };
   }, []);
 

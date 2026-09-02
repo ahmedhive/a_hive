@@ -8,24 +8,24 @@ export default function NavLink(props: INavLink) {
   const { text1Ref, text2Ref, onMouseEnter, onMouseLeave } = useNavLink();
 
   return (
-    <li className="flex flex-1 border-b border-black-secondary pb-1.5">
+    <li className="flex flex-1 border-b border-white-secondary pb-1.5">
       <Link
         href={href}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         className="flex flex-1 items-center justify-start gap-4"
       >
-        <span className="size-3 shrink-0 rounded-full border border-black-secondary" />
+        <span className="size-3 shrink-0 rounded-full border border-white-secondary" />
         <span className="relative h-5 overflow-clip">
           <span
             ref={text1Ref}
-            className="block h-5 text-[16px] text-black-secondary leading-5"
+            className="block h-5 text-[16px] text-white-secondary leading-5"
           >
             {label}
           </span>
           <span
             ref={text2Ref}
-            className="block h-5 text-[16px] text-black-secondary leading-5"
+            className="block h-5 text-[16px] text-white-secondary leading-5"
             aria-hidden="true"
           >
             {label}

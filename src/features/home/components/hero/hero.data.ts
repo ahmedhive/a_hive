@@ -58,24 +58,8 @@ export const PROOF_AREA_REVEAL_EASE = "power1.out";
 export const SOCIAL_LINKS_REVEAL_START_S = 4.89;
 export const STAT_REVEAL_START_S = 5.05;
 
-// Each subtitle/description character switches to a light color when it
-// individually sits over a dark region of the foreground photo (see
-// use-hero.ts's recomputeContrast). Coverage/dark-ratio thresholds are
-// calibrated for a single glyph's small bounding box (not a whole line) and
-// set close to 1 deliberately: a character should only flip when essentially
-// its whole box is dark, not just a corner or edge — a letter's bounding box
-// always has some non-ink padding even when fully "on" the dark region
-// (curves, the sides of an "l"/"i"), so this stops just short of a literal
-// 100% requirement, which a fully-dark letter could still legitimately miss.
-export const CONTRAST_ALPHA_THRESHOLD = 32;
-export const CONTRAST_DARK_LUMINANCE_THRESHOLD = 90;
-export const CONTRAST_MIN_PHOTO_COVERAGE_RATIO = 0.92;
-export const CONTRAST_MIN_DARK_RATIO = 0.5;
-// Higher than a whole-block sample would need, since each character now maps
-// to a much smaller natural-image region and needs enough canvas resolution
-// to sample accurately rather than a handful of blocky downscaled pixels.
-export const CONTRAST_CANVAS_MAX_DIMENSION_PX = 960;
-export const CONTRAST_RESIZE_DEBOUNCE_MS = 150;
+// Debounces recomputeNeckLineGap's resize-observer trigger (see use-hero.ts).
+export const HERO_LAYOUT_RESIZE_DEBOUNCE_MS = 150;
 
 // The subtitle/description block must never render over the person's face
 // or beard in hero-foreground-img.webp — see use-hero.ts's

@@ -3,13 +3,14 @@
 @theme inline {
   --color-gray: var(--gray);
   --color-black-secondary: var(--black-secondary);
-  --color-vivid-yellow: var(--vivid-yellow);
-  --color-vivid-yellow-active: var(--vivid-yellow-active);
+  --color-wine: var(--wine);
+  --color-jet-black: var(--jet-black);
   --color-vivid-orange: var(--vivid-orange);
   --color-yellow: var(--yellow);
   --color-linen: var(--linen);
   --color-transparent: var(--transparent);
   --color-white: var(--white);
+  --color-white-secondary: var(--white-secondary);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
 }
@@ -17,17 +18,18 @@
 :root {
   --gray: #383838;
   --black-secondary: #121212;
-  --vivid-yellow: #bce70c;
-  --vivid-yellow-active: #c9ec3d;
+  --wine: #4c1d23;
+  --jet-black: #0c0c0c;
   --vivid-orange: #ff691e;
   --yellow: #fdbc53;
   --linen: #e9dcd2;
   --transparent: #fff0;
   --white: #fff;
-  --gradient-vivid-yellow: linear-gradient(
-    180deg,
-    var(--vivid-yellow) 0%,
-    var(--vivid-yellow-active) 100%
+  --white-secondary: #fdfdfd;
+  --gradient-wine: radial-gradient(
+    50% 50% at 50% 50%,
+    var(--wine) 0%,
+    var(--jet-black) 100%
   );
   --_typography---font-sizes--heading--h5: clamp(
     1.75rem,

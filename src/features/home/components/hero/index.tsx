@@ -32,7 +32,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-258 flex-col justify-between overflow-clip bg-white pt-27.5 pb-8 text-black-secondary
+      className="relative flex min-h-258 flex-col justify-between overflow-clip bg-white pt-27.5 pb-8 text-white-secondary
         sm:h-auto sm:block sm:pb-16
         md:pt-32.5 md:pb-25
         lg:pt-37.5 lg:pb-37.5
@@ -116,7 +116,7 @@ export default function Hero() {
               <p className="text-[16px] font-bold leading-normal tracking-tight lg:text-[20px]">
                 Reach via
               </p>
-              <div className="h-px w-10 bg-black-secondary" />
+              <div className="h-px w-10 bg-white-secondary" />
               <div className="flex gap-2">
                 {HERO_SOCIAL_LINKS.map(({ label, href, Icon }) => (
                   <a
@@ -162,7 +162,7 @@ export default function Hero() {
       <div
         ref={bgRef}
         className="absolute inset-0"
-        style={{ background: "var(--gradient-vivid-yellow)" }}
+        style={{ background: "var(--gradient-wine)" }}
       />
 
       <div ref={imageRef} className="pointer-events-none absolute inset-0 z-20">

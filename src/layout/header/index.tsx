@@ -11,13 +11,13 @@ export default function Header() {
       <nav
         aria-label="Primary"
         className="flex items-stretch justify-between
-        border-b border-black-secondary lg:border-0
+        border-b border-white-secondary lg:border-0
         pt-4 pb-1.5 px-4 md:px-6
         gap-10"
       >
         <Link
           href={BRAND_HREF}
-          className="flex max-w-[20%] flex-1 items-end border-0 lg:border-b border-black-secondary pb-2 font-heading text-black-secondary text-(length:--_typography---font-sizes--heading--h5) leading-none whitespace-nowrap"
+          className="flex max-w-[20%] flex-1 items-end border-0 lg:border-b border-white-secondary pb-2 font-heading text-white-secondary text-(length:--_typography---font-sizes--heading--h5) leading-none whitespace-nowrap"
         >
           {BRAND_TEXT}
         </Link>
