@@ -25,6 +25,7 @@ export default function Hero() {
     neckLineSpacerRef,
     subtitleRowRef,
     contentBlockRef,
+    imageWrapperRef,
     foregroundImgRef,
     handleForegroundImageLoad,
   } = useHero();
@@ -166,7 +167,14 @@ export default function Hero() {
       />
 
       <div ref={imageRef} className="pointer-events-none absolute inset-0 z-20">
-        <div className="absolute inset-x-0 bottom-0 h-full scale-110 sm:scale-100 lg:translate-y-20 xl:translate-y-70">
+        {/* top starts at the inset-0 baseline (0) and is only ever shrunk
+            inward by use-hero.ts's recomputeHeadClearance — bottom stays
+            pinned at 0 always, so that lever never crops content off the
+            bottom of the photo (see computeHeadClearanceAdjustment). */}
+        <div
+          ref={imageWrapperRef}
+          className="absolute inset-0 scale-110 sm:scale-100"
+        >
           <Image
             ref={foregroundImgRef}
             src={HeroForegroundImg}

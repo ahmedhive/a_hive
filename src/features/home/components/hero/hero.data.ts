@@ -1,4 +1,4 @@
-import { InstagramIcon, WhatsappIcon } from "@/assets/icons";
+import { InstagramIcon, LinkedinIcon, WhatsappIcon } from "@/assets/icons";
 import { IHeroSocialLink, IHeroStat } from "./hero.interface";
 
 export const HERO_TITLE = "AHMED HIVE";
@@ -19,6 +19,11 @@ export const HERO_SOCIAL_LINKS: IHeroSocialLink[] = [
     label: "Instagram",
     href: "https://instagram.com/ahmedhiivee",
     Icon: InstagramIcon,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/ahmedhive/",
+    Icon: LinkedinIcon,
   },
 ];
 
@@ -95,3 +100,25 @@ export const HERO_NECK_LINE_BUFFER_PX = 20;
 // replaced), so it settles in 1-2 passes in practice; this is
 // defense-in-depth against a pathological case ever looping unbounded.
 export const HERO_NECK_LINE_MAX_SHRINK_PASSES = 4;
+
+// The hero photo's head must never sit too close to the title above it on
+// desktop, where cover-fit naturally places the person right up against (or
+// over) it — see use-hero.ts's recomputeHeadClearance. Calibrated the same
+// way as HERO_NECK_LINE_RATIO above: rendering horizontal guide lines on the
+// natural image and checking them against the source photo directly — the
+// topmost visible hair strand sits right at ~18.5% down the image. Re-tune
+// (and re-check the same way) if the art asset changes.
+export const HERO_HEAD_TOP_RATIO = 0.185;
+// The head should only ever cover the bottom ~40% of the title's own
+// height (the top 60% stays clear) — the target recomputeHeadClearance
+// solves for.
+export const HERO_HEAD_TITLE_CLEARANCE_FRACTION = 0.4;
+// A little extra breathing room past the bare 40% point.
+export const HERO_HEAD_CLEARANCE_BUFFER_PX = 12;
+// Hard cap on the height-bound lever's box-shrink (see
+// computeHeadClearanceAdjustment): without this, an extreme aspect ratio
+// could zoom the photo out until the person reads as tiny. Covers the
+// deficit actually measured across the 1024-1450px range (~80-135px) with
+// real headroom; better to fall short of the 40% target on some viewport
+// than sacrifice image scale this far.
+export const HERO_HEAD_CLEARANCE_MAX_SHRINK_PX = 260;

@@ -6,6 +6,10 @@ import {
   DESCRIPTION_REVEAL_EASE,
   DESCRIPTION_REVEAL_STAGGER_AMOUNT_S,
   DESCRIPTION_REVEAL_START_S,
+  HERO_HEAD_CLEARANCE_BUFFER_PX,
+  HERO_HEAD_CLEARANCE_MAX_SHRINK_PX,
+  HERO_HEAD_TITLE_CLEARANCE_FRACTION,
+  HERO_HEAD_TOP_RATIO,
   HERO_LAYOUT_RESIZE_DEBOUNCE_MS,
   HERO_NECK_LINE_BUFFER_PX,
   HERO_NECK_LINE_MAX_SHRINK_PASSES,
@@ -33,7 +37,12 @@ import {
   TITLE_REVEAL_STAGGER_AMOUNT_S,
   TITLE_REVEAL_START_S,
 } from "./hero.data";
-import { mapNaturalYToClientY, TObjectFit } from "./hero.utils";
+import {
+  computeHeadClearanceAdjustment,
+  mapNaturalYToClientY,
+  parseObjectPositionY,
+  TObjectFit,
+} from "./hero.utils";
 
 gsap.registerPlugin(SplitText);
 
@@ -54,8 +63,71 @@ export default function useHero() {
   const neckLineSpacerRef = useRef<HTMLDivElement>(null);
   const subtitleRowRef = useRef<HTMLDivElement>(null);
   const contentBlockRef = useRef<HTMLDivElement>(null);
+  const imageWrapperRef = useRef<HTMLDivElement>(null);
   const foregroundImgRef = useRef<HTMLImageElement>(null);
   const resizeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Keeps the photo's head clear of the title above it on desktop, where
+  // cover-fit naturally places the person right up against (or over) it.
+  // Picks whichever of two mutually-exclusive levers actually has room to
+  // work, based on which dimension "cover" is bound by for the current box
+  // shape (see computeHeadClearanceAdjustment for the full explanation):
+  // shrinking the box from the top (bottom stays anchored, so nothing ever
+  // crops off the bottom) when height-bound, or redistributing already-
+  // happening crop via object-position when width-bound. Must run before
+  // recomputeNeckLineGap at every shared trigger point (image load, resize,
+  // the mid-timeline GSAP call) since that function reads the image's
+  // resulting geometry to place the content block below it.
+  const recomputeHeadClearance = () => {
+    const img = foregroundImgRef.current;
+    const wrapper = imageWrapperRef.current;
+    const section = sectionRef.current;
+    const title = titleRef.current;
+    if (!img || !wrapper || !section || !title) return;
+
+    // Reset to baseline before measuring — otherwise a previous pass's
+    // adjustment would be baked into the "current" box rect this pass
+    // measures against.
+    wrapper.style.top = "";
+    img.style.objectPosition = "";
+
+    // Measured off the section, not img.getBoundingClientRect(): imageRef
+    // (img's transformed ancestor) carries the intro's GSAP scale-reveal
+    // tween (0.3/0.2 -> 1, see the timeline below) and, post-intro, the
+    // cursor parallax's x/y — img's own rendered rect reflects whichever of
+    // those happens to be live at call time, which is wrong to build a
+    // *layout* decision on. imageRef and imageWrapperRef are both
+    // `inset-0` with zero border on the section, so pre-transform their
+    // layout box is exactly the section's own border box — using that
+    // instead makes this correct regardless of animation state, which is
+    // what lets this run immediately at mount (before the reveal tween
+    // even starts) instead of needing to wait for it to settle: applying a
+    // position change to an already-visible image (as this would be for
+    // the entire 1.6-3.1s reveal window otherwise) reads as a jarring
+    // snap right as the intro finishes, not just a "safety net for a
+    // never-shown state" the way recomputeNeckLineGap's later commit is.
+    const boxRect = section.getBoundingClientRect();
+    if (boxRect.width <= 0 || boxRect.height <= 0 || img.naturalWidth <= 0)
+      return;
+
+    const titleRect = title.getBoundingClientRect();
+    const targetClientY =
+      titleRect.bottom -
+      HERO_HEAD_TITLE_CLEARANCE_FRACTION * titleRect.height +
+      HERO_HEAD_CLEARANCE_BUFFER_PX;
+
+    const { topInsetPx, objectPositionY } = computeHeadClearanceAdjustment({
+      boxRect,
+      naturalWidth: img.naturalWidth,
+      naturalHeight: img.naturalHeight,
+      headTopNaturalY: img.naturalHeight * HERO_HEAD_TOP_RATIO,
+      targetClientY,
+      maxShrinkPx: HERO_HEAD_CLEARANCE_MAX_SHRINK_PX,
+    });
+
+    wrapper.style.top = `${topInsetPx}px`;
+    img.style.objectPosition = `50% ${(objectPositionY * 100).toFixed(2)}%`;
+  };
 
   // Guarantees the subtitle/description/socials/stats block never renders
   // over the person's face/beard, at any breakpoint or aspect ratio, as a
@@ -147,7 +219,15 @@ export default function useHero() {
     const measureDeficit = (): number | null => {
       const boxRect = img.getBoundingClientRect();
       if (boxRect.width <= 0 || boxRect.height <= 0) return null;
-      const objectFit = getComputedStyle(img).objectFit as TObjectFit;
+      const computedStyle = getComputedStyle(img);
+      const objectFit = computedStyle.objectFit as TObjectFit;
+      // recomputeHeadClearance (run just before this, see below) may have
+      // shifted the live object-position off its bottom-anchored default —
+      // read whatever it actually is rather than assuming, so this stays
+      // correct regardless of which lever (if either) fired this pass.
+      const objectPositionY = parseObjectPositionY(
+        computedStyle.objectPosition,
+      );
       const naturalY = img.naturalHeight * HERO_NECK_LINE_RATIO;
       const neckLineClientY = mapNaturalYToClientY(
         naturalY,
@@ -155,6 +235,7 @@ export default function useHero() {
         img.naturalWidth,
         img.naturalHeight,
         objectFit,
+        objectPositionY,
       );
       if (neckLineClientY === null) return null;
 
@@ -242,6 +323,7 @@ export default function useHero() {
   };
 
   const handleForegroundImageLoad = () => {
+    recomputeHeadClearance();
     recomputeNeckLineGap();
   };
 
@@ -257,6 +339,7 @@ export default function useHero() {
     const debouncedRecompute = () => {
       if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
       resizeTimeoutRef.current = setTimeout(() => {
+        recomputeHeadClearance();
         recomputeNeckLineGap();
       }, HERO_LAYOUT_RESIZE_DEBOUNCE_MS);
     };
@@ -393,7 +476,10 @@ export default function useHero() {
       // (SUBTITLE_REVEAL_START_S) — so the block never becomes visible in a
       // pre-safety-net position and then visibly jumps down.
       .call(
-        recomputeNeckLineGap,
+        () => {
+          recomputeHeadClearance();
+          recomputeNeckLineGap();
+        },
         [],
         IMAGE_REVEAL_START_S + IMAGE_REVEAL_DURATION_S,
       )
@@ -473,6 +559,7 @@ export default function useHero() {
     neckLineSpacerRef,
     subtitleRowRef,
     contentBlockRef,
+    imageWrapperRef,
     foregroundImgRef,
     handleForegroundImageLoad,
   };
