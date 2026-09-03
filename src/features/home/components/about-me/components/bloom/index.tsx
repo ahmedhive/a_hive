@@ -15,9 +15,10 @@ import {
   RING_TWO_HEIGHT_PCT,
   RING_TWO_WIDTH_PCT,
 } from "./bloom.data";
+import { IBloomProps } from "./bloom.interface";
 import useBloom from "./use-bloom";
 
-export default function Bloom({ className }: { className?: string }) {
+export default function Bloom({ className }: IBloomProps) {
   const { containerRef, ringOneRef, ringTwoRef, ringThreeRef, ringFourRef } =
     useBloom();
 

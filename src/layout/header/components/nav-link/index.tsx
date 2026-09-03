@@ -1,6 +1,6 @@
 import Link from "next/link";
 import useNavLink from "./use-nav-link";
-import { INavLink } from "../../header.interface";
+import { INavLink } from "@/layout/header/header.interface";
 
 export default function NavLink(props: INavLink) {
   const { label, href } = props;
