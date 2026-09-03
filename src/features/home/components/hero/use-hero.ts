@@ -6,6 +6,8 @@ import {
   DESCRIPTION_REVEAL_EASE,
   DESCRIPTION_REVEAL_STAGGER_AMOUNT_S,
   DESCRIPTION_REVEAL_START_S,
+  HERO_DESKTOP_IMAGE_SHRINK_FRACTION,
+  HERO_DESKTOP_MIN_WIDTH_PX,
   HERO_HEAD_CLEARANCE_BUFFER_PX,
   HERO_HEAD_CLEARANCE_MAX_SHRINK_PX,
   HERO_HEAD_TITLE_CLEARANCE_FRACTION,
@@ -110,6 +112,28 @@ export default function useHero() {
     if (boxRect.width <= 0 || boxRect.height <= 0 || img.naturalWidth <= 0)
       return;
 
+    // Desktop deliberately renders into a smaller box than the section —
+    // see HERO_DESKTOP_IMAGE_SHRINK_FRACTION in hero.data.ts. The width half
+    // is already real (index.tsx's lg:left-[10%] lg:right-[10%] insets
+    // physically shrink wrapper/img), so it's already reflected below via
+    // img's own naturalWidth/box math once we shrink the reference box the
+    // same way; the height half is applied as a baseline top-inset here,
+    // through the exact same lever (wrapper.style.top) the fine-tuning pass
+    // below layers on top of — bottom stays pinned at 0 either way, so
+    // stacking the two never crops content off the bottom.
+    const isDesktop = window.innerWidth >= HERO_DESKTOP_MIN_WIDTH_PX;
+    const baselineShrinkPx = isDesktop
+      ? boxRect.height * HERO_DESKTOP_IMAGE_SHRINK_FRACTION
+      : 0;
+    const workingBoxRect = {
+      ...boxRect,
+      width: isDesktop
+        ? boxRect.width * (1 - HERO_DESKTOP_IMAGE_SHRINK_FRACTION)
+        : boxRect.width,
+      height: boxRect.height - baselineShrinkPx,
+      y: boxRect.y + baselineShrinkPx,
+    };
+
     const titleRect = title.getBoundingClientRect();
     const targetClientY =
       titleRect.bottom -
@@ -117,7 +141,7 @@ export default function useHero() {
       HERO_HEAD_CLEARANCE_BUFFER_PX;
 
     const { topInsetPx, objectPositionY } = computeHeadClearanceAdjustment({
-      boxRect,
+      boxRect: workingBoxRect,
       naturalWidth: img.naturalWidth,
       naturalHeight: img.naturalHeight,
       headTopNaturalY: img.naturalHeight * HERO_HEAD_TOP_RATIO,
@@ -125,7 +149,7 @@ export default function useHero() {
       maxShrinkPx: HERO_HEAD_CLEARANCE_MAX_SHRINK_PX,
     });
 
-    wrapper.style.top = `${topInsetPx}px`;
+    wrapper.style.top = `${baselineShrinkPx + topInsetPx}px`;
     img.style.objectPosition = `50% ${(objectPositionY * 100).toFixed(2)}%`;
   };
 
@@ -137,12 +161,11 @@ export default function useHero() {
   //  0. Grow neckLineSpacerRef into space that already exists but sits
   //     unused below the content (see below).
   //  1. Shrink subtitleRowRef's margin-bottom (the gap to the socials/stat
-  //     row below it) — only while the section is already min-height-
-  //     clamped (see below); a no-op otherwise.
+  //     row below it).
   //  2. Shrink subtitleRowRef's row-gap (the gap between the subtitle and
   //     description themselves — only relevant at the base breakpoint's
   //     flex-col layout, where they stack; sm:+ lays them out side by side,
-  //     so row-gap has no visual effect there) — same gating as tier 1.
+  //     so row-gap has no visual effect there).
   //
   // Deliberately doesn't touch font-size: an earlier version added a 4th/5th
   // tier shrinking the subtitle's and description's own font-size as a
@@ -151,41 +174,26 @@ export default function useHero() {
   // more than wanted. Left out for now; tiers 1-2 alone won't guarantee
   // zero overlap on every possible viewport the way the full version did.
   //
-  // Growing the section itself (e.g. its min-height) is not an option: the
-  // foreground photo is object-position: bottom (index.tsx's always-on
-  // "object-bottom" class) inside a box that tracks the section's own
-  // rendered height 1:1, so a bottom-anchored image slides down at the same
-  // rate the section grows — any "make the section actually taller"
-  // mechanism chases its own growth and can never open up separation
-  // (confirmed both by proof and by an earlier, reverted attempt at exactly
-  // that).
+  // The section's own height is now `h-dvh` with a `min-h-*` floor
+  // (index.tsx) — an explicit CSS height, not a content-driven one, so it's
+  // always exactly one of those two fixed values regardless of what tiers
+  // 0-2 do to the content inside it. That's what makes shrinking margin/
+  // row-gap here unconditionally safe: it can never change the section's
+  // own rendered height, so it can never move the bottom-anchored photo
+  // either (see recomputeHeadClearance above for why moving that photo is
+  // the one thing every lever here must avoid — an earlier, reverted
+  // attempt at "grow/shrink the section itself" chased its own change in
+  // section height and could never open up real separation). Before the
+  // switch to a fixed section height, this used to be gated on the section
+  // being at its CSS min-height floor specifically (the one regime under
+  // the old content-driven height where shrinking was free) — that gate is
+  // gone now because the fixed-height regime makes every case free, not
+  // just that one.
   //
-  // Tier 0 is different: at sm:+ (block layout), when natural content is
-  // shorter than the CSS min-height floor (min-h-258), the browser still
-  // clamps the section to that floor, but block layout — unlike the base
-  // breakpoint's flex layout — doesn't redistribute that leftover space
-  // toward the content; it just sits unused below it. Growing
-  // neckLineSpacer to consume that *already-existing, already-paid-for*
-  // slack doesn't change the section's actual rendered height at all (still
-  // clamped at the same min-height), so it doesn't move the image either —
-  // genuinely free, up to the exact amount of that slack.
-  //
-  // Tiers 1-2 (shrinking) are gated on that same min-height clamp actually
-  // being active right now (see isMinHeightClamped below) — that's what
-  // makes shrinking free in exactly the same way tier 0's growth is: with
-  // the clamp active, shrinking margin/row-gap doesn't reduce the section's
-  // rendered height at all, so it can't move the image. The moment natural
-  // content instead exceeds the floor, the clamp isn't active — the
-  // section's height *is* the content's height, with no slack to absorb a
-  // shrink, so every px shaved off there shaves the same px off the
-  // (bottom-anchored) image too, for *zero* benefit: in that regime the
-  // content column's own top is set by whatever sits above it, not by its
-  // own height, so shrinking it can't move it down at all — confirmed
-  // empirically (an earlier version that didn't gate on this pulled the
-  // photo visibly upward, and caused a mid-intro layout jump, exactly on
-  // the viewports where this regime applies). So on those viewports, this
-  // safety net now does less — no image movement, but also no guarantee of
-  // fully closing the gap — a known, accepted trade-off.
+  // Tier 0 works the same way: when the fixed section height leaves slack
+  // beyond what tiers 1-2 alone need, growing neckLineSpacer to consume it
+  // doesn't change the section's rendered height either (still fixed at the
+  // same h-dvh/min-h value) — free for the same reason.
   const recomputeNeckLineGap = () => {
     const img = foregroundImgRef.current;
     const imageContainer = imageRef.current;
@@ -277,49 +285,31 @@ export default function useHero() {
 
     if (fillFreeSlack() === null) return;
 
-    // Tier 1+2 is only safe to run while the section is *already*
-    // min-height-clamped (natural content ≤ the CSS min-height floor) — in
-    // that regime shrinking margin/row-gap doesn't reduce the section's
-    // actual rendered height at all (still clamped at the same floor), so
-    // it can't move the image. The moment natural content instead exceeds
-    // the floor (nothing clamping it), the section's height *is* the
-    // content's height, with no slack to absorb a shrink — so every px
-    // shaved off margin/row-gap there shaves the same px off the section,
-    // and the bottom-anchored image right along with it, for zero benefit
-    // to the content's position (in that regime the content column's own
-    // top is set by what's *above* it, not by its own height — shrinking
-    // it can't move it down at all). Skipping tier 1+2 there means some
-    // viewports keep whatever margin the deficit check would otherwise
-    // have tried to close — accepted for now in exchange for never
-    // shrinking the photo.
-    const minHeightPx = parseFloat(getComputedStyle(section).minHeight) || 0;
-    const isMinHeightClamped =
-      section.getBoundingClientRect().height <= minHeightPx + 1;
+    // Consumes the margin-bottom budget first, then the row-gap budget —
+    // applied as one combined `shrink` total each pass so a single
+    // measured deficit can span both knobs at once rather than needing
+    // an extra pass per knob. Unconditional now that the section's own
+    // height is fixed (h-dvh/min-h in index.tsx) rather than content-driven
+    // — see the comment above this function for why that makes shrinking
+    // always safe, not just while a min-height clamp happened to be active.
+    let shrink = 0;
+    for (let pass = 0; pass <= HERO_NECK_LINE_MAX_SHRINK_PASSES; pass++) {
+      const deficit = measureDeficit();
+      if (deficit === null || deficit <= 0) return;
+      if (shrink >= totalBudgetPx) break; // tier 1+2 exhausted
 
-    if (isMinHeightClamped) {
-      // Consumes the margin-bottom budget first, then the row-gap budget —
-      // applied as one combined `shrink` total each pass so a single
-      // measured deficit can span both knobs at once rather than needing
-      // an extra pass per knob.
-      let shrink = 0;
-      for (let pass = 0; pass <= HERO_NECK_LINE_MAX_SHRINK_PASSES; pass++) {
-        const deficit = measureDeficit();
-        if (deficit === null || deficit <= 0) return;
-        if (shrink >= totalBudgetPx) break; // tier 1+2 exhausted
-
-        shrink = Math.min(totalBudgetPx, shrink + Math.ceil(deficit));
-        const marginShrink = Math.min(baselineMarginPx, shrink);
-        const rowGapShrink = shrink - marginShrink;
-        subtitleRow.style.marginBottom = `${baselineMarginPx - marginShrink}px`;
-        subtitleRow.style.rowGap = `${baselineRowGapPx - rowGapShrink}px`;
-      }
-
-      // Tiers 1-2 each only ever shrink content, which can reopen the same
-      // kind of unused slack tier 0 already claimed once — now that
-      // content is as small as these tiers can make it, claim whatever's
-      // left.
-      fillFreeSlack();
+      shrink = Math.min(totalBudgetPx, shrink + Math.ceil(deficit));
+      const marginShrink = Math.min(baselineMarginPx, shrink);
+      const rowGapShrink = shrink - marginShrink;
+      subtitleRow.style.marginBottom = `${baselineMarginPx - marginShrink}px`;
+      subtitleRow.style.rowGap = `${baselineRowGapPx - rowGapShrink}px`;
     }
+
+    // Tiers 1-2 each only ever shrink content, which can reopen the same
+    // kind of unused slack tier 0 already claimed once — now that
+    // content is as small as these tiers can make it, claim whatever's
+    // left.
+    fillFreeSlack();
   };
 
   const handleForegroundImageLoad = () => {

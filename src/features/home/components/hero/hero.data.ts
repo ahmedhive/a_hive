@@ -122,3 +122,20 @@ export const HERO_HEAD_CLEARANCE_BUFFER_PX = 12;
 // real headroom; better to fall short of the 40% target on some viewport
 // than sacrifice image scale this far.
 export const HERO_HEAD_CLEARANCE_MAX_SHRINK_PX = 260;
+
+// Desktop-only: deliberately renders the photo into a smaller box (uniformly
+// shrunk, not just cropped tighter) than the full section, so cover-fit's
+// zoom is genuinely lower and more of the actual photo is visible — not just
+// a cosmetic scale-down (a CSS transform alone wouldn't reveal any more of
+// the image, since cover-fit would still compute its crop against the full,
+// untransformed box first). Matches the `lg` breakpoint (index.tsx's
+// `lg:left-[10%] lg:right-[10%]` on imageWrapperRef handles the horizontal
+// half of this shrink in CSS directly, since that axis is never touched by
+// this file's JS — HERO_DESKTOP_IMAGE_SHRINK_FRACTION must stay in sync with
+// that pair of insets, i.e. each side there should be half of this value).
+// The vertical half is applied here as a baseline top-inset, feeding into
+// the same bottom-anchored, bottom-never-crops lever recomputeHeadClearance
+// already uses — see below for why that composes safely with its own
+// further fine-tuning of the same lever.
+export const HERO_DESKTOP_MIN_WIDTH_PX = 1024;
+export const HERO_DESKTOP_IMAGE_SHRINK_FRACTION = 0.2;

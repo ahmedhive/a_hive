@@ -33,32 +33,38 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-258 flex-col justify-between overflow-clip bg-white pt-27.5 pb-8 text-white-secondary
-        sm:h-auto sm:block sm:pb-16
+      className="relative flex h-dvh min-h-205 flex-col justify-between overflow-clip bg-white pt-27.5 pb-8 text-white-secondary
+        sm:pb-16
         md:pt-32.5 md:pb-25
         lg:pt-37.5 lg:pb-37.5
         xl:pt-42.5"
     >
       <div
-        className="relative z-10 mb-7 text-center
-          sm:mb-45
-          md:mb-57.5
-          lg:mb-45"
+        className="relative z-10 mb-4 text-center
+          sm:mb-8
+          md:mb-10
+          lg:mb-8"
       >
-        <h1 ref={titleRef} className="text-[19vw] leading-none font-bold">
+        <h1
+          ref={titleRef}
+          className="text-[19vw] leading-none font-bold
+            lg:text-[14vw]"
+        >
           {HERO_TITLE}
         </h1>
       </div>
 
-      <div className="relative z-30 mt-112 px-[5%] sm:mt-12 md:mt-0">
+      <div className="relative z-30 mt-4 px-[5%] sm:mt-4 md:mt-0">
         {/* Height is 0 by default (matching use-hero.ts's own reset value,
-            so there's no hydration mismatch) and only ever grows into
-            space that already exists but sits unused below the content at
-            this breakpoint (sm:+ block layout doesn't redistribute
-            min-height's leftover space toward content the way flex does) —
-            see recomputeNeckLineGap's "tier 0" for why this is free (never
-            moves the image) up to that existing amount, and a no-op
-            otherwise. */}
+            so there's no hydration mismatch) and only ever grows into space
+            that already exists but sits unused below the content — now that
+            the section is `flex-col justify-between` at every breakpoint,
+            justify-between claims most/all of that slack as the gap above
+            this div first, so this is usually a no-op; it stays as a second
+            lever for whatever's left after that (e.g. rounding, or the
+            min-height floor being active) — see recomputeNeckLineGap's
+            "tier 0" for why this is free (never moves the image) up to
+            whatever's actually left, and a no-op otherwise. */}
         <div ref={neckLineSpacerRef} aria-hidden style={{ height: 0 }} />
         <div ref={contentBlockRef} className="mx-auto w-full max-w-[1680px]">
           {/* mb-* here is the baseline gap; use-hero.ts's
@@ -170,10 +176,21 @@ export default function Hero() {
         {/* top starts at the inset-0 baseline (0) and is only ever shrunk
             inward by use-hero.ts's recomputeHeadClearance — bottom stays
             pinned at 0 always, so that lever never crops content off the
-            bottom of the photo (see computeHeadClearanceAdjustment). */}
+            bottom of the photo (see computeHeadClearanceAdjustment). On
+            desktop it also starts with an unconditional top-inset baked in
+            (HERO_DESKTOP_IMAGE_SHRINK_FRACTION in hero.data.ts) before that
+            lever's own fine-tuning runs — the deliberately smaller box
+            genuinely reduces cover-fit's zoom (revealing more of the photo,
+            not just a cosmetic scale-down) and gives the head-clearance
+            target real headroom to hit. left/right below are that same
+            shrink's horizontal half — keep both sides' percentage equal to
+            half of HERO_DESKTOP_IMAGE_SHRINK_FRACTION, and keep the two in
+            sync (use-hero.ts's recomputeHeadClearance assumes this exact
+            width reduction when it builds its reference box). */}
         <div
           ref={imageWrapperRef}
-          className="absolute inset-0 scale-110 sm:scale-100"
+          className="absolute inset-0 scale-110 sm:scale-100
+            lg:left-[10%] lg:right-[10%]"
         >
           <Image
             ref={foregroundImgRef}
