@@ -126,7 +126,7 @@ export default function Hero() {
             alt=""
             fill
             preload
-            sizes="100vw"
+            sizes="(min-width: 0px) 100vw"
             className="object-cover lg:object-contain object-bottom"
           />
         </div>
