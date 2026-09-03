@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { ScrollTrigger, gsap } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import { ScrollTrigger } from "@/lib/gsap-scroll-trigger";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   BLOOM_MATCH_MEDIA_QUERY,

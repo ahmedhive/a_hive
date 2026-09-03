@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { SplitText, gsap } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import { SplitText } from "@/lib/gsap-split-text";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   COVER_EXIT_DURATION_S,

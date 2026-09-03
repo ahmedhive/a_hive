@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { SplitText, gsap } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import { SplitText } from "@/lib/gsap-split-text";
 import { prefersReducedMotion } from "@/lib/utils";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {

@@ -1,5 +1,7 @@
 import { useRef } from "react";
-import { SplitText, gsap } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import "@/lib/gsap-scroll-trigger";
+import { SplitText } from "@/lib/gsap-split-text";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   TITLE_REVEAL_OPACITY_FROM,
