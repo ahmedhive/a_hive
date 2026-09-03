@@ -1,17 +1,10 @@
 @import "tailwindcss";
 
-@theme {
-  --breakpoint-3xl: 120rem;
-}
-
 @theme inline {
   --color-gray: var(--gray);
   --color-black-secondary: var(--black-secondary);
   --color-wine: var(--wine);
   --color-jet-black: var(--jet-black);
-  --color-vivid-orange: var(--vivid-orange);
-  --color-yellow: var(--yellow);
-  --color-linen: var(--linen);
   --color-transparent: var(--transparent);
   --color-white: var(--white);
   --color-white-secondary: var(--white-secondary);
@@ -24,9 +17,6 @@
   --black-secondary: #121212;
   --wine: #4c1d23;
   --jet-black: #0c0c0c;
-  --vivid-orange: #ff691e;
-  --yellow: #fdbc53;
-  --linen: #e9dcd2;
   --transparent: #fff0;
   --white: #fff;
   --white-secondary: #fdfdfd;
@@ -53,12 +43,12 @@
   }
   html {
     @apply font-sans;
-    /* scrollbar-width: none;
-    -ms-overflow-style: none; */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  /* html::-webkit-scrollbar {
+  html::-webkit-scrollbar {
     display: none;
-  } */
+  }
   h1,
   h2,
   h3,
