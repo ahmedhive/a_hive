@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import "@/lib/gsap-scroll-trigger";
 import { SplitText } from "@/lib/gsap-split-text";
+import { prefersReducedMotion } from "@/lib/utils";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   TITLE_REVEAL_OPACITY_FROM,
@@ -22,6 +23,17 @@ export default function useAboutMe() {
       type: "words",
       wordsClass: "word",
     });
+
+    // Scroll-scrubbed opacity has no "duration" to zero out under reduced
+    // motion — the tween's progress *is* the scroll position. So instead of
+    // building the scrollTrigger-driven tween at all, just set the words to
+    // their settled, fully-visible state immediately.
+    if (prefersReducedMotion()) {
+      gsap.set(split.words, { opacity: 1 });
+      return () => {
+        split.revert();
+      };
+    }
 
     // fromTo (not from): a scrubbed tween driven by ScrollTrigger has no
     // independent play/replay of its own for StrictMode's double-invoke to

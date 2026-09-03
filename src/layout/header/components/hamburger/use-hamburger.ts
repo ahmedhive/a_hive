@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { prefersReducedMotion } from "@/lib/utils";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   BAR_WIDTH_TO_PX,
@@ -19,6 +20,7 @@ export default function useHamburger() {
     if (!icon) return;
 
     const sideBars = icon.querySelectorAll('[data-hamburger-bar="side"]');
+    const reduceMotion = prefersReducedMotion();
 
     // No explicit "from" values: the icon's -rotate-45 Tailwind class and the
     // bars' native x/width SVG attributes already are the resting state, so
@@ -31,13 +33,17 @@ export default function useHamburger() {
     const tl = gsap.timeline({ paused: true });
     tl.to(
       icon,
-      { rotate: ROTATE_TO_DEG, duration: DURATION_S, ease: EASE },
+      {
+        rotate: ROTATE_TO_DEG,
+        duration: reduceMotion ? 0 : DURATION_S,
+        ease: EASE,
+      },
       0,
     ).to(
       sideBars,
       {
         attr: { width: BAR_WIDTH_TO_PX, x: BAR_X_TO_PX },
-        duration: DURATION_S,
+        duration: reduceMotion ? 0 : DURATION_S,
         ease: EASE,
       },
       0,

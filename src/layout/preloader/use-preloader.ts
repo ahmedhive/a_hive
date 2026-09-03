@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap-split-text";
+import { prefersReducedMotion } from "@/lib/utils";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   COVER_EXIT_DURATION_S,
@@ -41,16 +42,22 @@ export default function usePreloader() {
     // to animate in, never a flash of the raw, un-split string.
     gsap.set(text, { opacity: 1 });
 
+    // The preloader must still run under reduced motion — it's what unhides
+    // the SSR-hidden text and drives the phase transitions that unlock page
+    // scroll below. Zeroing every duration/stagger keeps those essential
+    // state changes exactly where they are, just without the animated motion.
+    const reduceMotion = prefersReducedMotion();
+
     const tl = gsap.timeline({
       onComplete: () => setPhase("hidden"),
     });
 
     tl.from(split.chars, {
       yPercent: -100,
-      duration: TEXT_REVEAL_DURATION_S,
-      stagger: TEXT_REVEAL_STAGGER_S,
+      duration: reduceMotion ? 0 : TEXT_REVEAL_DURATION_S,
+      stagger: reduceMotion ? 0 : TEXT_REVEAL_STAGGER_S,
       ease: TEXT_REVEAL_EASE,
-      delay: TEXT_REVEAL_DELAY_S,
+      delay: reduceMotion ? 0 : TEXT_REVEAL_DELAY_S,
     })
       // Whole cover — text included, since it's a child of this element —
       // rides out as one solid block. Text has no exit animation of its own.
@@ -58,11 +65,11 @@ export default function usePreloader() {
         container,
         {
           yPercent: COVER_EXIT_Y_PERCENT,
-          duration: COVER_EXIT_DURATION_S,
+          duration: reduceMotion ? 0 : COVER_EXIT_DURATION_S,
           ease: COVER_EXIT_EASE,
           onStart: () => setPhase("exiting"),
         },
-        `+=${HOLD_DURATION_S}`,
+        `+=${reduceMotion ? 0 : HOLD_DURATION_S}`,
       );
 
     return () => {

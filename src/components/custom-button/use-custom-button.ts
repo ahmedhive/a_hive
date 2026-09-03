@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap-split-text";
+import { prefersReducedMotion } from "@/lib/utils";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   CHAR_DURATION_S,
@@ -62,6 +63,8 @@ export default function useCustomButton() {
     const split1 = SplitText.create(text1, splitConfig);
     const split2 = SplitText.create(text2, splitConfig);
 
+    const reduceMotion = prefersReducedMotion();
+
     // Paused; play()/reverse() on hover. Unlike nav-link's isolated text
     // swap (which resets instantly on leave), this button coordinates
     // several properties at once — fill, dash color+scale, text color,
@@ -73,7 +76,7 @@ export default function useCustomButton() {
       container,
       {
         backgroundColor: FILL_COLOR,
-        duration: FILL_DURATION_S,
+        duration: reduceMotion ? 0 : FILL_DURATION_S,
         ease: FILL_EASE,
       },
       0,
@@ -82,7 +85,7 @@ export default function useCustomButton() {
         dash,
         {
           backgroundColor: DASH_AND_TEXT_HOVER_COLOR,
-          duration: FILL_DURATION_S,
+          duration: reduceMotion ? 0 : FILL_DURATION_S,
           ease: FILL_EASE,
         },
         0,
@@ -91,7 +94,7 @@ export default function useCustomButton() {
         dash,
         {
           scaleX: DASH_SCALE_X,
-          duration: DASH_SCALE_DURATION_S,
+          duration: reduceMotion ? 0 : DASH_SCALE_DURATION_S,
           ease: DASH_SCALE_EASE,
         },
         0,
@@ -100,7 +103,7 @@ export default function useCustomButton() {
         [text1, text2],
         {
           color: DASH_AND_TEXT_HOVER_COLOR,
-          duration: TEXT_COLOR_DURATION_S,
+          duration: reduceMotion ? 0 : TEXT_COLOR_DURATION_S,
           ease: TEXT_COLOR_EASE,
         },
         0,
@@ -109,8 +112,8 @@ export default function useCustomButton() {
         [...split1.chars, ...split2.chars],
         {
           y: -lineHeightPx,
-          duration: CHAR_DURATION_S,
-          stagger: { amount: STAGGER_AMOUNT_S },
+          duration: reduceMotion ? 0 : CHAR_DURATION_S,
+          stagger: { amount: reduceMotion ? 0 : STAGGER_AMOUNT_S },
           ease: CHAR_EASE,
         },
         0,
@@ -124,7 +127,7 @@ export default function useCustomButton() {
         {
           width: 0,
           x: -NOTCH_TRANSLATE_X_PX,
-          duration: NOTCH_SHRINK_DURATION_S,
+          duration: reduceMotion ? 0 : NOTCH_SHRINK_DURATION_S,
           ease: NOTCH_SHRINK_EASE,
         },
         0,
@@ -134,7 +137,7 @@ export default function useCustomButton() {
         {
           width: 0,
           x: NOTCH_TRANSLATE_X_PX,
-          duration: NOTCH_SHRINK_DURATION_S,
+          duration: reduceMotion ? 0 : NOTCH_SHRINK_DURATION_S,
           ease: NOTCH_SHRINK_EASE,
         },
         0,

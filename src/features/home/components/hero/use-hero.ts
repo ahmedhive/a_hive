@@ -63,6 +63,14 @@ export default function useHero() {
     )
       return;
 
+    // Nothing here is CSS-pre-hidden — every "from" state below only exists
+    // because GSAP's immediateRender applies it, and the cursor-follow
+    // parallax is exactly the kind of interaction-triggered motion this
+    // setting exists to suppress. So under reduced motion, skip creating any
+    // of it: text/image/proof-area elements stay in their natural, already
+    // fully-visible default state with zero extra code.
+    if (prefersReducedMotion()) return;
+
     // Cursor-follow parallax on the foreground image only — text refs above
     // are never touched. Deferred (via the tl.call below) until the intro's
     // scale-in settles, so it never fights that tween; imageRef is safe to
@@ -74,13 +82,15 @@ export default function useHero() {
     const startParallax = () => {
       if (window.matchMedia("(pointer: coarse)").matches) return;
 
-      const reduceMotion = prefersReducedMotion();
+      // No reduced-motion check needed here: this whole effect already
+      // returned early above when prefersReducedMotion() is true, so
+      // startParallax can only ever run when it's false.
       const xTo = gsap.quickTo(image, "x", {
-        duration: reduceMotion ? 0 : PARALLAX_QUICK_TO_DURATION_S,
+        duration: PARALLAX_QUICK_TO_DURATION_S,
         ease: PARALLAX_QUICK_TO_EASE,
       });
       const yTo = gsap.quickTo(image, "y", {
-        duration: reduceMotion ? 0 : PARALLAX_QUICK_TO_DURATION_S,
+        duration: PARALLAX_QUICK_TO_DURATION_S,
         ease: PARALLAX_QUICK_TO_EASE,
       });
 

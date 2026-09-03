@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { ScrollTrigger } from "@/lib/gsap-scroll-trigger";
+import { prefersReducedMotion } from "@/lib/utils";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   BLOOM_MATCH_MEDIA_QUERY,
@@ -19,6 +20,12 @@ export default function useBloom() {
   const ringFourRef = useRef<HTMLDivElement>(null);
 
   useIsomorphicLayoutEffect(() => {
+    // The circles carry no default opacity attribute, so with no tween ever
+    // created they're already fully visible — skip the whole scroll-gated
+    // reveal under reduced motion rather than trying to zero out a
+    // ScrollTrigger-driven "play once" timeline.
+    if (prefersReducedMotion()) return;
+
     // Scoped to lg: the component is `hidden` below lg (see about-me/index.tsx),
     // and a ScrollTrigger against a display:none element is unreliable. matchMedia
     // also self-tears-down (via the returned revert) on breakpoint change.

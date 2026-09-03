@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap-split-text";
+import { prefersReducedMotion } from "@/lib/utils";
 import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   CHAR_DURATION_S,
@@ -37,6 +38,8 @@ export default function useNavLink() {
     const split1 = SplitText.create(text1, splitConfig);
     const split2 = SplitText.create(text2, splitConfig);
 
+    const reduceMotion = prefersReducedMotion();
+
     // Paused, not autoplaying: play() on hover-in. Both copies move at once
     // (same position, 0), matching the reference — the outgoing copy (text1)
     // flies up out of the mask while the incoming copy (text2), already
@@ -52,8 +55,8 @@ export default function useNavLink() {
       split1.chars,
       {
         y: -LINE_HEIGHT_PX,
-        duration: CHAR_DURATION_S,
-        stagger: { amount: EXIT_STAGGER_AMOUNT_S },
+        duration: reduceMotion ? 0 : CHAR_DURATION_S,
+        stagger: { amount: reduceMotion ? 0 : EXIT_STAGGER_AMOUNT_S },
         ease: EASE,
       },
       0,
@@ -61,8 +64,8 @@ export default function useNavLink() {
       split2.chars,
       {
         y: -LINE_HEIGHT_PX,
-        duration: CHAR_DURATION_S,
-        stagger: { amount: ENTER_STAGGER_AMOUNT_S },
+        duration: reduceMotion ? 0 : CHAR_DURATION_S,
+        stagger: { amount: reduceMotion ? 0 : ENTER_STAGGER_AMOUNT_S },
         ease: EASE,
       },
       0,

@@ -58,12 +58,20 @@ export default function CustomCursor() {
 
     const over = (e: MouseEvent) => {
       if (isHoverTarget(e.target)) {
-        gsap.to(el, { scale: 1.8, duration: 0.25, ease: "power2.out" });
+        gsap.to(el, {
+          scale: 1.8,
+          duration: reduceMotion ? 0 : 0.25,
+          ease: "power2.out",
+        });
       }
     };
     const out = (e: MouseEvent) => {
       if (isHoverTarget(e.target)) {
-        gsap.to(el, { scale: 1, duration: 0.25, ease: "power2.out" });
+        gsap.to(el, {
+          scale: 1,
+          duration: reduceMotion ? 0 : 0.25,
+          ease: "power2.out",
+        });
       }
     };
 
