@@ -113,14 +113,21 @@ export default function Hero() {
       />
 
       <div ref={imageRef} className="pointer-events-none absolute inset-0 z-20">
-        <div className="absolute inset-0 scale-110">
+        {/* Full-width (not framed on the sides — a percentage left/right
+            inset crops the photo far more aggressively on narrow screens,
+            since object-cover has to fill a proportionally much smaller
+            box), bottom-anchored, with just the top inset from Figma
+            (157px of the 900px frame = 17.44%), clamped so it can't shrink
+            past a usable minimum on short/mobile viewports or grow past the
+            exact Figma value on tall ones. */}
+        <div className="absolute inset-x-0 top-0 lg:top-[clamp(40px,10%,157px)] bottom-0">
           <Image
             src={HeroForegroundImg}
             alt=""
             fill
             preload
             sizes="100vw"
-            className="object-cover object-bottom"
+            className="object-cover lg:object-contain object-bottom"
           />
         </div>
       </div>
