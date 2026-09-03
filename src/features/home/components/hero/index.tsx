@@ -27,9 +27,9 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex h-dvh flex-col justify-between overflow-clip bg-white pt-[13dvh] pb-[5dvh] text-white-secondary"
+      className="relative flex h-dvh flex-col gap-4 justify-between overflow-clip bg-white pt-[13dvh] pb-[5dvh] text-white-secondary"
     >
-      <div className="relative z-10 text-center">
+      <div className="relative z-10 text-center flex-1 sm:flex-none">
         <h1 ref={titleRef} className="text-[19vw] leading-none">
           {HERO_TITLE}
         </h1>
@@ -61,7 +61,7 @@ export default function Hero() {
       <div className="relative z-30 flex w-full max-w-[1680px] flex-col-reverse items-center justify-between gap-4 px-[6vw] sm:flex-row">
         <div
           ref={socialLinksRef}
-          className="flex items-center justify-center gap-3 self-start"
+          className="flex items-center justify-center gap-3 self-start sm:self-center"
         >
           <p className="text-[clamp(16px,1.39vw,20px)] font-medium leading-normal">
             Reach via
@@ -85,7 +85,7 @@ export default function Hero() {
 
         <div
           ref={statRef}
-          className="flex items-center justify-center gap-4 self-start"
+          className="flex items-center justify-center gap-4 self-start sm:self-center"
         >
           <StatBadgeIcon
             className="h-[clamp(52px,calc(2.5vw+24px),60px)]
