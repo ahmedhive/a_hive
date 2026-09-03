@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
+import { useRef } from "react";
+import { SplitText, gsap } from "@/lib/gsap";
+import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   CHAR_DURATION_S,
   EASE,
@@ -8,14 +8,6 @@ import {
   EXIT_STAGGER_AMOUNT_S,
   LINE_HEIGHT_PX,
 } from "./nav-link.data";
-
-gsap.registerPlugin(SplitText);
-
-// Runs before paint so the SplitText char split is applied before the
-// browser ever paints the raw, unsplit text — same rationale as
-// use-preloader.ts / use-hero.ts.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function useNavLink() {
   const text1Ref = useRef<HTMLSpanElement>(null);

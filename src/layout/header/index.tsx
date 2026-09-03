@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { BRAND_HREF, NAV_LINKS } from "./header.data";
 import { BRAND_TEXT } from "@/constants";

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import useNavLink from "./use-nav-link";
 import { INavLink } from "@/layout/header/header.interface";

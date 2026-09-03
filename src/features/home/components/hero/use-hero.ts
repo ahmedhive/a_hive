@@ -1,6 +1,7 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
+import { useRef } from "react";
+import { SplitText, gsap } from "@/lib/gsap";
+import { prefersReducedMotion } from "@/lib/utils";
+import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   DESCRIPTION_REVEAL_DURATION_S,
   DESCRIPTION_REVEAL_EASE,
@@ -29,13 +30,6 @@ import {
   TITLE_REVEAL_STAGGER_AMOUNT_S,
   TITLE_REVEAL_START_S,
 } from "./hero.data";
-
-gsap.registerPlugin(SplitText);
-
-// Runs before paint so the SplitText mask/GSAP "from" state is applied
-// before the browser ever shows the raw, unsplit text.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function useHero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -79,9 +73,7 @@ export default function useHero() {
     const startParallax = () => {
       if (window.matchMedia("(pointer: coarse)").matches) return;
 
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+      const reduceMotion = prefersReducedMotion();
       const xTo = gsap.quickTo(image, "x", {
         duration: reduceMotion ? 0 : PARALLAX_QUICK_TO_DURATION_S,
         ease: PARALLAX_QUICK_TO_EASE,

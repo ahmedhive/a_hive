@@ -4,4 +4,4 @@ export const ROUTES = {
   WORKS: "#",
   SERVICES: "#",
   CONTACT: "#",
-};
+} as const;

@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+import { ScrollTrigger, gsap } from "@/lib/gsap";
+import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   BLOOM_MATCH_MEDIA_QUERY,
   BLOOM_SCROLL_START,
@@ -9,11 +9,6 @@ import {
   CIRCLE_TWEEN_DURATION_S,
   RING_TO_RING_OFFSET_S,
 } from "./bloom.data";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function useBloom() {
   const containerRef = useRef<HTMLDivElement>(null);

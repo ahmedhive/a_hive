@@ -1,7 +1,6 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
+import { useRef } from "react";
+import { SplitText, gsap } from "@/lib/gsap";
+import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   TITLE_REVEAL_OPACITY_FROM,
   TITLE_REVEAL_SCROLL_END,
@@ -9,11 +8,6 @@ import {
   TITLE_REVEAL_SCRUB,
   TITLE_REVEAL_STAGGER_EACH_S,
 } from "./about-me.data";
-
-gsap.registerPlugin(ScrollTrigger, SplitText);
-
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function useAboutMe() {
   const titleRef = useRef<HTMLHeadingElement>(null);

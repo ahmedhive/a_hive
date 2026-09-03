@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
+import { useRef } from "react";
+import { SplitText, gsap } from "@/lib/gsap";
+import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   CHAR_DURATION_S,
   CHAR_EASE,
@@ -16,11 +16,6 @@ import {
   TEXT_COLOR_DURATION_S,
   TEXT_COLOR_EASE,
 } from "./custom-button.data";
-
-gsap.registerPlugin(SplitText);
-
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 // Matches globals.css's --black-secondary / --white tokens. Passed as
 // literal hex (not the CSS var) since GSAP's color interpolation needs a

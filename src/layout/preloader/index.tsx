@@ -1,6 +1,7 @@
 "use client";
 
 import { BRAND_TEXT } from "@/constants";
+import { cn } from "@/lib/utils";
 import { BORDER_LINE_GAP_PX, BORDER_LINE_HEIGHTS_PX } from "./preloader.data";
 import usePreloader from "./use-preloader";
 
@@ -13,9 +14,10 @@ export default function Preloader() {
     <div
       ref={containerRef}
       aria-hidden={phase === "exiting"}
-      className={`fixed inset-0 z-100 flex items-center justify-center bg-black-secondary ${
-        phase === "exiting" ? "pointer-events-none" : ""
-      }`}
+      className={cn(
+        "fixed inset-0 z-100 flex items-center justify-center bg-black-secondary",
+        phase === "exiting" && "pointer-events-none",
+      )}
     >
       <span
         ref={textRef}

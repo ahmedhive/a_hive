@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
+import { useEffect, useRef, useState } from "react";
+import { SplitText, gsap } from "@/lib/gsap";
+import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   COVER_EXIT_DURATION_S,
   COVER_EXIT_EASE,
@@ -12,13 +12,6 @@ import {
   TEXT_REVEAL_STAGGER_S,
 } from "./preloader.data";
 import { TPreloaderPhase } from "./preloader.interface";
-
-gsap.registerPlugin(SplitText);
-
-// Runs before paint so the SplitText mask/GSAP "from" state is applied
-// before the browser ever shows the raw, unsplit text.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function usePreloader() {
   const containerRef = useRef<HTMLDivElement>(null);

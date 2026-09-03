@@ -1,5 +1,6 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
+import { useRef } from "react";
+import { gsap } from "@/lib/gsap";
+import { useIsomorphicLayoutEffect } from "@/lib/use-isomorphic-layout-effect";
 import {
   BAR_WIDTH_TO_PX,
   BAR_X_TO_PX,
@@ -8,10 +9,6 @@ import {
   LEAVE_SPEED,
   ROTATE_TO_DEG,
 } from "./hamburger.data";
-
-// Runs before paint — same rationale as use-nav-link.ts / use-hero.ts.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function useHamburger() {
   const iconRef = useRef<SVGSVGElement>(null);

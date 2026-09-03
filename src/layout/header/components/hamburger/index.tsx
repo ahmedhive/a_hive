@@ -1,3 +1,5 @@
+"use client";
+
 import { HamburgerIcon } from "@/assets/icons";
 import useHamburger from "./use-hamburger";
 
