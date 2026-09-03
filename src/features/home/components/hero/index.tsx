@@ -42,14 +42,14 @@ export default function Hero() {
       <div className="relative z-30 flex w-full max-w-[1680px] flex-col items-center justify-between gap-4 px-[6vw] sm:flex-row">
         <h2
           ref={subtitleRef}
-          className="text-left text-[4.44vw] leading-none tracking-[-0.0405em]"
+          className="text-left text-[clamp(44px,4.44vw,64px)] leading-none tracking-[-0.0405em] self-start"
         >
           {HERO_SUBTITLE_LINES[0]} <br />
           {HERO_SUBTITLE_LINES[1]}
         </h2>
         <p
           ref={descriptionRef}
-          className="max-w-112.5 text-left text-[1.25vw] font-medium leading-[1.5556]"
+          className="max-w-[clamp(280px,31.25vw,450px)] text-left text-[clamp(16px,1.25vw,18px)] font-medium leading-[1.5556] self-start"
         >
           {HERO_DESCRIPTION}
         </p>
@@ -58,12 +58,14 @@ export default function Hero() {
       {/* Third direct flex child of section — see the comment on the
           subtitle row above for why this is a sibling rather than nested
           inside a shared wrapper. */}
-      <div className="relative z-30 flex w-full max-w-[1680px] flex-col items-center justify-between gap-4 px-[6vw] sm:flex-row">
+      <div className="relative z-30 flex w-full max-w-[1680px] flex-col-reverse items-center justify-between gap-4 px-[6vw] sm:flex-row">
         <div
           ref={socialLinksRef}
-          className="flex items-center justify-center gap-3"
+          className="flex items-center justify-center gap-3 self-start"
         >
-          <p className="text-[1.39vw] font-medium leading-normal">Reach via</p>
+          <p className="text-[clamp(16px,1.39vw,20px)] font-medium leading-normal">
+            Reach via
+          </p>
           <div className="h-px w-10 bg-white-secondary" />
           <div className="flex gap-2">
             {HERO_SOCIAL_LINKS.map(({ label, href, Icon }) => (
@@ -81,13 +83,19 @@ export default function Hero() {
           </div>
         </div>
 
-        <div ref={statRef} className="flex items-center justify-center gap-4">
-          <StatBadgeIcon className="h-[4.165vw] w-[3.426vw]" />
+        <div
+          ref={statRef}
+          className="flex items-center justify-center gap-4 self-start"
+        >
+          <StatBadgeIcon
+            className="h-[clamp(52px,calc(2.5vw+24px),60px)]
+              w-[clamp(42.77px,calc(2.056vw+19.74px),49.35px)]"
+          />
           <div>
-            <p className="font-heading text-[2.5vw] leading-none">
+            <p className="font-heading text-[clamp(28px,2.5vw,36px)] leading-none">
               {HERO_STAT.value}
             </p>
-            <p className="text-[1.11vw]">{HERO_STAT.label}</p>
+            <p className="text-[16px]">{HERO_STAT.label}</p>
           </div>
         </div>
       </div>
