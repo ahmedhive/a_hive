@@ -8,6 +8,7 @@
   --color-transparent: var(--transparent);
   --color-white: var(--white);
   --color-white-secondary: var(--white-secondary);
+  --color-header-bg: var(--header-bg);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
 }
@@ -20,6 +21,7 @@
   --transparent: #fff0;
   --white: #fff;
   --white-secondary: #fdfdfd;
+  --header-bg: #12121252;
   --gradient-wine: radial-gradient(
     50% 50% at 50% 50%,
     var(--wine) 0%,

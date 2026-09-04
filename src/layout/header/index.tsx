@@ -5,12 +5,12 @@ import { Hamburger, NavLink } from "./components";
 
 export default function Header() {
   return (
-    <header className="absolute inset-x-0 top-0 z-99">
+    <header className="fixed inset-x-0 top-0 z-99 bg-header-bg backdrop-blur-[100px]">
       <nav
         aria-label="Primary"
         className="flex items-stretch justify-between
         border-b border-white-secondary lg:border-0
-        pt-4 pb-1.5 px-4 md:px-6
+        p-4 md:px-6
         gap-10"
       >
         <Link
