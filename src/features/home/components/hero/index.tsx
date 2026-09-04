@@ -39,7 +39,7 @@ export default function Hero() {
           socials/stat row below), so the section's own `justify-between`
           distributes real space between all three — not just between the
           title and "everything else" the way a single shared wrapper would. */}
-      <div className="relative z-30 flex w-full max-w-[1680px] flex-col items-center justify-between gap-4 px-[6vw] sm:flex-row">
+      <div className="relative z-30 flex w-full flex-col items-center justify-between gap-4 px-[6vw] sm:flex-row">
         <h2
           ref={subtitleRef}
           className="text-left text-[clamp(44px,4.44vw,64px)] leading-none tracking-[-0.0405em] self-start"
@@ -58,7 +58,7 @@ export default function Hero() {
       {/* Third direct flex child of section — see the comment on the
           subtitle row above for why this is a sibling rather than nested
           inside a shared wrapper. */}
-      <div className="relative z-30 flex w-full max-w-[1680px] flex-col-reverse items-center justify-between gap-4 px-[6vw] sm:flex-row">
+      <div className="relative z-30 flex w-full flex-col-reverse items-center justify-between gap-4 px-[6vw] sm:flex-row">
         <div
           ref={socialLinksRef}
           className="flex items-center justify-center gap-3 self-start sm:self-center"
