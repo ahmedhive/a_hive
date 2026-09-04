@@ -67,7 +67,7 @@ export default function Hero() {
             Reach via
           </p>
           <div className="h-px w-10 bg-white-secondary" />
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             {HERO_SOCIAL_LINKS.map(({ label, href, Icon }) => (
               <a
                 key={label}
