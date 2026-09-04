@@ -1,11 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { BRAND_HREF, NAV_LINKS } from "./header.data";
 import { BRAND_TEXT } from "@/constants";
 import { Hamburger, NavLink } from "./components";
+import useHeader from "./use-header";
 
 export default function Header() {
+  const { headerRef } = useHeader();
+
   return (
-    <header className="fixed inset-x-0 top-0 z-99 bg-black-secondary/64 backdrop-blur-[200px]">
+    <header
+      ref={headerRef}
+      className="fixed inset-x-0 top-0 z-99 bg-black-secondary/64 backdrop-blur-[200px] rounded-xl"
+    >
       <nav
         aria-label="Primary"
         className="flex items-stretch justify-between
