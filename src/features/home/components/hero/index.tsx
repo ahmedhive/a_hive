@@ -35,33 +35,25 @@ export default function Hero() {
         </h1>
       </div>
 
-      {/* Direct flex child of section (sibling of the title div and the
-          socials/stat row below), so the section's own `justify-between`
-          distributes real space between all three — not just between the
-          title and "everything else" the way a single shared wrapper would. */}
-      <div className="relative z-30 flex w-full flex-col items-center justify-between gap-4 px-[6vw] sm:flex-row">
+      <div className="relative z-30 w-full px-[6vw] grid grid-cols-1 grid-rows-1 sm:grid-cols-[auto_auto] sm:grid-rows-2 sm:justify-between gap-4">
         <h2
           ref={subtitleRef}
-          className="text-left text-[clamp(44px,4.44vw,64px)] leading-none tracking-[-0.0405em] self-start"
+          className="text-[clamp(44px,4.44vw,64px)] leading-none tracking-[-0.0405em]"
         >
           {HERO_SUBTITLE_LINES[0]} <br />
           {HERO_SUBTITLE_LINES[1]}
         </h2>
+
         <p
           ref={descriptionRef}
-          className="max-w-[clamp(280px,31.25vw,450px)] text-left text-[clamp(16px,1.25vw,18px)] font-medium leading-[1.5556] self-start"
+          className="max-w-[clamp(280px,31.25vw,450px)] text-[clamp(16px,1.25vw,18px)] font-medium leading-[1.5556]"
         >
           {HERO_DESCRIPTION}
         </p>
-      </div>
 
-      {/* Third direct flex child of section — see the comment on the
-          subtitle row above for why this is a sibling rather than nested
-          inside a shared wrapper. */}
-      <div className="relative z-30 flex w-full flex-col-reverse items-center justify-between gap-4 px-[6vw] sm:flex-row">
         <div
           ref={socialLinksRef}
-          className="flex items-center justify-center gap-3 self-start sm:self-center"
+          className="order-2 sm:order-0 flex items-center gap-3"
         >
           <p className="text-[clamp(16px,1.39vw,20px)] font-medium leading-normal">
             Reach via
@@ -85,7 +77,7 @@ export default function Hero() {
 
         <div
           ref={statRef}
-          className="flex items-center justify-center gap-4 self-start sm:self-center"
+          className="order-1 sm:order-0 flex items-center gap-4"
         >
           <StatBadgeIcon
             className="h-[clamp(52px,calc(2.5vw+24px),60px)]
@@ -100,12 +92,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Separate from imageRef (and given no z-index, so it stays below the
-          z-10 text) since GSAP's transform on imageRef creates its own
-          stacking context — anything inside imageRef would be forced to
-          paint as one atomic unit relative to the text. bg and imageRef are
-          tweened together in use-hero.ts so they still scale in as one
-          visual layer despite being separate elements. */}
       <div
         ref={bgRef}
         className="absolute inset-0"
@@ -113,13 +99,6 @@ export default function Hero() {
       />
 
       <div ref={imageRef} className="pointer-events-none absolute inset-0 z-20">
-        {/* Full-width (not framed on the sides — a percentage left/right
-            inset crops the photo far more aggressively on narrow screens,
-            since object-cover has to fill a proportionally much smaller
-            box), bottom-anchored, with just the top inset from Figma
-            (157px of the 900px frame = 17.44%), clamped so it can't shrink
-            past a usable minimum on short/mobile viewports or grow past the
-            exact Figma value on tall ones. */}
         <div className="absolute inset-x-0 top-0 lg:top-[clamp(40px,10%,157px)] bottom-0">
           <Image
             src={HeroForegroundImg}
