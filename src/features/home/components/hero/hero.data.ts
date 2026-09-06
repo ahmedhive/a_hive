@@ -1,5 +1,4 @@
-import { InstagramIcon, LinkedinIcon, WhatsappIcon } from "@/assets/icons";
-import { IHeroSocialLink, IHeroStat } from "./hero.interface";
+import { IHeroStat } from "./hero.interface";
 
 export const HERO_TITLE = "AHMED HIVE";
 // Hardcoded line break (not left to max-width auto-wrap): "Digital Agency"
@@ -8,24 +7,6 @@ export const HERO_TITLE = "AHMED HIVE";
 export const HERO_SUBTITLE_LINES = ["STRATEGY-LED", "PRODUCT DESIGN"];
 export const HERO_DESCRIPTION =
   "A PRODUCT MANAGER AND DESIGNER CRAFTING CLEAR, HIGH CONVERTING DIGITAL PRODUCTS FOR FOUNDERS, EVERYWHERE.";
-
-export const HERO_SOCIAL_LINKS: IHeroSocialLink[] = [
-  {
-    label: "Whatsapp",
-    href: "https://wa.me/+923340050391",
-    Icon: WhatsappIcon,
-  },
-  {
-    label: "Instagram",
-    href: "https://instagram.com/ahmedhiivee",
-    Icon: InstagramIcon,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/ahmedhive/",
-    Icon: LinkedinIcon,
-  },
-];
 
 export const HERO_STAT: IHeroStat = {
   value: "8+ YRS",
