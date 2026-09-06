@@ -18,12 +18,12 @@ export default function useMenuOverlay(): IUseMenuOverlayReturn {
     const panel = panelRef.current;
     if (!panel) return;
 
-    // Syncs GSAP's internal transform cache with the static -translate-y-full
-    // class already on the panel in menu-overlay/index.tsx (that class, not
-    // this call, prevents the first-paint flash — see its comment). The
-    // panel stays mounted at all times (unlike Preloader, which unmounts
-    // once done) so this timeline keeps a stable target across repeated
-    // opens/closes.
+    // The `hidden` attribute in menu-overlay/index.tsx (not this call) is
+    // what prevents the first-paint flash — see its comment. This just
+    // establishes the panel's actual off-screen position for once it
+    // becomes visible. The panel stays mounted at all times (unlike
+    // Preloader, which unmounts once done) so this timeline keeps a stable
+    // target across repeated opens/closes.
     gsap.set(panel, { yPercent: -100 });
 
     const reduceMotion = prefersReducedMotion();

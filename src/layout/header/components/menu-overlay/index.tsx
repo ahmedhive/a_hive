@@ -24,13 +24,17 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
       ref={panelRef}
       aria-hidden={!isVisible}
       inert={phase === "closed" ? true : undefined}
+      // `phase` starts as "closed" on both the server and the initial client
+      // render, so this already renders `display:none` in the raw SSR HTML —
+      // preventing the flash use-menu-overlay.ts's gsap.set() can't (that
+      // only runs after hydration). Using `hidden` instead of a static
+      // transform class avoids fighting GSAP's own yPercent-driven transform
+      // writes on this element (a transform class here previously froze the
+      // whole page — pointer-events-none only applies while !isVisible, so a
+      // fixed inset-0 panel left in the wrong position was catching clicks).
+      hidden={phase === "closed"}
       className={cn(
-        // Static "closed" position for the very first server-rendered paint.
-        // use-menu-overlay.ts's gsap.set() only runs after hydration, so
-        // without this the panel briefly renders visible — and, since z-110
-        // sits above Preloader's z-100, on top of it rather than masked by
-        // it. Same FOUC-prevention idiom as Preloader's own static opacity-0.
-        "fixed inset-0 z-110 flex h-dvh -translate-y-full flex-col justify-between bg-black-secondary",
+        "fixed inset-0 z-110 flex h-dvh flex-col justify-between bg-black-secondary",
         !isVisible && "pointer-events-none",
       )}
     >
