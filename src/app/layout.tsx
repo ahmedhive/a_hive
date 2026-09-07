@@ -3,7 +3,6 @@ import { Bebas_Neue, DM_Sans } from "next/font/google";
 import { Header, Preloader } from "@/layout";
 import "./globals.css";
 import { ReactNode } from "react";
-import CustomCursor from "@/components/custom-cursor";
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
@@ -87,7 +86,6 @@ export default function RootLayout({
       className={`${bebasNeue.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <CustomCursor />
         <Preloader />
         <Header />
         {children}
