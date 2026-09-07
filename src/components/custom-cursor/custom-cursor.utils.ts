@@ -5,8 +5,8 @@ export function isCursorShape(value: string | null): value is TCursorShape {
   return !!value && (CURSOR_SHAPES as readonly string[]).includes(value);
 }
 
-// Walks up to the nearest mostly-opaque background and reports a colour
-// light or dark ink against whatever it's currently over.
+// Walks up to the nearest mostly-opaque background and returns its luma, so
+// the caller can pick light or dark ink against whatever it's currently over.
 //
 // Some sections (e.g. the hero) paint their real background with an
 // absolutely-positioned sibling layer (an image/gradient div) rather than a
