@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import { Header, Preloader } from "@/layout";
+import CustomCursor from "@/components/custom-cursor";
 import "./globals.css";
 import { ReactNode } from "react";
 
@@ -86,6 +87,7 @@ export default function RootLayout({
       className={`${bebasNeue.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <CustomCursor />
         <Preloader />
         <Header />
         {children}
