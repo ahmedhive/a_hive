@@ -1,4 +1,5 @@
 import { ROUTES } from "@/constants/routes";
+import { WHATSAPP_PHONE_INTL } from "@/constants";
 import { INavLink } from "@/interfaces";
 
 // Panel slides from -100dvh to 0dvh on open; close reverses the same tween.
@@ -10,7 +11,7 @@ export const PANEL_DURATION_S = 0.8;
 export const PANEL_EASE = "power1.out";
 
 export const CONTACT_EMAIL = "ahmed.hiivee@gmail.com";
-export const CONTACT_PHONE = "+92 3340050391";
+export const CONTACT_PHONE = WHATSAPP_PHONE_INTL;
 
 // Rotated tagline banner overlapping the brand watermark.
 export const TAGLINE_TEXT = "PM MIND DESIGNER HANDS";

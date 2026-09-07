@@ -65,7 +65,7 @@ export default function Hero() {
             {SOCIAL_LINKS.map(({ label, href, Icon }) => (
               <a
                 key={label}
-                aria-label="social link"
+                aria-label={label}
                 href={href}
                 target="_blank"
                 rel="noreferrer"
