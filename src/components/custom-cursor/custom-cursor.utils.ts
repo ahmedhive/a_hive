@@ -19,10 +19,7 @@ export function solidBgFrom(node: Element | null): TBackdrop | null {
   while (node) {
     const override = node.getAttribute("data-cursor-luma");
     if (override && override in LUMA_OVERRIDES) {
-      return {
-        color: override === "dark" ? "var(--jet-black)" : "var(--white)",
-        luma: LUMA_OVERRIDES[override],
-      };
+      return { luma: LUMA_OVERRIDES[override] };
     }
 
     const style = getComputedStyle(node);
@@ -33,10 +30,7 @@ export function solidBgFrom(node: Element | null): TBackdrop | null {
       const alpha = parts[3] === undefined ? 1 : parts[3];
       if (alpha >= 0.5) {
         const [r, g, b] = parts;
-        return {
-          color: `rgb(${r}, ${g}, ${b})`,
-          luma: 0.2126 * r + 0.7152 * g + 0.0722 * b,
-        };
+        return { luma: 0.2126 * r + 0.7152 * g + 0.0722 * b };
       }
     }
     // An image/gradient paints here; its colour can't be read from CSS, so
