@@ -36,3 +36,6 @@ export const SHAPE_STYLES: Record<
   square: { borderRadius: "24%", rotate: 0 },
   diamond: { borderRadius: "24%", rotate: 45 },
 };
+
+export const LUMA_OVERRIDES: Record<string, number> = { dark: 0, light: 255 };
+export const DEFAULT_SHAPE: TCursorShape = "circle";
