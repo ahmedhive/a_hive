@@ -28,6 +28,7 @@ export default function Hero() {
     <section
       ref={sectionRef}
       data-cursor-luma="dark"
+      data-cursor-shape="circle"
       className="relative flex h-dvh flex-col gap-4 justify-between overflow-clip pt-[13dvh] pb-[5dvh] text-white-secondary"
     >
       <div className="relative z-10 text-center flex-1 sm:flex-none">

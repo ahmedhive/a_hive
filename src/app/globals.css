@@ -87,23 +87,51 @@
   }
 }
 
-.has-custom-cursor {
-  cursor: none;
-}
-
+/* ─────────────────────────────────────────────────────────────
+   Custom cursor — a dot at the pointer plus a ring that spring-
+   lags behind it and morphs shape (circle / rounded-square /
+   diamond, via GSAP) to match whichever section — or interactive
+   element — it's currently over (see components/custom-cursor).
+   Colour adapts to the backdrop luminance sampled under the
+   pointer (light on dark, dark on light).
+   ───────────────────────────────────────────────────────────── */
+.has-custom-cursor,
 .has-custom-cursor a,
 .has-custom-cursor button {
   cursor: none;
 }
+.has-custom-cursor input,
+.has-custom-cursor textarea,
+.has-custom-cursor select,
+.has-custom-cursor [contenteditable="true"] {
+  cursor: auto;
+}
 
-.cursor-dot {
-  display: none;
+/* Structural/base styling (position, size, colour, opacity) lives as
+   Tailwind classes on the dot/ring themselves in components/custom-cursor.
+   Only what Tailwind utilities can't express cleanly stays here:
+   border-radius/rotate are driven by GSAP tweens rather than a CSS
+   transition, since the shape morph needs to be triggered from JS
+   state (the current section/hover target), not a class toggle. */
+.cursor__dot {
+  transition:
+    opacity 0.25s ease,
+    background-color 0.2s ease;
 }
-.has-custom-cursor .cursor-dot {
-  display: block;
+.cursor__ring {
+  transition:
+    border-color 0.2s ease,
+    opacity 0.3s ease;
 }
-@media (pointer: coarse) {
-  .cursor-dot {
-    display: none !important;
-  }
+
+.cursor.is-active .cursor__dot,
+.cursor.is-active .cursor__ring {
+  opacity: 1;
+}
+
+.cursor.is-light .cursor__dot {
+  background: var(--black-secondary);
+}
+.cursor.is-light .cursor__ring {
+  border-color: var(--jet-black);
 }
