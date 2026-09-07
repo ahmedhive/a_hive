@@ -116,6 +116,31 @@ export default function useCustomCursor() {
     );
     sections.forEach((section) => observer.observe(section));
 
+    // Delegated (not polled from onMove below): pointerover bubbles and
+    // fires for whatever element the pointer is now topmost over, including
+    // the page background once it leaves a hoverable element — so a single
+    // document listener tracks hover state for every current and future
+    // a/button on the page with no per-element binding and, unlike
+    // elementFromPoint, no forced hit-test on every pointermove.
+    const onPointerOver = (e: PointerEvent) => {
+      const target =
+        e.target instanceof Element ? e.target.closest(HOVER_SELECTOR) : null;
+      const nextHoverShape = target
+        ? (HOVER_TAG_SHAPES[target.tagName] ?? null)
+        : null;
+      if (nextHoverShape === hoverShape) return;
+      hoverShape = nextHoverShape;
+      refreshShape();
+      gsap.to(ring, {
+        scale: hoverShape ? HOVER_RING_SCALE : 1,
+        duration: SHAPE_MORPH_DURATION_S,
+        ease: SHAPE_MORPH_EASE,
+      });
+    };
+    document.addEventListener("pointerover", onPointerOver, {
+      passive: true,
+    });
+
     const onMove = (e: PointerEvent) => {
       px = e.clientX;
       py = e.clientY;
@@ -129,24 +154,9 @@ export default function useCustomCursor() {
       ringXTo(px);
       ringYTo(py);
 
-      const under = document.elementFromPoint(px, py);
-      const hoverTarget = under?.closest(HOVER_SELECTOR) ?? null;
-      const nextHoverShape = hoverTarget
-        ? (HOVER_TAG_SHAPES[hoverTarget.tagName] ?? null)
-        : null;
-      if (nextHoverShape !== hoverShape) {
-        hoverShape = nextHoverShape;
-        refreshShape();
-        gsap.to(ring, {
-          scale: hoverShape ? HOVER_RING_SCALE : 1,
-          duration: SHAPE_MORPH_DURATION_S,
-          ease: SHAPE_MORPH_EASE,
-        });
-      }
-
       if (--sampleCountdown <= 0) {
         sampleCountdown = LUMA_SAMPLE_EVERY_N_MOVES;
-        const backdrop = solidBgFrom(under);
+        const backdrop = solidBgFrom(document.elementFromPoint(px, py));
         if (backdrop) {
           const nextLight = backdrop.luma > LIGHT_LUMA_THRESHOLD;
           if (nextLight !== isLight) {
@@ -160,6 +170,7 @@ export default function useCustomCursor() {
 
     return () => {
       window.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerover", onPointerOver);
       observer.disconnect();
       gsap.killTweensOf(dot);
       gsap.killTweensOf(ring);
