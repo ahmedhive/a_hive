@@ -87,70 +87,23 @@
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Custom cursor — a dot at the pointer plus a ring that spring-
-   lags behind it (see components/custom-cursor). Colour adapts to
-   the backdrop luminance sampled under the pointer (light on dark,
-   dark on light). Over a link/button the ring becomes a circular
-   lens magnifying a live clone of the hovered control.
-   ───────────────────────────────────────────────────────────── */
-.has-custom-cursor,
+.has-custom-cursor {
+  cursor: none;
+}
+
 .has-custom-cursor a,
 .has-custom-cursor button {
   cursor: none;
 }
-.has-custom-cursor input,
-.has-custom-cursor textarea,
-.has-custom-cursor select,
-.has-custom-cursor [contenteditable="true"] {
-  cursor: auto;
-}
 
-/* Structural/base styling (position, size, colour, opacity) lives as
-   Tailwind classes on the elements themselves in components/custom-cursor.
-   Only what Tailwind utilities can't express cleanly stays here: rules
-   whose precedence depends on two JS-toggled state classes coexisting
-   (is-active and is-hover are both true most of the time, so which one's
-   opacity wins depends on this stylesheet's source order — not something
-   to leave to a build tool's own class-ordering), and multi-property
-   transitions with different durations per property. */
-.cursor__dot {
-  transition:
-    opacity 0.25s ease,
-    background-color 0.2s ease;
+.cursor-dot {
+  display: none;
 }
-.cursor__ring {
-  transition:
-    width 0.22s ease,
-    height 0.22s ease,
-    margin 0.22s ease,
-    border-color 0.2s ease,
-    opacity 0.3s ease;
+.has-custom-cursor .cursor-dot {
+  display: block;
 }
-.cursor__lens {
-  transition: opacity 0.16s ease;
-}
-
-.cursor.is-active .cursor__dot,
-.cursor.is-active .cursor__ring {
-  opacity: 1;
-}
-
-.cursor.is-light .cursor__dot {
-  background: var(--black-secondary);
-}
-.cursor.is-light .cursor__ring {
-  border-color: rgb(18 18 18 / 0.8);
-}
-
-.cursor.is-hover .cursor__lens {
-  opacity: 1;
-}
-.cursor.is-hover .cursor__ring {
-  width: 96px;
-  height: 96px;
-  margin: -48px 0 0 -48px;
-}
-.cursor.is-hover .cursor__dot {
-  opacity: 0;
+@media (pointer: coarse) {
+  .cursor-dot {
+    display: none !important;
+  }
 }
