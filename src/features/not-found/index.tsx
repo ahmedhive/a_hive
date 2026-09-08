@@ -12,17 +12,6 @@ import {
 export default function NotFound() {
   return (
     <section className="flex h-dvh flex-col items-center justify-center gap-[clamp(32px,4.17vw,60px)] px-[5%] text-center text-black-secondary">
-      {/* Caption renders a <p> (it's a kicker label paired with a real
-          heading everywhere else it's used, e.g. AboutMe's own <h2>) — this
-          page has no other heading, so without this the page would have no
-          <h1> at all for screen-reader heading navigation. Visually hidden
-          since the Caption already conveys the same message on screen. */}
-      <h1 className="sr-only">
-        {NOT_FOUND_CAPTION_PREFIX}
-        {NOT_FOUND_CAPTION_EMPHASIS}
-        {NOT_FOUND_CAPTION_SUFFIX}
-      </h1>
-
       <Caption
         prefix={NOT_FOUND_CAPTION_PREFIX}
         emphasis={NOT_FOUND_CAPTION_EMPHASIS}
