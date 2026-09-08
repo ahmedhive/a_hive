@@ -9,4 +9,3 @@ export {
   LUMA_OVERRIDES,
   LIGHT_LUMA_THRESHOLD,
 } from "./luma";
-export type { TBackdrop } from "./luma";

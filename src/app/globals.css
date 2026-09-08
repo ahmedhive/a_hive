@@ -144,9 +144,9 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Site header — background/blur/pill only once the page has
-   scrolled (bare at the very top), tinted to invert against
-   whatever section is currently sitting under it (see
+   Site header — background/blur/rounded top corners only once the
+   page has scrolled (bare at the very top), tinted to invert
+   against whatever section is currently sitting under it (see
    layout/header/use-header-luma.ts).
    ───────────────────────────────────────────────────────────── */
 .site-header.is-scrolled {
