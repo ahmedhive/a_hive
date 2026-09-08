@@ -142,3 +142,34 @@
 .cursor.is-light .cursor__ring {
   border-color: var(--jet-black);
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Site header — background/blur/pill only once the page has
+   scrolled (bare at the very top), tinted to invert against
+   whatever section is currently sitting under it (see
+   layout/header/use-header-luma.ts).
+   ───────────────────────────────────────────────────────────── */
+.site-header.is-scrolled {
+  @apply bg-black-secondary/64 backdrop-blur-[200px] rounded-xl;
+}
+.site-header.is-scrolled.is-on-light {
+  @apply bg-white-secondary/32;
+}
+
+/* Text/icons (icons use fill="currentColor", so `color` covers both) and
+   borders throughout the header invert to black over a light section —
+   reusing the white-secondary utility classes already on those elements as
+   the override hook, the same way .cursor.is-light overrides cursor__dot's
+   Tailwind bg-white above. */
+.site-header .text-white-secondary,
+.site-header .border-white-secondary {
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.site-header.is-on-light .text-white-secondary {
+  color: var(--black-secondary);
+}
+.site-header.is-on-light .border-white-secondary {
+  border-color: var(--black-secondary);
+}

@@ -6,7 +6,6 @@ export const DOT_FOLLOW_EASE = "power3.out";
 export const RING_FOLLOW_DURATION_S = 0.5;
 export const RING_FOLLOW_EASE = "power3.out";
 
-export const LIGHT_LUMA_THRESHOLD = 150;
 export const LUMA_SAMPLE_EVERY_N_MOVES = 4;
 
 export const SHAPE_ATTRIBUTE = "data-cursor-shape";
@@ -37,5 +36,4 @@ export const SHAPE_STYLES: Record<
   diamond: { borderRadius: "24%", rotate: 45 },
 };
 
-export const LUMA_OVERRIDES: Record<string, number> = { dark: 0, light: 255 };
 export const DEFAULT_SHAPE: TCursorShape = "circle";

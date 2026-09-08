@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BRAND_HREF, NAV_LINKS } from "./header.data";
+import { BRAND_HREF, HEADER_ROOT_CLASS, NAV_LINKS } from "./header.data";
 import { BRAND_TEXT } from "@/constants";
 import { Hamburger, MenuOverlay, NavLink, useMenuOverlay } from "./components";
 import useHeader from "./use-header";
@@ -14,8 +14,8 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className="fixed inset-x-0 top-0 z-99 bg-black-secondary/64 backdrop-blur-[200px] rounded-xl"
-        data-cursor-luma="dark"
+        className={`${HEADER_ROOT_CLASS} fixed inset-x-0 top-0 z-99`}
+        data-bg-luma="dark"
       >
         <nav
           aria-label="Primary"

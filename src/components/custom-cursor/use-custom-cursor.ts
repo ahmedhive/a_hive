@@ -1,5 +1,11 @@
 import { useRef } from "react";
-import { gsap, prefersReducedMotion, useIsomorphicLayoutEffect } from "@/lib";
+import {
+  gsap,
+  LIGHT_LUMA_THRESHOLD,
+  prefersReducedMotion,
+  solidBgFrom,
+  useIsomorphicLayoutEffect,
+} from "@/lib";
 import {
   DEFAULT_SHAPE,
   DOT_FOLLOW_DURATION_S,
@@ -7,7 +13,6 @@ import {
   HOVER_RING_SCALE,
   HOVER_SELECTOR,
   HOVER_TAG_SHAPES,
-  LIGHT_LUMA_THRESHOLD,
   LUMA_SAMPLE_EVERY_N_MOVES,
   RING_FOLLOW_DURATION_S,
   RING_FOLLOW_EASE,
@@ -17,7 +22,7 @@ import {
   SHAPE_STYLES,
 } from "./custom-cursor.data";
 import { TCursorShape } from "./custom-cursor.interface";
-import { isCursorShape, solidBgFrom } from "./custom-cursor.utils";
+import { isCursorShape } from "./custom-cursor.utils";
 
 export default function useCustomCursor() {
   const rootRef = useRef<HTMLDivElement>(null);
