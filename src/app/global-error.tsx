@@ -25,8 +25,8 @@ export default function GlobalError({
           gap: "1rem",
           padding: "1.5rem",
           textAlign: "center",
-          backgroundColor: "#121212",
-          color: "#fdfdfd",
+          backgroundColor: "#fdfdfd",
+          color: "#121212",
           fontFamily: "sans-serif",
         }}
       >
@@ -41,9 +41,9 @@ export default function GlobalError({
           onClick={() => retry()}
           style={{
             borderRadius: "9999px",
-            border: "2px solid #fdfdfd",
+            border: "2px solid #121212",
             background: "transparent",
-            color: "#fdfdfd",
+            color: "#121212",
             padding: "0.75rem 1.5rem",
             cursor: "pointer",
           }}
