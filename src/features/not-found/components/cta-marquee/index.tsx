@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowIcon } from "@/assets/icons";
 import { CustomButton } from "@/components";
 import {
   CTA_HREF,
@@ -39,7 +40,14 @@ export default function CtaMarquee() {
       </div>
 
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2">
-        <CustomButton label={CTA_LABEL} href={CTA_HREF} target="_blank" />
+        <CustomButton
+          label={CTA_LABEL}
+          href={CTA_HREF}
+          target="_blank"
+          icon={ArrowIcon}
+          filled
+          size="lg"
+        />
       </div>
     </section>
   );
