@@ -1,15 +1,13 @@
 import { RefObject } from "react";
 import {
   BG_LUMA_ATTRIBUTE,
+  FULL_INTERSECTION_THRESHOLDS,
   LIGHT_LUMA_THRESHOLD,
   LUMA_OVERRIDES,
+  pickMostIntersecting,
   useIsomorphicLayoutEffect,
 } from "@/lib";
-import {
-  HEADER_LUMA_ROOT_MARGIN,
-  HEADER_LUMA_THRESHOLDS,
-  HEADER_ON_LIGHT_CLASS,
-} from "./header.data";
+import { HEADER_LUMA_ROOT_MARGIN, HEADER_ON_LIGHT_CLASS } from "./header.data";
 
 // Scrollspy for the header's own background tint: tracks which [data-bg-luma]
 // section currently sits under the header (via a thin observed band pinned
@@ -47,15 +45,7 @@ export default function useHeaderLuma(
     header.setAttribute(BG_LUMA_ATTRIBUTE, "dark");
 
     const pickLuma = () => {
-      let best: Element | null = null;
-      let bestRatio = 0;
-      for (const [el, ratio] of ratios) {
-        if (ratio > bestRatio) {
-          bestRatio = ratio;
-          best = el;
-        }
-      }
-
+      const best = pickMostIntersecting(ratios);
       const override = best?.getAttribute(BG_LUMA_ATTRIBUTE) ?? null;
       const luma =
         override && override in LUMA_OVERRIDES
@@ -97,7 +87,7 @@ export default function useHeaderLuma(
       },
       {
         rootMargin: HEADER_LUMA_ROOT_MARGIN,
-        threshold: HEADER_LUMA_THRESHOLDS,
+        threshold: FULL_INTERSECTION_THRESHOLDS,
       },
     );
     sections.forEach((section) => observer.observe(section));

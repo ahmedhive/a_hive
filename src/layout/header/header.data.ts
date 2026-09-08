@@ -14,10 +14,6 @@ export const HEADER_ON_LIGHT_CLASS = "is-on-light";
 // the very top of the viewport, so "most intersecting" means "the section
 // currently sitting under the header" rather than "most visible on screen."
 export const HEADER_LUMA_ROOT_MARGIN = "0px 0px -95% 0px";
-export const HEADER_LUMA_THRESHOLDS = Array.from(
-  { length: 11 },
-  (_, i) => i / 10,
-);
 
 export const HEADER_DEFAULT_INSET_PX = 0;
 export const HEADER_SCROLLED_INSET_PX = 20;

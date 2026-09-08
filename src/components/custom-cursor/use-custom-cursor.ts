@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import {
+  FULL_INTERSECTION_THRESHOLDS,
   gsap,
   LIGHT_LUMA_THRESHOLD,
+  pickMostIntersecting,
   prefersReducedMotion,
   solidBgFrom,
   useIsomorphicLayoutEffect,
@@ -92,14 +94,7 @@ export default function useCustomCursor() {
     // overlapping mid-scroll, unlike a single active/inactive flag.
     const ratios = new Map<Element, number>();
     const pickCurrentShape = () => {
-      let best: Element | null = null;
-      let bestRatio = 0;
-      for (const [el, ratio] of ratios) {
-        if (ratio > bestRatio) {
-          bestRatio = ratio;
-          best = el;
-        }
-      }
+      const best = pickMostIntersecting(ratios);
       const attr = best?.getAttribute(SHAPE_ATTRIBUTE) ?? null;
       sectionShape = isCursorShape(attr) ? attr : DEFAULT_SHAPE;
       refreshShape();
@@ -117,7 +112,7 @@ export default function useCustomCursor() {
         });
         pickCurrentShape();
       },
-      { threshold: Array.from({ length: 11 }, (_, i) => i / 10) },
+      { threshold: FULL_INTERSECTION_THRESHOLDS },
     );
     sections.forEach((section) => observer.observe(section));
 

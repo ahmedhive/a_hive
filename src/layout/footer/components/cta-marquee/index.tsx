@@ -16,7 +16,7 @@ export default function CtaMarquee() {
   const { row1Ref, row2Ref } = useCtaMarquee();
 
   return (
-    <section className="overflow-clip py-16 text-black-secondary sm:py-20 md:py-28 relative">
+    <section className="relative overflow-clip py-16 text-black-secondary sm:py-20 md:py-28">
       <div ref={row1Ref} className="flex w-max whitespace-nowrap opacity-50">
         {TICKER_COPIES.map((_, i) => (
           <h2
