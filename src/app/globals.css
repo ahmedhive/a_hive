@@ -5,6 +5,7 @@
   --color-black-secondary: var(--black-secondary);
   --color-wine: var(--wine);
   --color-rose: var(--rose);
+  --color-rose-light: var(--rose-light);
   --color-jet-black: var(--jet-black);
   --color-transparent: var(--transparent);
   --color-white: var(--white);
@@ -19,6 +20,7 @@
   --black-secondary: #121212;
   --wine: #4c1d23;
   --rose: #d48c9e;
+  --rose-light: #ebd9da;
   --jet-black: #0c0c0c;
   --transparent: #fff0;
   --white: #fff;
