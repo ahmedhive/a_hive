@@ -17,7 +17,15 @@ export default function CtaMarquee() {
 
   return (
     <section className="relative overflow-clip py-16 text-black-secondary sm:py-20 md:py-28">
-      <div ref={row1Ref} className="flex w-max whitespace-nowrap opacity-50">
+      {/* Decorative background typography, not real headings — repeated
+          purely so the marquee tween can loop seamlessly. The accessible
+          CTA is the button below, so these rows (and their duplicate text)
+          are hidden from assistive tech rather than read out four times. */}
+      <div
+        ref={row1Ref}
+        aria-hidden
+        className="flex w-max whitespace-nowrap opacity-50"
+      >
         {TICKER_COPIES.map((_, i) => (
           <h2
             key={i}
@@ -28,7 +36,11 @@ export default function CtaMarquee() {
         ))}
       </div>
 
-      <div ref={row2Ref} className="flex w-max whitespace-nowrap opacity-50">
+      <div
+        ref={row2Ref}
+        aria-hidden
+        className="flex w-max whitespace-nowrap opacity-50"
+      >
         {TICKER_COPIES.map((_, i) => (
           <h2
             key={i}
