@@ -150,7 +150,7 @@
    layout/header/use-header-luma.ts).
    ───────────────────────────────────────────────────────────── */
 .site-header.is-scrolled {
-  @apply bg-black-secondary/64 backdrop-blur-[200px] rounded-xl;
+  @apply bg-black-secondary/64 backdrop-blur-[200px] rounded-t-xl;
 }
 .site-header.is-scrolled.is-on-light {
   @apply bg-white-secondary/32;
