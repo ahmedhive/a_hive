@@ -60,7 +60,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-gray;
+    @apply bg-white-secondary text-black-secondary;
   }
   html {
     @apply font-sans;
