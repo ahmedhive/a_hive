@@ -10,7 +10,7 @@ export default function BottomBar() {
           backgroundClip: "text",
           color: "transparent",
         }}
-        className="font-heading text-[clamp(60px,calc(16.83vw-3.1px),239.2px)] leading-[0.8] tracking-[-0.03em] whitespace-nowrap opacity-30"
+        className="overflow-hidden font-heading text-[clamp(60px,calc(16.83vw-3.1px),239.2px)] leading-[0.8] tracking-[-0.03em] whitespace-nowrap opacity-30"
       >
         {BRAND_TEXT}
       </p>
