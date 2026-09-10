@@ -1,7 +1,7 @@
 import { Ref } from "react";
 
 export interface ISubtitleProps {
-  lines: string[];
+  lines?: string[];
   className?: string;
   ref?: Ref<HTMLHeadingElement>;
 }
