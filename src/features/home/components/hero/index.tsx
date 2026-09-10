@@ -57,13 +57,7 @@ export default function Hero() {
           ref={socialLinksRef}
           className="order-2 sm:order-0 flex items-center gap-3"
         >
-          <p className="text-[clamp(16px,1.39vw,20px)] font-medium leading-normal">
-            Reach via
-          </p>
-          <div className="h-px w-10 bg-white-secondary" />
-          <div className="flex gap-4">
-            <SocialLinks />
-          </div>
+          <SocialLinks />
         </div>
 
         <div
