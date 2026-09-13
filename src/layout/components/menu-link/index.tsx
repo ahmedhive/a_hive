@@ -1,15 +1,27 @@
 "use client";
 
 import Link from "next/link";
+import { cn } from "@/lib";
 import { ENTER_REST_TOP_PERCENT } from "./menu-link.data";
 import useMenuLink from "./use-menu-link";
 import { IMenuLinkProps } from "./menu-link.interface";
 
 export default function MenuLink(props: IMenuLinkProps) {
-  const { label, href, onNavigate } = props;
+  const { label, href, index, onNavigate } = props;
 
-  const { wipeRef, text1Ref, text2Ref, onMouseEnter, onMouseLeave } =
-    useMenuLink();
+  const hasIndex = index !== undefined;
+
+  const {
+    wipeRef,
+    text1Ref,
+    text2Ref,
+    indexText1Ref,
+    indexText2Ref,
+    onMouseEnter,
+    onMouseLeave,
+  } = useMenuLink(hasIndex);
+
+  const formattedIndex = hasIndex ? String(index + 1).padStart(2, "0") : null;
 
   return (
     <li className="border-b border-white-secondary/30">
@@ -20,7 +32,10 @@ export default function MenuLink(props: IMenuLinkProps) {
         onMouseLeave={onMouseLeave}
         onFocus={onMouseEnter}
         onBlur={onMouseLeave}
-        className="relative flex items-center justify-center overflow-hidden px-6 pt-6 md:pt-9 md:px-10"
+        className={cn(
+          "relative flex items-center overflow-hidden pt-6 md:pt-9 px-6 md:px-10",
+          hasIndex ? "justify-between" : "justify-center",
+        )}
       >
         <span
           ref={wipeRef}
@@ -43,6 +58,23 @@ export default function MenuLink(props: IMenuLinkProps) {
             {label}
           </span>
         </span>
+        {hasIndex && (
+          <span className="relative z-10 block" aria-hidden>
+            <span
+              ref={indexText1Ref}
+              className="block font-heading font-normal text-[42px] leading-[33.92px] tracking-[-0.68px] text-transparent uppercase [-webkit-text-stroke:1px_#808080]"
+            >
+              {formattedIndex}
+            </span>
+            <span
+              ref={indexText2Ref}
+              style={{ top: `${ENTER_REST_TOP_PERCENT}%` }}
+              className="absolute inset-x-0 block font-heading font-normal text-[42px] leading-[33.92px] tracking-[-0.68px] text-white-secondary uppercase"
+            >
+              {formattedIndex}
+            </span>
+          </span>
+        )}
       </Link>
     </li>
   );

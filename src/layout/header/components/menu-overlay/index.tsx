@@ -4,6 +4,7 @@ import { CloseIcon } from "@/assets/icons";
 import { SocialLinks } from "@/components";
 import { BRAND_TEXT } from "@/constants";
 import { cn } from "@/lib";
+import { MenuLink } from "@/layout/components";
 import {
   CONTACT_EMAIL,
   CONTACT_PHONE,
@@ -12,7 +13,6 @@ import {
   TAGLINE_TEXT,
 } from "./menu-overlay.data";
 import { IMenuOverlayProps } from "./menu-overlay.interface";
-import { MenuLink } from "./components";
 
 export default function MenuOverlay(props: IMenuOverlayProps) {
   const { phase, panelRef, onClose } = props;
