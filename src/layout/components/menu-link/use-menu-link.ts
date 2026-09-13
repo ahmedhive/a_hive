@@ -15,7 +15,7 @@ import {
   WIPE_EASE,
 } from "./menu-link.data";
 
-export default function useMenuLink(hasIndex: boolean) {
+export default function useMenuLink(hasIndex: boolean, isActive: boolean) {
   const wipeRef = useRef<HTMLSpanElement>(null);
   const text1Ref = useRef<HTMLSpanElement>(null);
   const text2Ref = useRef<HTMLSpanElement>(null);
@@ -102,8 +102,24 @@ export default function useMenuLink(hasIndex: boolean) {
     };
   }, [hasIndex]);
 
-  const onMouseEnter = () => tlRef.current?.play();
-  const onMouseLeave = () => tlRef.current?.reverse();
+  // Active route: hold the timeline at its hover-end state instead of
+  // playing/reversing into it, so the current page's link permanently shows
+  // the same UI a hover would produce. `.progress()` jumps there directly
+  // (no easing), so this is instant on mount and on route change alike — it
+  // only re-runs when `isActive` itself flips, not on every render.
+  useIsomorphicLayoutEffect(() => {
+    tlRef.current?.progress(isActive ? 1 : 0);
+  }, [isActive]);
+
+  // While active, hover/focus must do nothing — the link is already showing
+  // the "hovered" look permanently, so there's no state left to animate into
+  // or out of.
+  const onMouseEnter = () => {
+    if (!isActive) tlRef.current?.play();
+  };
+  const onMouseLeave = () => {
+    if (!isActive) tlRef.current?.reverse();
+  };
 
   return {
     wipeRef,

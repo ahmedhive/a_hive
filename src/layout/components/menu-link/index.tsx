@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
 import { ENTER_REST_TOP_PERCENT } from "./menu-link.data";
 import useMenuLink from "./use-menu-link";
@@ -10,6 +11,8 @@ export default function MenuLink(props: IMenuLinkProps) {
   const { label, href, index, onNavigate } = props;
 
   const hasIndex = index !== undefined;
+  const pathname = usePathname();
+  const isActive = pathname === href;
 
   const {
     wipeRef,
@@ -19,7 +22,7 @@ export default function MenuLink(props: IMenuLinkProps) {
     indexText2Ref,
     onMouseEnter,
     onMouseLeave,
-  } = useMenuLink(hasIndex);
+  } = useMenuLink(hasIndex, isActive);
 
   const formattedIndex = hasIndex ? String(index + 1).padStart(2, "0") : null;
 
@@ -32,6 +35,7 @@ export default function MenuLink(props: IMenuLinkProps) {
         onMouseLeave={onMouseLeave}
         onFocus={onMouseEnter}
         onBlur={onMouseLeave}
+        aria-current={isActive ? "page" : undefined}
         className={cn(
           "relative flex items-center overflow-hidden pt-6 md:pt-9 px-6 md:px-10",
           hasIndex ? "justify-between" : "justify-center",
