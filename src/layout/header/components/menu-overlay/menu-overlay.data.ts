@@ -1,6 +1,4 @@
-import { ROUTES } from "@/constants/routes";
 import { WHATSAPP_PHONE_INTL } from "@/constants";
-import { INavLink } from "@/interfaces";
 
 // Panel slides from -100dvh to 0dvh on open; close reverses the same tween.
 // Implemented as yPercent (-100 -> 0) on an h-dvh element rather than literal
