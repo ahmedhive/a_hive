@@ -62,14 +62,14 @@ export default function MenuLink(props: IMenuLinkProps) {
           <span className="relative z-10 block" aria-hidden>
             <span
               ref={indexText1Ref}
-              className="block font-heading font-normal text-[42px] leading-[33.92px] tracking-[-0.68px] text-transparent uppercase [-webkit-text-stroke:1px_#808080]"
+              className="block font-heading font-normal text-(length:--_typography---font-sizes--nav--menu-item-index) leading-[0.8076] tracking-[-0.0162em] text-transparent uppercase [-webkit-text-stroke:1px_#808080]"
             >
               {formattedIndex}
             </span>
             <span
               ref={indexText2Ref}
               style={{ top: `${ENTER_REST_TOP_PERCENT}%` }}
-              className="absolute inset-x-0 block font-heading font-normal text-[42px] leading-[33.92px] tracking-[-0.68px] text-white-secondary uppercase"
+              className="absolute inset-x-0 block font-heading font-normal text-(length:--_typography---font-sizes--nav--menu-item-index) leading-[0.8076] tracking-[-0.0162em] text-white-secondary uppercase"
             >
               {formattedIndex}
             </span>
