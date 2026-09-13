@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-gray: var(--gray);
   --color-black-secondary: var(--black-secondary);
   --color-wine: var(--wine);
   --color-rose: var(--rose);
@@ -17,7 +16,6 @@
 }
 
 :root {
-  --gray: #383838;
   --black-secondary: #121212;
   --wine: #4c1d23;
   --rose: #d48c9e;

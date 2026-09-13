@@ -1,4 +1,4 @@
-export type TBackdrop = { luma: number };
+type TBackdrop = { luma: number };
 
 export const BG_LUMA_ATTRIBUTE = "data-bg-luma";
 export const LUMA_OVERRIDES: Record<string, number> = { dark: 0, light: 255 };
