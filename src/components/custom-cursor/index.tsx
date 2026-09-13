@@ -3,7 +3,9 @@
 import useCustomCursor from "./use-custom-cursor";
 
 export default function CustomCursor() {
-  const { rootRef, dotRef, ringRef } = useCustomCursor();
+  const { rootRef, dotRef, ringRef, isEnabled } = useCustomCursor();
+
+  if (!isEnabled) return null;
 
   return (
     <div
