@@ -15,11 +15,3 @@ export const CONTACT_PHONE = WHATSAPP_PHONE_INTL;
 
 export const TAGLINE_TEXT = "PM MIND DESIGNER HANDS";
 export const TAGLINE_ROTATE_DEG = -15;
-
-export const MENU_NAV_LINKS: INavLink[] = [
-  { label: "HOME", href: ROUTES.HOME },
-  { label: "ABOUT", href: ROUTES.ABOUT },
-  { label: "WORKS", href: ROUTES.WORKS },
-  { label: "SERVICES", href: ROUTES.SERVICES },
-  { label: "CONTACT", href: ROUTES.CONTACT },
-];

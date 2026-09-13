@@ -2,13 +2,12 @@
 
 import { CloseIcon } from "@/assets/icons";
 import { SocialLinks } from "@/components";
-import { BRAND_TEXT } from "@/constants";
+import { BRAND_TEXT, MENU_NAV_LINKS } from "@/constants";
 import { cn } from "@/lib";
 import { MenuLink } from "@/layout/components";
 import {
   CONTACT_EMAIL,
   CONTACT_PHONE,
-  MENU_NAV_LINKS,
   TAGLINE_ROTATE_DEG,
   TAGLINE_TEXT,
 } from "./menu-overlay.data";
