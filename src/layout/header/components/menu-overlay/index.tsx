@@ -21,6 +21,9 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
   return (
     <div
       ref={panelRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site menu"
       aria-hidden={!isVisible}
       inert={phase === "closed" ? true : undefined}
       // `phase` starts as "closed" on both the server and the initial client
@@ -72,16 +75,18 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
           </button>
         </div>
 
-        <ul className="flex flex-col">
-          {MENU_NAV_LINKS.map(({ label, href }) => (
-            <MenuLink
-              key={label}
-              label={label}
-              href={href}
-              onNavigate={onClose}
-            />
-          ))}
-        </ul>
+        <nav aria-label="Primary">
+          <ul className="flex flex-col">
+            {MENU_NAV_LINKS.map(({ label, href }) => (
+              <MenuLink
+                key={label}
+                label={label}
+                href={href}
+                onNavigate={onClose}
+              />
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-4 px-15 py-10 md:justify-between">
