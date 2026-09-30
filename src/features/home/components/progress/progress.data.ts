@@ -11,8 +11,6 @@ import {
 } from "@/assets/images";
 import { IProgressItem } from "./progress.interface";
 
-// Dummy placeholder content — years/labels/copy are stand-ins so the
-// scroll mechanic can be reviewed before real milestones are written in.
 export const PROGRESS_ITEMS: IProgressItem[] = [
   {
     year: "2026",
