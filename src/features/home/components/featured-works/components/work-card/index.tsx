@@ -40,7 +40,11 @@ export default function WorkCard(props: IWorkCardProps) {
           {work.description}
         </p>
 
-        <CustomButton label={WORKS_CTA_LABEL} href={work.href} />
+        <CustomButton
+          label={WORKS_CTA_LABEL}
+          href={work.href}
+          notchColor={work.paneColor}
+        />
       </div>
 
       <div

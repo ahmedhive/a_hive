@@ -20,4 +20,8 @@ export interface ICustomButton {
   // fluid clamp() scale for large, full-bleed contexts like the marquee —
   // "default" (current fixed breakpoint scale) is used everywhere else.
   size?: "default" | "lg";
+  // Colour of the three notch marks that break the border. Defaults to white;
+  // set it to the surface behind the button so the notches read as gaps in
+  // the outline instead of white blocks on a coloured background.
+  notchColor?: string;
 }

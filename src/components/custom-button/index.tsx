@@ -14,7 +14,21 @@ export default function CustomButton(props: ICustomButton) {
     icon: Icon,
     filled = false,
     size = "default",
+    notchColor,
   } = props;
+
+  // White unless overridden; the class is dropped (not overridden) when a
+  // colour is passed, so the inline style never has to fight it.
+  const notchBgClass = notchColor ? undefined : "bg-white";
+  const notchStyle = notchColor ? { backgroundColor: notchColor } : undefined;
+  // A custom-coloured notch overhangs the 2px border by 1px each side (4px
+  // tall, like the reference's masks). Exactly border-thick, its edges stop
+  // lining up with the border's once an ancestor is scaled (e.g. the pinned
+  // Featured Works stack) and a sliver of border shows through.
+  const notchTopClass = notchColor ? "-top-0.75 h-1" : "-top-0.5 h-0.5";
+  const notchBottomClass = notchColor
+    ? "-bottom-0.75 h-1"
+    : "-bottom-0.5 h-0.5";
 
   const isLg = size === "lg";
   const labelSizeClass = isLg
@@ -69,8 +83,11 @@ export default function CustomButton(props: ICustomButton) {
       <span
         ref={notch1Ref}
         aria-hidden
+        style={notchStyle}
         className={cn(
-          "absolute -top-0.5 h-0.5 rounded-full bg-white",
+          "absolute rounded-full",
+          notchTopClass,
+          notchBgClass,
           isLg
             ? "left-(--button-lg-notch-offset) w-(--button-lg-notch-width)"
             : `left-5.5 w-5
@@ -82,8 +99,11 @@ export default function CustomButton(props: ICustomButton) {
       <span
         ref={notch2Ref}
         aria-hidden
+        style={notchStyle}
         className={cn(
-          "absolute -bottom-0.5 h-0.5 rounded-full bg-white",
+          "absolute rounded-full",
+          notchBottomClass,
+          notchBgClass,
           isLg
             ? "right-[clamp(2.875rem,7.64vw,6.875rem)] w-(--button-lg-notch-width)"
             : `right-5.5 w-5
@@ -95,8 +115,11 @@ export default function CustomButton(props: ICustomButton) {
       <span
         ref={notch3Ref}
         aria-hidden
+        style={notchStyle}
         className={cn(
-          "absolute -bottom-0.5 h-0.5 rounded-full bg-white",
+          "absolute rounded-full",
+          notchBottomClass,
+          notchBgClass,
           isLg
             ? "right-[clamp(1.875rem,4.86vw,4.375rem)] w-[clamp(0.75rem,2.08vw,1.875rem)]"
             : `right-14.5 w-2.5
