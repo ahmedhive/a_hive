@@ -49,6 +49,11 @@
     1.5376rem + 0.9061vw,
     2.625rem
   );
+  --_typography---font-sizes--heading--h2: clamp(
+    3.75rem,
+    -0.1942rem + 16.8285vw,
+    20rem
+  );
   --_typography---font-sizes--heading--h4: clamp(
     2rem,
     1.2112rem + 3.3657vw,
