@@ -4,9 +4,7 @@ import { ChevronDownIcon, StepMarkerIcon } from "@/assets/icons";
 import { cn } from "@/lib";
 import { IStepCardProps } from "./step-card.interface";
 import useStepCard from "./use-step-card";
-
-const TITLE_CLASS =
-  "text-(length:--_typography---font-sizes--heading--h5) leading-none font-normal tracking-[-0.01em] uppercase";
+import { TITLE_CLASS } from "./step-card.data";
 
 export default function StepCard(props: IStepCardProps) {
   const { step } = props;
