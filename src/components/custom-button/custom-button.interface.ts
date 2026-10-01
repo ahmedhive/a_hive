@@ -24,4 +24,8 @@ export interface ICustomButton {
   // set it to the surface behind the button so the notches read as gaps in
   // the outline instead of white blocks on a coloured background.
   notchColor?: string;
+  // Colour of the button's outline. Defaults to black-secondary. Only the
+  // outline changes: the dash and label text colours are set separately and
+  // are not affected.
+  borderColor?: string;
 }

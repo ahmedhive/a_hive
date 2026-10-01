@@ -13,6 +13,7 @@
   --color-mist: var(--mist);
   --color-ash: var(--ash);
   --color-charcoal: var(--charcoal);
+  --color-lime: var(--lime);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
   --background-image-wipe: var(--gradient-wipe);
@@ -21,6 +22,7 @@
 
 :root {
   --black-secondary: #121212;
+  --lime: #e8ff76;
   --wine: #4c1d23;
   --rose: #d48c9e;
   --rose-light: #ebd9da;

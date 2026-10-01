@@ -33,7 +33,7 @@ export default function FeaturedWorks() {
               breakpoints; hidden at 479px and below. */}
           <p
             ref={badgeRef}
-            className="absolute top-4.75 right-52.5 hidden -rotate-15 bg-[#e8ff76] px-5 py-3 font-heading text-[clamp(1.5rem,1.2573rem+1.0356vw,2.5rem)] leading-[0.8] tracking-[-0.01em] min-[480px]:block min-[768px]:top-6 min-[992px]:top-11.5 min-[992px]:right-51.75 min-[992px]:px-9 min-[992px]:py-5 min-[1920px]:top-20.5 min-[1920px]:right-69.25"
+            className="absolute top-4.75 right-52.5 hidden -rotate-15 bg-lime px-5 py-3 font-heading text-[clamp(1.5rem,1.2573rem+1.0356vw,2.5rem)] leading-[0.8] tracking-[-0.01em] min-[480px]:block min-[768px]:top-6 min-[992px]:top-11.5 min-[992px]:right-51.75 min-[992px]:px-9 min-[992px]:py-5 min-[1920px]:top-20.5 min-[1920px]:right-69.25"
           >
             {WORKS_BADGE}
           </p>

@@ -15,12 +15,17 @@ export default function CustomButton(props: ICustomButton) {
     filled = false,
     size = "default",
     notchColor,
+    borderColor,
   } = props;
 
   // White unless overridden; the class is dropped (not overridden) when a
   // colour is passed, so the inline style never has to fight it.
   const notchBgClass = notchColor ? undefined : "bg-white";
   const notchStyle = notchColor ? { backgroundColor: notchColor } : undefined;
+  // Same split for the outline: the class stays when no colour is passed, and
+  // is dropped (not overridden) when one is.
+  const borderColorClass = borderColor ? undefined : "border-black-secondary";
+  const borderStyle = borderColor ? { borderColor } : undefined;
   // A custom-coloured notch overhangs the 2px border by 1px each side (4px
   // tall, like the reference's masks). Exactly border-thick, its edges stop
   // lining up with the border's once an ancestor is scaled (e.g. the pinned
@@ -57,13 +62,15 @@ export default function CustomButton(props: ICustomButton) {
       ref={containerRef}
       href={href}
       target={target}
+      style={borderStyle}
       rel={target === "_blank" ? "noreferrer" : undefined}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onFocus={onMouseEnter}
       onBlur={onMouseLeave}
       className={cn(
-        "relative inline-flex items-center rounded-full border-2 border-black-secondary",
+        "relative inline-flex items-center rounded-full border-2",
+        borderColorClass,
         filled ? "bg-rose-light" : "bg-transparent",
         isLg
           ? `gap-[clamp(0.25rem,1.39vw,1.25rem)] py-[clamp(0.5rem,1.94vw,1.75rem)]
