@@ -10,9 +10,13 @@
   --color-white: var(--white);
   --color-white-secondary: var(--white-secondary);
   --color-stroke: var(--stroke);
+  --color-mist: var(--mist);
+  --color-ash: var(--ash);
+  --color-charcoal: var(--charcoal);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
   --background-image-wipe: var(--gradient-wipe);
+  --background-image-ember: var(--gradient-ember);
 }
 
 :root {
@@ -25,6 +29,10 @@
   --white: #fff;
   --white-secondary: #fdfdfd;
   --stroke: #808080;
+  --mist: #f0f0f0;
+  --ash: #d9d9d9;
+  --charcoal: #383838;
+  --gradient-ember: linear-gradient(180deg, #880404 0%, #d35516 100%);
   --gradient-wine: radial-gradient(
     50% 50% at 50% 50%,
     var(--wine) 0%,
@@ -62,9 +70,7 @@
     1.25rem
   );
   --progress-year-base: clamp(5rem, 1.3592rem + 15.534vw, 20rem);
-  --_typography---font-sizes--heading--progress-year: var(
-    --progress-year-base
-  );
+  --_typography---font-sizes--heading--progress-year: var(--progress-year-base);
   --_typography---font-sizes--body--badge: clamp(
     1.5rem,
     1.2573rem + 1.0356vw,
