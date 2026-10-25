@@ -8,6 +8,7 @@ export default function Home() {
       <Progress />
       <Steps />
       <FeaturedWorks />
+      <div>1233</div>
     </main>
   );
 }
