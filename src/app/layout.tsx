@@ -3,6 +3,8 @@ import { Bebas_Neue, DM_Sans } from "next/font/google";
 import { Footer, Header, Preloader } from "@/layout";
 import "./globals.css";
 import { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CustomCursor, SmoothScroll } from "@/components";
 
 const bebasNeue = Bebas_Neue({
@@ -94,6 +96,8 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
