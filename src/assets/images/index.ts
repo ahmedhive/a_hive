@@ -25,3 +25,7 @@ export { default as Trusted7Img } from "./trusted-7-img.jpg";
 export { default as Trusted8Img } from "./trusted-8-img.jpg";
 export { default as Trusted9Img } from "./trusted-9-img.jpg";
 export { default as Trusted10Img } from "./trusted-10-img.jpg";
+export { default as FeedbackQudsiaImg } from "./feedback-qudsia-img.jpg";
+export { default as FeedbackIvanImg } from "./feedback-ivan-img.jpg";
+export { default as FeedbackShyamImg } from "./feedback-shyam-img.jpg";
+export { default as FeedbackEthanImg } from "./feedback-ethan-img.jpg";

@@ -14,3 +14,4 @@ export { default as ChevronDownIcon } from "./chevron-down-icon";
 export { default as PixelGlyphIcon } from "./pixel-glyph-icon";
 export { default as PlayIcon } from "./play-icon";
 export { default as PauseIcon } from "./pause-icon";
+export { default as StarIcon } from "./star-icon";

@@ -1,5 +1,6 @@
 import {
   AboutMe,
+  ClientsFeedback,
   ExpertSolutions,
   FeaturedWorks,
   Hero,
@@ -22,6 +23,7 @@ export default function Home() {
       <ExpertSolutions />
       <PlayReel />
       <TrustedFounders />
+      <ClientsFeedback />
     </main>
   );
 }
