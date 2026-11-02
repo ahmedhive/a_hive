@@ -91,14 +91,14 @@ export const QUOTES_PATH_SAMPLES = 24;
 export const QUOTES_BG_CELLS = 242;
 export const QUOTES_TABLET_HIDDEN_CELL = 227;
 
-// The strip repeats its phrase and the track tweens -50% of its own width, so
+// The strip repeats its phrase and the track tweens 50% of its own width, so
 // one loop is half the copies and lands on a frame identical to the start. Four
 // copies keep that half wider than the strip box at any width.
 export const QUOTES_MARQUEE_COPIES = 4;
 
 // A literal px/second speed (not a fixed duration): duration is derived from
 // the measured width in use-quotes.ts, so the speed holds across widths.
-export const QUOTES_MARQUEE_SPEED_PX_PER_S = 100;
+export const QUOTES_MARQUEE_SPEED_PX_PER_S = 70;
 export const QUOTES_MARQUEE_EASE = "none";
 
 // Quote swap. The old lines lift out through their masks, then the new quote's

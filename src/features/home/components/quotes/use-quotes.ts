@@ -56,6 +56,52 @@ const crossesBox = (from: DOMRect, to: DOMRect, boxes: DOMRect[]) => {
   return false;
 };
 
+// Record where the box and the movable tiles are now, before React moves them.
+const recordMove = (overlay: HTMLElement): IMove | null => {
+  const box = overlay.querySelector<HTMLElement>('[data-quotes-area="quote"]');
+  const tiles = QUOTES_MOVING_SLOTS.map((slot) =>
+    overlay.querySelector<HTMLElement>(`[data-quotes-slot="${slot}"]`),
+  );
+  if (!box || !tiles.every((tile) => tile)) return null;
+
+  const piece = (el: HTMLElement) => ({
+    el,
+    state: Flip.getState(el),
+    rect: el.getBoundingClientRect(),
+  });
+  return {
+    box: piece(box),
+    tiles: (tiles as HTMLElement[]).map((el) => ({
+      ...piece(el),
+      ghost: el.cloneNode(true) as HTMLElement,
+    })),
+  };
+};
+
+// Drop a tile's copy back into the overlay, at the cell it is leaving, as an
+// inert decoration (not a second button) that the caller then fades out.
+const placeGhost = (
+  overlay: HTMLElement,
+  { ghost, rect }: IMove["tiles"][number],
+) => {
+  const overlayRect = overlay.getBoundingClientRect();
+  ghost.removeAttribute("data-quotes-slot");
+  ghost.removeAttribute("aria-pressed");
+  ghost.setAttribute("aria-hidden", "true");
+  ghost.tabIndex = -1;
+  Object.assign(ghost.style, {
+    position: "absolute",
+    gridArea: "auto",
+    pointerEvents: "none",
+    left: `${rect.left - overlayRect.left}px`,
+    top: `${rect.top - overlayRect.top}px`,
+    width: `${rect.width}px`,
+    height: `${rect.height}px`,
+  });
+  overlay.appendChild(ghost);
+  return ghost;
+};
+
 export default function useQuotes() {
   const marqueeRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -77,38 +123,17 @@ export default function useQuotes() {
   const select = (index: number) => {
     if (index === active) return;
 
-    // Record where the box and the movable tiles are now, if this choice will
-    // put them in different cells (desktop only, and not under reduced motion:
-    // the layout then changes instantly).
-    moveRef.current = null;
+    // Only a choice that puts the box and tiles in different cells needs
+    // recording, and only on desktop without reduced motion (the layout then
+    // changes instantly).
     const overlay = overlayRef.current;
-    if (
+    moveRef.current =
       overlay &&
       QUOTES_LAYOUT_KEYS[index] !== layoutKey &&
       window.matchMedia(QUOTES_MOVE_QUERY).matches &&
       !prefersReducedMotion()
-    ) {
-      const box = overlay.querySelector<HTMLElement>(
-        '[data-quotes-area="quote"]',
-      );
-      const tiles = QUOTES_MOVING_SLOTS.map((slot) =>
-        overlay.querySelector<HTMLElement>(`[data-quotes-slot="${slot}"]`),
-      );
-      if (box && tiles.every((tile) => tile)) {
-        const piece = (el: HTMLElement) => ({
-          el,
-          state: Flip.getState(el),
-          rect: el.getBoundingClientRect(),
-        });
-        moveRef.current = {
-          box: piece(box),
-          tiles: (tiles as HTMLElement[]).map((el) => ({
-            ...piece(el),
-            ghost: el.cloneNode(true) as HTMLElement,
-          })),
-        };
-      }
-    }
+        ? recordMove(overlay)
+        : null;
 
     setActive(index);
     // No exit animation under reduced motion, so nothing to wait for.
@@ -127,12 +152,18 @@ export default function useQuotes() {
     const durationFor = () =>
       marquee.scrollWidth / 2 / QUOTES_MARQUEE_SPEED_PX_PER_S;
 
-    const tween = gsap.to(marquee, {
-      xPercent: -50,
-      repeat: -1,
-      ease: QUOTES_MARQUEE_EASE,
-      duration: durationFor(),
-    });
+    // Slides right: from half a loop back to the start, so the strip enters
+    // from the left and the loop still lands on an identical frame.
+    const tween = gsap.fromTo(
+      marquee,
+      { xPercent: -50 },
+      {
+        xPercent: 0,
+        repeat: -1,
+        ease: QUOTES_MARQUEE_EASE,
+        duration: durationFor(),
+      },
+    );
 
     // Re-derive the duration (not the tween) on resize so the loop keeps its
     // position while its speed re-locks to the new width; one rAF per burst.
@@ -161,8 +192,7 @@ export default function useQuotes() {
     if (!overlay || !move) return;
 
     // Drop whatever an earlier move left running, so the new cells measure clean.
-    const pieces = [move.box, ...move.tiles];
-    const els = pieces.map((p) => p.el);
+    const els = [move.box, ...move.tiles].map((piece) => piece.el);
     ghostsRef.current.forEach((ghost) => {
       gsap.killTweensOf(ghost);
       ghost.remove();
@@ -180,7 +210,6 @@ export default function useQuotes() {
     };
     Flip.from(move.box.state, flipOptions);
 
-    const overlayRect = overlay.getBoundingClientRect();
     move.tiles.forEach((tile) => {
       const next = tile.el.getBoundingClientRect();
       const moved =
@@ -193,21 +222,7 @@ export default function useQuotes() {
         return;
       }
 
-      const { ghost } = tile;
-      ghost.removeAttribute("data-quotes-slot");
-      ghost.removeAttribute("aria-pressed");
-      ghost.setAttribute("aria-hidden", "true");
-      ghost.tabIndex = -1;
-      Object.assign(ghost.style, {
-        position: "absolute",
-        gridArea: "auto",
-        pointerEvents: "none",
-        left: `${tile.rect.left - overlayRect.left}px`,
-        top: `${tile.rect.top - overlayRect.top}px`,
-        width: `${tile.rect.width}px`,
-        height: `${tile.rect.height}px`,
-      });
-      overlay.appendChild(ghost);
+      const ghost = placeGhost(overlay, tile);
       ghostsRef.current.push(ghost);
       gsap.to(ghost, {
         opacity: 0,
