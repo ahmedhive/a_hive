@@ -18,6 +18,7 @@
   --color-linen: var(--linen);
   --color-sun: var(--sun);
   --color-blush: var(--blush);
+  --color-lilac: var(--lilac);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
   --background-image-wipe: var(--gradient-wipe);
@@ -42,6 +43,7 @@
   --linen: #e9dcd2;
   --sun: #ff8198;
   --blush: #f5e9ea;
+  --lilac: #d1aaff;
   --gradient-ember: linear-gradient(180deg, #880404 0%, #d35516 100%);
   --gradient-wine: radial-gradient(
     50% 50% at 50% 50%,

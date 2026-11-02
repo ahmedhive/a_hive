@@ -7,6 +7,7 @@ import {
   Progress,
   Quotes,
   Steps,
+  TrustedFounders,
 } from "./components";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       <Quotes />
       <ExpertSolutions />
       <PlayReel />
+      <TrustedFounders />
     </main>
   );
 }

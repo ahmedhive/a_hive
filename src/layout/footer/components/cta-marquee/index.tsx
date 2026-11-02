@@ -55,7 +55,6 @@ export default function CtaMarquee() {
         <CustomButton
           label={CTA_LABEL}
           href={CTA_HREF}
-          target="_blank"
           icon={ArrowIcon}
           filled
           size="lg"
