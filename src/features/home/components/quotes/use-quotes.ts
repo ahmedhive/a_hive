@@ -111,6 +111,7 @@ export default function useQuotes() {
   const authorRef = useRef<HTMLElement>(null);
   const linesRef = useRef<Element[]>([]);
   const hasSwappedRef = useRef(false);
+  const exitingRef = useRef(false);
 
   // `active` is the chosen stat and updates at once (colors); `shown` is the
   // quote on screen and only catches up once the old quote has left, so the
@@ -312,18 +313,29 @@ export default function useQuotes() {
     if (!author) return;
 
     if (active === shown) {
-      gsap.to([...lines, author], {
-        yPercent: 0,
-        opacity: 1,
-        duration: QUOTES_IN_DURATION_S,
-        ease: QUOTES_IN_EASE,
-        overwrite: "auto",
-      });
+      // Only a reversal needs the lines brought back. When an exit finished,
+      // `shown` just caught up and the entrance effect owns the new quote.
+      if (exitingRef.current) {
+        exitingRef.current = false;
+        gsap.to([...lines, author], {
+          yPercent: 0,
+          opacity: 1,
+          duration: QUOTES_IN_DURATION_S,
+          ease: QUOTES_IN_EASE,
+          overwrite: "auto",
+        });
+      }
       return;
     }
 
     hasSwappedRef.current = true;
-    const tl = gsap.timeline({ onComplete: () => setShown(active) });
+    exitingRef.current = true;
+    const tl = gsap.timeline({
+      onComplete: () => {
+        exitingRef.current = false;
+        setShown(active);
+      },
+    });
     tl.to(
       lines,
       {
