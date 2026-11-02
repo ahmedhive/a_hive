@@ -17,16 +17,20 @@ const nextConfig: NextConfig = {
       },
       // The clips and posters aren't fingerprinted, so a day of caching (with
       // a week of stale-while-revalidate) keeps replacements from going stale
-      // for long.
-      {
-        source: "/videos/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=86400, stale-while-revalidate=604800",
-          },
-        ],
-      },
+      // for long. Production only: in dev a swapped file must show up at once.
+      ...(process.env.NODE_ENV === "production"
+        ? [
+            {
+              source: "/videos/:path*",
+              headers: [
+                {
+                  key: "Cache-Control",
+                  value: "public, max-age=86400, stale-while-revalidate=604800",
+                },
+              ],
+            },
+          ]
+        : []),
     ];
   },
 };
