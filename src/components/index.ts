@@ -4,3 +4,4 @@ export { default as CustomCursor } from "./custom-cursor";
 export { default as SmoothScroll } from "./smooth-scroll";
 export { default as SocialLinks } from "./social-links";
 export { default as Subtitle } from "./subtitle";
+export { default as StarRating } from "./star-rating";

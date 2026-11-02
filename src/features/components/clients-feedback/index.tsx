@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { CSSProperties } from "react";
-import { StarIcon } from "@/assets/icons";
+import { StarRating } from "@/components";
 import { cn } from "@/lib";
 import {
   FEEDBACK_BADGE,
@@ -12,8 +12,6 @@ import {
   TESTIMONIALS,
 } from "./clients-feedback.data";
 import useClientsFeedback from "./use-clients-feedback";
-
-const STARS = Array.from({ length: FEEDBACK_STAR_COUNT }, (_, i) => i);
 
 export default function ClientsFeedback() {
   const { titleRef, badgeRef, cardsRef } = useClientsFeedback();
@@ -63,22 +61,15 @@ export default function ClientsFeedback() {
                   } as CSSProperties
                 }
               >
-                <div
+                <StarRating
+                  count={FEEDBACK_STAR_COUNT}
+                  label={`${FEEDBACK_STAR_COUNT} out of ${FEEDBACK_STAR_COUNT} stars`}
                   className={cn(
-                    "mb-13 flex gap-1 min-[992px]:mb-0",
+                    "mb-13 gap-1 min-[992px]:mb-0",
                     dark ? "text-amber" : "text-flame",
                   )}
-                  aria-label={`${FEEDBACK_STAR_COUNT} out of ${FEEDBACK_STAR_COUNT} stars`}
-                  role="img"
-                >
-                  {STARS.map((star) => (
-                    <StarIcon
-                      key={star}
-                      aria-hidden
-                      className="size-5 shrink-0 min-[992px]:size-7.5"
-                    />
-                  ))}
-                </div>
+                  starClassName="size-5 shrink-0 min-[992px]:size-7.5"
+                />
                 <div>
                   <blockquote className="mb-5 text-base leading-[1.4] min-[768px]:mb-6 min-[768px]:text-xl min-[992px]:mb-10 min-[992px]:text-2xl min-[1920px]:text-[28px]">
                     {quote}

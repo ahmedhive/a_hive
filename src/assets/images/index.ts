@@ -29,3 +29,4 @@ export { default as FeedbackQudsiaImg } from "./feedback-qudsia-img.jpg";
 export { default as FeedbackIvanImg } from "./feedback-ivan-img.jpg";
 export { default as FeedbackShyamImg } from "./feedback-shyam-img.jpg";
 export { default as FeedbackEthanImg } from "./feedback-ethan-img.jpg";
+export { default as AboutHeaderImg } from "./about-header-img.jpg";
