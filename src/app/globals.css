@@ -14,6 +14,7 @@
   --color-ash: var(--ash);
   --color-charcoal: var(--charcoal);
   --color-lime: var(--lime);
+  --color-iron: var(--iron);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
   --background-image-wipe: var(--gradient-wipe);
@@ -34,6 +35,7 @@
   --mist: #f0f0f0;
   --ash: #d9d9d9;
   --charcoal: #383838;
+  --iron: #464646;
   --gradient-ember: linear-gradient(180deg, #880404 0%, #d35516 100%);
   --gradient-wine: radial-gradient(
     50% 50% at 50% 50%,
@@ -146,7 +148,8 @@
      slightly overhangs that box in condensed display fonts. charsClass:"char"
      names the wrapper "char-mask" (SplitText's own "-mask" suffix convention)
      so it can be given breathing room here instead of at every call site. */
-  .char-mask {
+  .char-mask,
+  .line-mask {
     overflow-clip-margin: 0.12em;
   }
 
@@ -240,4 +243,243 @@
 }
 .site-header.is-on-light .border-white-secondary {
   border-color: var(--black-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Quotes section — the reference's grid-box layout (components/
+   quotes). A square-cell background grid (22 columns by 11 rows,
+   11 by 22 from 991px down, hidden from 767px down) with an
+   overlay grid of the same shape holding the strip, the quote box
+   and six stat tiles at fixed cell coordinates. The placements
+   below are the reference's, breakpoint by breakpoint, written as
+   plain media queries rather than utilities so the cascade stays
+   in source order (later, narrower rules win). Grid areas read
+   row-start / column-start / row-end / column-end; a reversed pair
+   is swapped by the browser, as in the reference.
+   ───────────────────────────────────────────────────────────── */
+.quotes-section {
+  background-color: #000;
+}
+.quotes-bg {
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  width: 100%;
+}
+.quotes-cell {
+  aspect-ratio: 1;
+  border: 0 solid #1b1711;
+  border-width: 0 1px 1px 0;
+}
+.quotes-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  grid-template-rows: repeat(11, minmax(0, 1fr));
+  width: 100%;
+  height: 100%;
+}
+.quotes-tile {
+  container-type: inline-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border: 1px solid var(--black-secondary);
+  background-color: rgb(0 0 0 / 0.8);
+}
+.quotes-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: clip;
+  padding: 6% 32px;
+  border: 1px solid var(--black-secondary);
+  background-color: rgb(0 0 0 / 0.8);
+}
+.quotes-strip {
+  display: flex;
+  align-items: center;
+  overflow: clip;
+  border: 1px solid var(--black-secondary);
+  background-color: rgb(0 0 0 / 0.8);
+}
+
+[data-quotes-area="strip"] {
+  grid-area: 2 / -3 / 2 / 13;
+}
+[data-quotes-area="quote"] {
+  grid-area: 4 / 5 / 10 / 15;
+}
+[data-quotes-slot="1"] {
+  grid-area: 2 / 4 / 4 / 6;
+}
+[data-quotes-slot="2"] {
+  grid-area: 11 / 2 / 9 / 4;
+}
+[data-quotes-slot="3"] {
+  grid-area: 3 / 15 / 5 / 17;
+}
+[data-quotes-slot="4"] {
+  grid-area: 3 / 21 / 5 / 19;
+}
+[data-quotes-slot="5"] {
+  grid-area: 6 / 17 / 8 / 19;
+}
+[data-quotes-slot="6"] {
+  grid-area: 8 / 20 / 10 / 22;
+}
+
+@media screen and (min-width: 1920px) {
+  .quotes-tile {
+    padding: 8px;
+  }
+  .quotes-box {
+    padding: 56px 48px;
+  }
+  [data-quotes-area="strip"] {
+    grid-column: -3 / 13;
+    grid-row-start: 2;
+  }
+  [data-quotes-area="quote"] {
+    grid-area: 5 / 6 / 10 / 13;
+  }
+  [data-quotes-slot="1"] {
+    grid-row: 3 / 5;
+    grid-column-start: 4;
+  }
+  [data-quotes-slot="2"] {
+    grid-column: 3 / 5;
+  }
+  [data-quotes-slot="3"] {
+    grid-area: 4 / 13 / 6 / 15;
+  }
+  [data-quotes-slot="4"] {
+    grid-row: 4 / 6;
+  }
+  [data-quotes-slot="5"] {
+    grid-area: 7 / 15 / 9 / 17;
+  }
+  [data-quotes-slot="6"] {
+    grid-area: 11 / 18 / 9 / 20;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .quotes-bg {
+    grid-template-columns: repeat(11, 1fr);
+  }
+  .quotes-cell-tablet-hidden {
+    display: none;
+  }
+  .quotes-overlay {
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(22, minmax(0, 1fr));
+  }
+  .quotes-box {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+  [data-quotes-area="strip"] {
+    grid-column-end: 2;
+  }
+  [data-quotes-area="quote"] {
+    grid-column: 5 / 11;
+    grid-row-end: 8;
+  }
+  [data-quotes-slot="1"] {
+    grid-area: 15 / 7 / 17 / 9;
+  }
+  [data-quotes-slot="2"] {
+    grid-area: 8 / 2 / 11 / 5;
+  }
+  [data-quotes-slot="3"] {
+    grid-area: 10 / 8 / 13 / 11;
+  }
+  [data-quotes-slot="4"] {
+    grid-area: 18 / 10 / 20 / 12;
+  }
+  [data-quotes-slot="5"] {
+    grid-area: 12 / 4 / 14 / 6;
+  }
+  [data-quotes-slot="6"] {
+    grid-area: 17 / 2 / 22 / 5;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .quotes-section {
+    padding: 83px 20px;
+  }
+  .quotes-cell {
+    display: none;
+  }
+  .quotes-bg {
+    display: block;
+  }
+  .quotes-overlay {
+    position: relative;
+    inset: auto;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .quotes-tile {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .quotes-box {
+    margin-bottom: 20px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .quotes-strip {
+    margin-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  [data-quotes-area="strip"],
+  [data-quotes-area="quote"] {
+    grid-area: span 1 / span 4 / span 1 / span 4;
+  }
+  [data-quotes-slot="1"] {
+    grid-area: span 2 / span 1 / span 2 / span 1;
+  }
+  [data-quotes-slot="2"],
+  [data-quotes-slot="4"] {
+    grid-area: span 1 / span 1 / span 1 / span 1;
+  }
+  [data-quotes-slot="3"] {
+    grid-area: 3 / 3 / 5 / 4;
+  }
+  [data-quotes-slot="5"] {
+    grid-area: 4 / 2 / 5 / 3;
+  }
+  [data-quotes-slot="6"] {
+    grid-area: 4 / 4 / 5 / 5;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .quotes-section {
+    padding-top: 38px;
+  }
+  .quotes-overlay {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .quotes-box {
+    padding: 20px;
+    border-color: #ffffff52;
+  }
+  [data-quotes-area="strip"],
+  [data-quotes-area="quote"] {
+    grid-area: span 1 / span 2 / span 1 / span 2;
+  }
+  [data-quotes-slot="2"],
+  [data-quotes-slot="3"],
+  [data-quotes-slot="4"],
+  [data-quotes-slot="5"],
+  [data-quotes-slot="6"] {
+    grid-area: span 2 / span 1 / span 2 / span 1;
+  }
 }

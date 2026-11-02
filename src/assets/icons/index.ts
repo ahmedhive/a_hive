@@ -11,3 +11,4 @@ export { default as CloseIcon } from "./close-icon";
 export { default as ArrowIcon } from "./arrow-icon";
 export { default as StepMarkerIcon } from "./step-marker-icon";
 export { default as ChevronDownIcon } from "./chevron-down-icon";
+export { default as PixelGlyphIcon } from "./pixel-glyph-icon";
