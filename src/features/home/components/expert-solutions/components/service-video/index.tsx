@@ -96,7 +96,11 @@ export default function ServiceVideo(props: IServiceVideoProps) {
         aria-label={paused ? `Play ${label} video` : `Pause ${label} video`}
         className="absolute right-4 bottom-4 cursor-pointer rounded-full bg-linen p-3 text-black-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black-secondary"
       >
-        {paused ? <PlayIcon /> : <PauseIcon />}
+        {paused ? (
+          <PlayIcon className="size-6" />
+        ) : (
+          <PauseIcon className="size-6" />
+        )}
       </button>
     </div>
   );

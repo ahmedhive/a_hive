@@ -1,10 +1,10 @@
 export const REEL_LABEL = "Play reel";
 export const REEL_WORDS = ["Play", "Reel"] as const;
 
-// Placeholder clip; swap both files for the real reel. Served from
-// public/videos because Turbopack can't import .mp4 files.
-export const REEL_VIDEO_SRC = "/videos/expert-sol-4-vid.mp4";
-export const REEL_POSTER_SRC = "/videos/expert-sol-4-poster.jpg";
+// The reel and its poster frame, served from public/videos because Turbopack
+// can't import .mp4 files. Replace both files to change the reel.
+export const REEL_VIDEO_SRC = "/videos/play-reel-vid.mp4";
+export const REEL_POSTER_SRC = "/videos/play-reel-poster.jpg";
 
 // The pinned, scroll-driven layout only exists from 992px up with motion
 // allowed (the reference drops it at 991px). Must equal the

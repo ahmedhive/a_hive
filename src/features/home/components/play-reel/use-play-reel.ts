@@ -18,8 +18,10 @@ export default function usePlayReel() {
   const lastWordRef = useRef<HTMLHeadingElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const visibleRef = useRef(false);
-  // Like the reference, the reel waits for the viewer to press play. It
-  // pauses while off screen and resumes on return if it was playing.
+  // Like the reference, the reel waits for the viewer to press play (which
+  // is what lets it play with sound). It pauses while off screen and resumes
+  // on return if it was playing, and stops at the end, with the play button
+  // back, rather than looping.
   const playingRef = useRef(false);
   const [playing, setPlaying] = useState(false);
 
@@ -52,6 +54,12 @@ export default function usePlayReel() {
     playingRef.current = !playingRef.current;
     setPlaying(playingRef.current);
     sync();
+  };
+
+  // Pressing play on an ended video starts it again from the beginning.
+  const handleEnded = () => {
+    playingRef.current = false;
+    setPlaying(false);
   };
 
   // The reference's scrubbed timeline. The CSS (index.tsx) pins the stage and
@@ -127,5 +135,6 @@ export default function usePlayReel() {
     videoRef,
     playing,
     toggle,
+    handleEnded,
   };
 }
