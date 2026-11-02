@@ -3,6 +3,7 @@ import {
   ExpertSolutions,
   FeaturedWorks,
   Hero,
+  PlayReel,
   Progress,
   Quotes,
   Steps,
@@ -18,6 +19,7 @@ export default function Home() {
       <FeaturedWorks />
       <Quotes />
       <ExpertSolutions />
+      <PlayReel />
     </main>
   );
 }

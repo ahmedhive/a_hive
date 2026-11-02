@@ -5,3 +5,4 @@ export { default as Steps } from "./steps";
 export { default as FeaturedWorks } from "./featured-works";
 export { default as Quotes } from "./quotes";
 export { default as ExpertSolutions } from "./expert-solutions";
+export { default as PlayReel } from "./play-reel";
