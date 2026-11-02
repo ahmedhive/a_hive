@@ -35,6 +35,7 @@ export const WORKS_STACK_INITIAL = [
   { y: 40, scale: 0.94 },
   { y: 80, scale: 0.88 },
   { y: 120, scale: 0.82 },
+  { y: 160, scale: 0.76 },
 ];
 
 // The front card lifts out and tilts away.
@@ -51,6 +52,7 @@ export const WORKS_TIMELINE_STEPS = [
       { card: 1, y: 0, scale: 1 },
       { card: 2, y: 60, scale: 0.94 },
       { card: 3, y: 100, scale: 0.88 },
+      { card: 4, y: 140, scale: 0.82 },
     ],
   },
   {
@@ -59,12 +61,21 @@ export const WORKS_TIMELINE_STEPS = [
     forward: [
       { card: 2, y: 0, scale: 1 },
       { card: 3, y: 80, scale: 0.94 },
+      { card: 4, y: 120, scale: 0.88 },
     ],
   },
   {
     at: 1.12,
     peel: 2,
-    forward: [{ card: 3, y: 0, scale: 1 }],
+    forward: [
+      { card: 3, y: 0, scale: 1 },
+      { card: 4, y: 80, scale: 0.94 },
+    ],
+  },
+  {
+    at: 1.63,
+    peel: 3,
+    forward: [{ card: 4, y: 0, scale: 1 }],
   },
 ];
 
