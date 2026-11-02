@@ -1,14 +1,16 @@
 import {
-  AboutMe,
   ClientsFeedback,
   ExpertSolutions,
+  Quotes,
+  TrustedFounders,
+} from "@/features/components";
+import {
+  AboutMe,
   FeaturedWorks,
   Hero,
   PlayReel,
   Progress,
-  Quotes,
   Steps,
-  TrustedFounders,
 } from "./components";
 
 export default function Home() {

@@ -3,8 +3,4 @@ export { default as AboutMe } from "./about-me";
 export { default as Progress } from "./progress";
 export { default as Steps } from "./steps";
 export { default as FeaturedWorks } from "./featured-works";
-export { default as Quotes } from "./quotes";
-export { default as ExpertSolutions } from "./expert-solutions";
 export { default as PlayReel } from "./play-reel";
-export { default as TrustedFounders } from "./trusted-founders";
-export { default as ClientsFeedback } from "./clients-feedback";
