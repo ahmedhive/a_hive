@@ -16,9 +16,18 @@ const BG_CELLS = Array.from({ length: QUOTES_BG_CELLS });
 const MARQUEE_COPIES = Array.from({ length: QUOTES_MARQUEE_COPIES });
 
 export default function Quotes() {
-  const { marqueeRef, quoteRef, authorRef, active, shown, select } =
-    useQuotes();
-  const { quote, author, role } = QUOTES[shown];
+  const {
+    marqueeRef,
+    overlayRef,
+    quoteRef,
+    authorRef,
+    active,
+    shown,
+    layoutKey,
+    select,
+  } = useQuotes();
+  const { quote, title, subtitle, variant } = QUOTES[shown];
+  const isPerson = variant === "person";
 
   return (
     <section
@@ -42,7 +51,11 @@ export default function Quotes() {
           ))}
         </div>
 
-        <div className="quotes-overlay">
+        <div
+          ref={overlayRef}
+          data-quotes-layout={layoutKey}
+          className="quotes-overlay"
+        >
           {/* The strip repeats its phrase only so the tween can loop
               seamlessly, so it is hidden from assistive tech. */}
           <div data-quotes-area="strip" aria-hidden className="quotes-strip">
@@ -72,17 +85,24 @@ export default function Quotes() {
                 <blockquote>
                   <p
                     ref={quoteRef}
-                    className="mb-8 text-(length:--_typography---font-sizes--body--badge) leading-[1.3] max-[767px]:mb-15 max-[479px]:mb-9.5"
+                    className="mb-8 text-(length:--_typography---font-sizes--body--badge) leading-[1.3] min-[992px]:text-[min(6cqw,2.5rem)] max-[767px]:mb-15 max-[479px]:mb-9.5"
                   >
-                    “{quote}”
+                    {isPerson ? `"${quote}"` : quote}
                   </p>
                 </blockquote>
                 <figcaption
                   ref={authorRef}
                   className="border-l border-dashed border-white pl-6 max-[479px]:pl-4"
                 >
-                  <p className="font-bold uppercase">{author}</p>
-                  <p className="max-[479px]:text-base">{role}</p>
+                  <p className="font-bold uppercase">{title}</p>
+                  <p
+                    className={cn(
+                      "max-[479px]:text-base",
+                      !isPerson && "uppercase",
+                    )}
+                  >
+                    {subtitle}
+                  </p>
                 </figcaption>
               </figure>
             </div>
@@ -104,7 +124,7 @@ export default function Quotes() {
             >
               {/* Sized against the tile, so the stat fits however many grid
                   cells the tile spans at this breakpoint. */}
-              <span className="font-heading text-[length:32cqw] leading-none whitespace-nowrap uppercase">
+              <span className="font-heading text-[32cqw] leading-none whitespace-nowrap uppercase">
                 {item.stat}
               </span>
             </button>

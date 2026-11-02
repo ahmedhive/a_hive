@@ -1,6 +1,7 @@
 export { gsap } from "./gsap";
 export { ScrollTrigger } from "./gsap-scroll-trigger";
 export { SplitText } from "./gsap-split-text";
+export { Flip } from "./gsap-flip";
 export {
   cn,
   prefersReducedMotion,

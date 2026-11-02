@@ -289,6 +289,7 @@
   background-color: rgb(0 0 0 / 0.8);
 }
 .quotes-box {
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -337,31 +338,61 @@
   .quotes-box {
     padding: 56px 48px;
   }
-  [data-quotes-area="strip"] {
-    grid-column: -3 / 13;
-    grid-row-start: 2;
+}
+
+/* Per-stat layouts (992px up). The quote box and the "200+" and "3+" tiles
+   take the cells set for the active stat, which also replace the reference's
+   own 1920px placements for them. "data-quotes-layout" is the key from
+   QUOTES_LAYOUT_KEYS. Keep the media query in step with QUOTES_MOVE_QUERY. */
+@media screen and (min-width: 992px) {
+  [data-quotes-layout="base"] [data-quotes-area="quote"] {
+    grid-area: 4 / 5 / 10 / 15;
   }
-  [data-quotes-area="quote"] {
-    grid-area: 5 / 6 / 10 / 13;
+  [data-quotes-layout="base"] [data-quotes-slot="3"] {
+    grid-area: 3 / 15 / 5 / 17;
   }
-  [data-quotes-slot="1"] {
-    grid-row: 3 / 5;
-    grid-column-start: 4;
+  [data-quotes-layout="base"] [data-quotes-slot="5"] {
+    grid-area: 6 / 17 / 8 / 19;
   }
-  [data-quotes-slot="2"] {
-    grid-column: 3 / 5;
+
+  [data-quotes-layout="620"] [data-quotes-area="quote"] {
+    grid-area: 5 / 4 / 11 / 14;
   }
-  [data-quotes-slot="3"] {
-    grid-area: 4 / 13 / 6 / 15;
+  [data-quotes-layout="620"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
   }
-  [data-quotes-slot="4"] {
-    grid-row: 4 / 6;
+  [data-quotes-layout="620"] [data-quotes-slot="5"] {
+    grid-area: 6 / 16 / 8 / 18;
   }
-  [data-quotes-slot="5"] {
-    grid-area: 7 / 15 / 9 / 17;
+
+  [data-quotes-layout="15"] [data-quotes-area="quote"] {
+    grid-area: 5 / 10 / 11 / 20;
   }
-  [data-quotes-slot="6"] {
-    grid-area: 11 / 18 / 9 / 20;
+  [data-quotes-layout="15"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
+  }
+  [data-quotes-layout="15"] [data-quotes-slot="5"] {
+    grid-area: 5 / 7 / 7 / 9;
+  }
+
+  [data-quotes-layout="3"] [data-quotes-area="quote"] {
+    grid-area: 5 / 8 / 11 / 18;
+  }
+  [data-quotes-layout="3"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
+  }
+  [data-quotes-layout="3"] [data-quotes-slot="5"] {
+    grid-area: 7 / 6 / 9 / 8;
+  }
+
+  [data-quotes-layout="2"] [data-quotes-area="quote"] {
+    grid-area: 4 / 9 / 10 / 19;
+  }
+  [data-quotes-layout="2"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
+  }
+  [data-quotes-layout="2"] [data-quotes-slot="5"] {
+    grid-area: 7 / 6 / 9 / 8;
   }
 }
 
@@ -385,7 +416,7 @@
   }
   [data-quotes-area="quote"] {
     grid-column: 5 / 11;
-    grid-row-end: 8;
+    grid-row-end: 10;
   }
   [data-quotes-slot="1"] {
     grid-area: 15 / 7 / 17 / 9;
