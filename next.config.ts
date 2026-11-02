@@ -15,6 +15,18 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
         ],
       },
+      // The clips and posters aren't fingerprinted, so a day of caching (with
+      // a week of stale-while-revalidate) keeps replacements from going stale
+      // for long.
+      {
+        source: "/videos/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
     ];
   },
 };

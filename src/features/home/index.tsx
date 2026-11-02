@@ -1,5 +1,6 @@
 import {
   AboutMe,
+  ExpertSolutions,
   FeaturedWorks,
   Hero,
   Progress,
@@ -16,6 +17,7 @@ export default function Home() {
       <Steps />
       <FeaturedWorks />
       <Quotes />
+      <ExpertSolutions />
     </main>
   );
 }

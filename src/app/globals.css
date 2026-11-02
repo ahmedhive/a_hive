@@ -15,6 +15,9 @@
   --color-charcoal: var(--charcoal);
   --color-lime: var(--lime);
   --color-iron: var(--iron);
+  --color-linen: var(--linen);
+  --color-sun: var(--sun);
+  --color-blush: var(--blush);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
   --background-image-wipe: var(--gradient-wipe);
@@ -36,6 +39,9 @@
   --ash: #d9d9d9;
   --charcoal: #383838;
   --iron: #464646;
+  --linen: #e9dcd2;
+  --sun: #ff8198;
+  --blush: #f5e9ea;
   --gradient-ember: linear-gradient(180deg, #880404 0%, #d35516 100%);
   --gradient-wine: radial-gradient(
     50% 50% at 50% 50%,
@@ -57,6 +63,11 @@
     3.75rem,
     -0.1942rem + 16.8285vw,
     20rem
+  );
+  --_typography---font-sizes--heading--h3: clamp(
+    2.75rem,
+    1.4757rem + 5.4369vw,
+    8rem
   );
   --_typography---font-sizes--heading--h4: clamp(
     2rem,

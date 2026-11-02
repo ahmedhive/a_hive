@@ -4,3 +4,4 @@ export { default as Progress } from "./progress";
 export { default as Steps } from "./steps";
 export { default as FeaturedWorks } from "./featured-works";
 export { default as Quotes } from "./quotes";
+export { default as ExpertSolutions } from "./expert-solutions";
