@@ -1,3 +1,4 @@
+import { ClientsFeedback, ExpertSolutions } from "../components";
 import { HeroBanner, IntroVideo } from "./components";
 
 export default function Services() {
@@ -5,6 +6,8 @@ export default function Services() {
     <main>
       <HeroBanner />
       <IntroVideo />
+      <ExpertSolutions />
+      <ClientsFeedback />
     </main>
   );
 }
