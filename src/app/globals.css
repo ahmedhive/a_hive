@@ -19,6 +19,7 @@
   --color-sun: var(--sun);
   --color-blush: var(--blush);
   --color-peach: var(--peach);
+  --color-sky: var(--sky);
   --color-lilac: var(--lilac);
   --color-taupe: var(--taupe);
   --color-amber: var(--amber);
@@ -52,6 +53,7 @@
   --sun: #ff8198;
   --blush: #f5e9ea;
   --peach: #fff6f2;
+  --sky: #76ddff;
   --lilac: #d1aaff;
   --taupe: #7b6f69;
   --amber: #fdbc53;
