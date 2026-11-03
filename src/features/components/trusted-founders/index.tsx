@@ -7,6 +7,7 @@ import {
   TRUSTED_BADGE,
   TRUSTED_CTA_HREF,
   TRUSTED_CTA_LABEL,
+  TRUSTED_DIMMED_CLASS,
   TRUSTED_IMAGES,
   TRUSTED_STEP_DEG,
   TRUSTED_TITLE_ACCENT,
@@ -14,10 +15,6 @@ import {
   TRUSTED_Z_INDEX_BY_CARD,
 } from "./trusted-founders.data";
 import useTrustedFounders from "./use-trusted-founders";
-
-// The badge and the gradient word always show at full strength; the rest of
-// the content rests at half opacity on desktop and comes up on hover.
-const DIMMED_CLASS = "motion-safe:lg:opacity-50";
 
 export default function TrustedFounders() {
   const { sectionRef, wheelRef, contentRef } = useTrustedFounders();
@@ -41,14 +38,14 @@ export default function TrustedFounders() {
           {TRUSTED_BADGE}
         </p>
         <p className="mb-5 max-w-[10ch] font-heading text-(length:--_typography---font-sizes--heading--h3) leading-none uppercase sm:mb-6 lg:mb-8">
-          <span data-trusted-dim className={DIMMED_CLASS}>
+          <span data-trusted-dim className={TRUSTED_DIMMED_CLASS}>
             {TRUSTED_TITLE_LEAD}
           </span>{" "}
-          <span className="bg-linear-to-b from-[#ee1515] from-0% to-[#ff691e] to-100% bg-clip-text text-transparent">
+          <span className="bg-flare bg-clip-text text-transparent">
             {TRUSTED_TITLE_ACCENT}
           </span>
         </p>
-        <div data-trusted-dim className={DIMMED_CLASS}>
+        <div data-trusted-dim className={TRUSTED_DIMMED_CLASS}>
           <CustomButton label={TRUSTED_CTA_LABEL} href={TRUSTED_CTA_HREF} />
         </div>
       </div>

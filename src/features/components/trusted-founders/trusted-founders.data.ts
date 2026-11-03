@@ -72,6 +72,9 @@ export const TRUSTED_MOTION_QUERY = "(prefers-reduced-motion: no-preference)";
 export const TRUSTED_HOVER_DURATION_S = 0.5;
 export const TRUSTED_HOVER_EASE = "power4.inOut";
 export const TRUSTED_HOVER_WHEEL_SCALE = 0.8;
-// Must equal the `opacity-50` in DIMMED_CLASS (index.tsx): hovering off
-// tweens back to this value.
+// The badge and the gradient word always show at full strength; the rest of
+// the content rests at half opacity on desktop and comes up on hover.
+export const TRUSTED_DIMMED_CLASS = "motion-safe:lg:opacity-50";
+// Must equal the `opacity-50` in TRUSTED_DIMMED_CLASS: hovering off tweens
+// back to this value.
 export const TRUSTED_CONTENT_REST_OPACITY = 0.5;

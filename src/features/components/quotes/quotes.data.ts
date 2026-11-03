@@ -88,13 +88,17 @@ export const QUOTES_PATH_SAMPLES = 24;
 // The background grid of square cells: 22 columns by 11 rows on desktop (11
 // by 22 below 1024px, hidden below 768px). One cell near the end is
 // hidden at tablet widths, as in the reference.
-export const QUOTES_BG_CELLS = 242;
+const BG_CELL_COUNT = 242;
+export const QUOTES_BG_CELLS = Array.from({ length: BG_CELL_COUNT });
 export const QUOTES_TABLET_HIDDEN_CELL = 227;
 
 // The strip repeats its phrase and the track tweens 50% of its own width, so
 // one loop is half the copies and lands on a frame identical to the start. Four
 // copies keep that half wider than the strip box at any width.
-export const QUOTES_MARQUEE_COPIES = 4;
+const MARQUEE_COPY_COUNT = 4;
+export const QUOTES_MARQUEE_COPIES = Array.from({
+  length: MARQUEE_COPY_COUNT,
+});
 
 // A literal px/second speed (not a fixed duration): duration is derived from
 // the measured width in use-quotes.ts, so the speed holds across widths.

@@ -27,20 +27,50 @@ import {
   TEXT_COLOR_DURATION_S,
   TEXT_COLOR_EASE,
 } from "./custom-button.data";
+import { ICustomButton } from "./custom-button.interface";
 
 interface IUseCustomButtonOptions {
   // filled buttons skip the fill/dash-color/text-color block entirely (see
   // ICustomButton's `filled` doc); hasIcon gates whether the dash ref is
   // required (dash is only rendered when there's no icon) and whether the
-  // icon-roll segment is built; isLg gates the whole-button hover shrink
-  // (size="lg" only — see ICustomButton.size doc).
+  // icon-roll segment is built; size="lg" gates the whole-button hover
+  // shrink (see ICustomButton.size doc). notchColor and borderColor feed
+  // the style/class values returned below.
   filled: boolean;
   hasIcon: boolean;
-  isLg: boolean;
+  size: NonNullable<ICustomButton["size"]>;
+  notchColor?: string;
+  borderColor?: string;
 }
 
 export default function useCustomButton(options: IUseCustomButtonOptions) {
-  const { filled, hasIcon, isLg } = options;
+  const { filled, hasIcon, size, notchColor, borderColor } = options;
+
+  // White unless overridden; the class is dropped (not overridden) when a
+  // colour is passed, so the inline style never has to fight it.
+  const notchBgClass = notchColor ? undefined : "bg-white";
+  const notchStyle = notchColor ? { backgroundColor: notchColor } : undefined;
+  // Same split for the outline: the class stays when no colour is passed, and
+  // is dropped (not overridden) when one is.
+  const borderColorClass = borderColor ? undefined : "border-black-secondary";
+  const borderStyle = borderColor ? { borderColor } : undefined;
+  // A custom-coloured notch overhangs the 2px border by 1px each side (4px
+  // tall, like the reference's masks). Exactly border-thick, its edges stop
+  // lining up with the border's once an ancestor is scaled (e.g. the pinned
+  // Featured Works stack) and a sliver of border shows through.
+  const notchTopClass = notchColor ? "-top-0.75 h-1" : "-top-0.5 h-0.5";
+  const notchBottomClass = notchColor
+    ? "-bottom-0.75 h-1"
+    : "-bottom-0.5 h-0.5";
+
+  const isLg = size === "lg";
+  const labelSizeClass = isLg
+    ? "text-(length:--button-lg-label-size) leading-none"
+    : "text-[20px] leading-5 md:text-[24px] md:leading-6";
+  const iconSlotSizeClass = isLg
+    ? "size-(--button-lg-icon-bg-size)"
+    : "size-8 md:size-9.5";
+  const iconSizeClass = isLg ? "size-(--button-lg-icon-size)" : "size-4";
 
   const containerRef = useRef<HTMLAnchorElement>(null);
   const dashRef = useRef<HTMLSpanElement>(null);
@@ -216,6 +246,16 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
   const onMouseLeave = () => tlRef.current?.reverse();
 
   return {
+    isLg,
+    notchBgClass,
+    notchStyle,
+    borderColorClass,
+    borderStyle,
+    notchTopClass,
+    notchBottomClass,
+    labelSizeClass,
+    iconSlotSizeClass,
+    iconSizeClass,
     containerRef,
     dashRef,
     notch1Ref,

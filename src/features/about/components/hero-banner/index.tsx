@@ -24,7 +24,7 @@ export default function HeroBanner() {
       {/* Soft glow behind the content, anchored to the section's bottom. */}
       <div
         aria-hidden
-        className="absolute bottom-0 left-1/2 aspect-square w-screen -translate-x-1/2 rounded-full bg-linear-to-b from-white from-30% to-wine opacity-20 sm:w-[90vw] lg:w-[75vw] xl:w-303"
+        className="absolute bottom-0 left-1/2 aspect-square w-screen -translate-x-1/2 rounded-full bg-halo opacity-20 sm:w-[90vw] lg:w-[75vw] xl:w-303"
       />
 
       <div className="relative mx-auto flex w-full max-w-420 flex-col items-center text-center">

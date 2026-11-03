@@ -12,9 +12,6 @@ import {
 } from "./quotes.data";
 import useQuotes from "./use-quotes";
 
-const BG_CELLS = Array.from({ length: QUOTES_BG_CELLS });
-const MARQUEE_COPIES = Array.from({ length: QUOTES_MARQUEE_COPIES });
-
 export default function Quotes() {
   const {
     marqueeRef,
@@ -40,7 +37,7 @@ export default function Quotes() {
       <div className="relative w-full">
         {/* Square-cell grid lines behind everything. */}
         <div aria-hidden className="quotes-bg">
-          {BG_CELLS.map((_, i) => (
+          {QUOTES_BG_CELLS.map((_, i) => (
             <div
               key={i}
               className={cn(
@@ -63,7 +60,7 @@ export default function Quotes() {
               ref={marqueeRef}
               className="flex w-max items-center whitespace-nowrap"
             >
-              {MARQUEE_COPIES.map((_, i) => (
+              {QUOTES_MARQUEE_COPIES.map((_, i) => (
                 <div key={i} className="flex items-center">
                   <p className="mr-10 font-medium uppercase max-sm:mr-6">
                     {QUOTES_MARQUEE_TEXT}

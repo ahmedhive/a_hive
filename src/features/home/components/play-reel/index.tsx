@@ -6,21 +6,12 @@ import {
   REEL_LABEL,
   REEL_POSTER_SRC,
   REEL_VIDEO_SRC,
+  REEL_WORD_CLASS,
+  REEL_WORD_TEXT_CLASS,
+  REEL_WORD_TEXT_HIDDEN_CLASS,
   REEL_WORDS,
 } from "./play-reel.data";
 import usePlayReel from "./use-play-reel";
-
-const WORD_CLASS =
-  "absolute top-1/2 z-10 -translate-y-1/2 font-heading text-(length:--_typography---font-sizes--heading--h3) leading-none text-white uppercase mix-blend-difference motion-safe:lg:translate-x-0 motion-safe:lg:opacity-0";
-
-// The words step aside while the reel plays and come back when it stops. The
-// fade lives on an inner span because the scroll timeline owns the heading's
-// own opacity.
-const WORD_TEXT_CLASS = (playing: boolean) =>
-  cn(
-    "block transition-opacity duration-500 motion-reduce:transition-none",
-    playing && "opacity-0",
-  );
 
 export default function PlayReel() {
   const {
@@ -74,21 +65,35 @@ export default function PlayReel() {
               ref={firstWordRef}
               aria-hidden
               className={cn(
-                WORD_CLASS,
+                REEL_WORD_CLASS,
                 "left-0 translate-x-[15vw] sm:translate-x-[22vw] md:translate-x-[25vw]",
               )}
             >
-              <span className={WORD_TEXT_CLASS(playing)}>{REEL_WORDS[0]}</span>
+              <span
+                className={cn(
+                  REEL_WORD_TEXT_CLASS,
+                  playing && REEL_WORD_TEXT_HIDDEN_CLASS,
+                )}
+              >
+                {REEL_WORDS[0]}
+              </span>
             </h3>
             <h3
               ref={lastWordRef}
               aria-hidden
               className={cn(
-                WORD_CLASS,
+                REEL_WORD_CLASS,
                 "right-0 translate-x-[-15vw] sm:translate-x-[-22vw] md:translate-x-[-25vw]",
               )}
             >
-              <span className={WORD_TEXT_CLASS(playing)}>{REEL_WORDS[1]}</span>
+              <span
+                className={cn(
+                  REEL_WORD_TEXT_CLASS,
+                  playing && REEL_WORD_TEXT_HIDDEN_CLASS,
+                )}
+              >
+                {REEL_WORDS[1]}
+              </span>
             </h3>
           </div>
         </div>

@@ -18,32 +18,6 @@ export default function CustomButton(props: ICustomButton) {
     borderColor,
   } = props;
 
-  // White unless overridden; the class is dropped (not overridden) when a
-  // colour is passed, so the inline style never has to fight it.
-  const notchBgClass = notchColor ? undefined : "bg-white";
-  const notchStyle = notchColor ? { backgroundColor: notchColor } : undefined;
-  // Same split for the outline: the class stays when no colour is passed, and
-  // is dropped (not overridden) when one is.
-  const borderColorClass = borderColor ? undefined : "border-black-secondary";
-  const borderStyle = borderColor ? { borderColor } : undefined;
-  // A custom-coloured notch overhangs the 2px border by 1px each side (4px
-  // tall, like the reference's masks). Exactly border-thick, its edges stop
-  // lining up with the border's once an ancestor is scaled (e.g. the pinned
-  // Featured Works stack) and a sliver of border shows through.
-  const notchTopClass = notchColor ? "-top-0.75 h-1" : "-top-0.5 h-0.5";
-  const notchBottomClass = notchColor
-    ? "-bottom-0.75 h-1"
-    : "-bottom-0.5 h-0.5";
-
-  const isLg = size === "lg";
-  const labelSizeClass = isLg
-    ? "text-(length:--button-lg-label-size) leading-none"
-    : "text-[20px] leading-5 md:text-[24px] md:leading-6";
-  const iconSlotSizeClass = isLg
-    ? "size-(--button-lg-icon-bg-size)"
-    : "size-8 md:size-9.5";
-  const iconSizeClass = isLg ? "size-(--button-lg-icon-size)" : "size-4";
-
   const {
     containerRef,
     dashRef,
@@ -55,7 +29,23 @@ export default function CustomButton(props: ICustomButton) {
     iconRowRef,
     onMouseEnter,
     onMouseLeave,
-  } = useCustomButton({ filled, hasIcon: !!Icon, isLg });
+    isLg,
+    notchBgClass,
+    notchStyle,
+    borderColorClass,
+    borderStyle,
+    notchTopClass,
+    notchBottomClass,
+    labelSizeClass,
+    iconSlotSizeClass,
+    iconSizeClass,
+  } = useCustomButton({
+    filled,
+    hasIcon: !!Icon,
+    size,
+    notchColor,
+    borderColor,
+  });
 
   return (
     <Link

@@ -1,6 +1,17 @@
 export const REEL_LABEL = "Play reel";
 export const REEL_WORDS = ["Play", "Reel"] as const;
 
+// The two words sit over the video, blended against it. From `lg` (motion
+// allowed) they start hidden and parked at the centre for the scroll timeline.
+export const REEL_WORD_CLASS =
+  "absolute top-1/2 z-10 -translate-y-1/2 font-heading text-(length:--_typography---font-sizes--heading--h3) leading-none text-white uppercase mix-blend-difference motion-safe:lg:translate-x-0 motion-safe:lg:opacity-0";
+// The words step aside while the reel plays and come back when it stops. The
+// fade lives on an inner span because the scroll timeline owns the heading's
+// own opacity.
+export const REEL_WORD_TEXT_CLASS =
+  "block transition-opacity duration-500 motion-reduce:transition-none";
+export const REEL_WORD_TEXT_HIDDEN_CLASS = "opacity-0";
+
 // The reel and its poster frame, served from public/videos because Turbopack
 // can't import .mp4 files. Replace both files to change the reel.
 export const REEL_VIDEO_SRC = "/videos/play-reel-vid.mp4";

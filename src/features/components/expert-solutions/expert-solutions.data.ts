@@ -88,6 +88,3 @@ export const EXPERT_BADGE_REVEAL_START_S = 1;
 export const EXPERT_BADGE_REVEAL_DURATION_S = 0.6;
 export const EXPERT_BADGE_REVEAL_FROM_SCALE = 0.5;
 export const EXPERT_BADGE_REVEAL_EASE = "back.out";
-
-// A row's video only plays while at least this much of it is on screen.
-export const EXPERT_VIDEO_VISIBLE_RATIO = 0.25;
