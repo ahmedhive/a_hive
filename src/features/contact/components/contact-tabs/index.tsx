@@ -50,16 +50,15 @@ export default function ContactTabs() {
           })}
         </div>
 
-        {CONTACT_TABS.map(({ id, placeholder }, index) => (
+        {CONTACT_TABS.map(({ id, Form }, index) => (
           <div
             key={id}
             role="tabpanel"
             id={getPanelId(id)}
             aria-labelledby={getTabId(id)}
             hidden={index !== activeIndex}
-            className="text-2xl"
           >
-            {placeholder}
+            <Form />
           </div>
         ))}
       </div>

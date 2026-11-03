@@ -72,7 +72,12 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
     : "size-8 md:size-9.5";
   const iconSizeClass = isLg ? "size-(--button-lg-icon-size)" : "size-4";
 
-  const containerRef = useRef<HTMLAnchorElement>(null);
+  // The button renders as a link or as a real button, so the container is any
+  // element; the callback ref is what both tags accept.
+  const containerRef = useRef<HTMLElement | null>(null);
+  const setContainerRef = (node: HTMLElement | null) => {
+    containerRef.current = node;
+  };
   const dashRef = useRef<HTMLSpanElement>(null);
   const notch1Ref = useRef<HTMLSpanElement>(null);
   const notch2Ref = useRef<HTMLSpanElement>(null);
@@ -99,8 +104,11 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
 
     // Measured, not a fixed constant: the label's font size (and, for the
     // icon badge, its own size) changes across breakpoints/size variants,
-    // so a hardcoded offset would undershoot at other sizes.
-    const lineHeightPx = text1.getBoundingClientRect().height;
+    // so a hardcoded offset would undershoot at other sizes. Measured when
+    // the hover first plays (the tween values below are functions), not
+    // here: a button mounted inside a hidden tab panel has no layout yet and
+    // would measure zero.
+    const lineHeightPx = () => text1.getBoundingClientRect().height;
 
     const splitConfig = { type: "chars", charsClass: "char" } as const;
     const split1 = SplitText.create(text1, splitConfig);
@@ -178,7 +186,7 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
     tl.to(
       [...split1.chars, ...split2.chars],
       {
-        y: -lineHeightPx,
+        y: () => -lineHeightPx(),
         duration: d(CHAR_DURATION_S),
         stagger: { amount: d(STAGGER_AMOUNT_S) },
         ease: CHAR_EASE,
@@ -220,11 +228,11 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
       // real content extent regardless of the box's own computed width —
       // same reasoning already applied to the ticker rows in
       // use-cta-marquee.ts — so half of it is exactly one slot's width.
-      const iconSlotWidthPx = iconRow.scrollWidth / 2;
+      const iconSlotWidthPx = () => iconRow.scrollWidth / 2;
       tl.to(
         iconRow,
         {
-          x: -iconSlotWidthPx,
+          x: () => -iconSlotWidthPx(),
           duration: d(ICON_ROLL_DURATION_S),
           ease: ICON_ROLL_EASE,
         },
@@ -256,7 +264,7 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
     labelSizeClass,
     iconSlotSizeClass,
     iconSizeClass,
-    containerRef,
+    setContainerRef,
     dashRef,
     notch1Ref,
     notch2Ref,

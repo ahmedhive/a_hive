@@ -1,10 +1,9 @@
+import { QuoteForm, SayHelloForm } from "../contact-form/components";
 import { IContactTab } from "./contact-tabs.interface";
 
-// Each tab owns a form; the forms are not built yet, so each panel shows a
-// short placeholder.
 export const CONTACT_TABS: IContactTab[] = [
-  { id: "say-hello", label: "Say hello", placeholder: "Hello form" },
-  { id: "get-a-quote", label: "Get a quote", placeholder: "Quote form" },
+  { id: "say-hello", label: "Say hello", Form: SayHelloForm },
+  { id: "get-a-quote", label: "Get a quote", Form: QuoteForm },
 ];
 
 export const CONTACT_TAB_CLASS =

@@ -10,6 +10,7 @@ export default function CustomButton(props: ICustomButton) {
     label,
     href,
     target = "_self",
+    type = "button",
     className,
     icon: Icon,
     filled = false,
@@ -19,7 +20,7 @@ export default function CustomButton(props: ICustomButton) {
   } = props;
 
   const {
-    containerRef,
+    setContainerRef,
     dashRef,
     notch1Ref,
     notch2Ref,
@@ -47,30 +48,29 @@ export default function CustomButton(props: ICustomButton) {
     borderColor,
   });
 
-  return (
-    <Link
-      ref={containerRef}
-      href={href}
-      target={target}
-      style={borderStyle}
-      rel={target === "_blank" ? "noreferrer" : undefined}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocus={onMouseEnter}
-      onBlur={onMouseLeave}
-      className={cn(
-        "relative inline-flex items-center rounded-full border-2",
-        borderColorClass,
-        filled ? "bg-rose-light" : "bg-transparent",
-        isLg
-          ? `gap-[clamp(0.25rem,1.39vw,1.25rem)] py-[clamp(0.5rem,1.94vw,1.75rem)]
+  const sharedProps = {
+    ref: setContainerRef,
+    style: borderStyle,
+    onMouseEnter,
+    onMouseLeave,
+    onFocus: onMouseEnter,
+    onBlur: onMouseLeave,
+    className: cn(
+      "relative inline-flex items-center rounded-full border-2",
+      borderColorClass,
+      filled ? "bg-rose-light" : "bg-transparent",
+      isLg
+        ? `gap-[clamp(0.25rem,1.39vw,1.25rem)] py-[clamp(0.5rem,1.94vw,1.75rem)]
             pr-[clamp(0.5rem,4.17vw,3.75rem)] pl-(--button-lg-notch-offset)`
-          : `gap-3 py-4 px-5.5
+        : `gap-3 py-4 px-5.5
             md:px-7.5
             lg:py-5.75 lg:px-10`,
-        className,
-      )}
-    >
+      className,
+    ),
+  };
+
+  const content = (
+    <>
       {/* Notch marks: small white stitches sitting on the border itself —
           only make sense against a visible border, so they shrink and
           slide off toward the nearest edge once the button fills (or,
@@ -192,6 +192,21 @@ export default function CustomButton(props: ICustomButton) {
           </span>
         </span>
       )}
+    </>
+  );
+
+  return href !== undefined ? (
+    <Link
+      {...sharedProps}
+      href={href}
+      target={target}
+      rel={target === "_blank" ? "noreferrer" : undefined}
+    >
+      {content}
     </Link>
+  ) : (
+    <button {...sharedProps} type={type}>
+      {content}
+    </button>
   );
 }

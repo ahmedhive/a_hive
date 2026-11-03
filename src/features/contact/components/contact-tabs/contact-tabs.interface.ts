@@ -1,6 +1,8 @@
+import { ComponentType } from "react";
+
 export interface IContactTab {
   id: string;
   label: string;
-  // Stands in for the form until it is built.
-  placeholder: string;
+  // The form this tab's panel shows.
+  Form: ComponentType;
 }
