@@ -5,6 +5,7 @@ export { Flip } from "./gsap-flip";
 export {
   cn,
   prefersReducedMotion,
+  shuffle,
   FULL_INTERSECTION_THRESHOLDS,
   pickMostIntersecting,
   PLAY_ONCE_ON_ENTER,
