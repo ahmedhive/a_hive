@@ -1,8 +1,8 @@
 "use client";
 
+import { ServiceVideo } from "@/components";
 import { DecorativeLines } from "@/layout/components";
 import { cn } from "@/lib";
-import { ServiceVideo } from "./components";
 import {
   EXPERT_BADGE,
   EXPERT_LINE_GAP_PX,
@@ -11,6 +11,8 @@ import {
   EXPERT_SOLUTIONS,
   EXPERT_TAGS_LABEL,
   EXPERT_TITLE,
+  EXPERT_VIDEO_BUTTON_CLASS,
+  EXPERT_VIDEO_CLASS,
 } from "./expert-solutions.data";
 import useExpertSolutions from "./use-expert-solutions";
 
@@ -69,7 +71,13 @@ export default function ExpertSolutions() {
                       ))}
                     </ul>
                   </div>
-                  <ServiceVideo src={video} poster={poster} label={title} />
+                  <ServiceVideo
+                    src={video}
+                    poster={poster}
+                    label={title}
+                    className={EXPERT_VIDEO_CLASS}
+                    buttonClassName={EXPERT_VIDEO_BUTTON_CLASS}
+                  />
                 </div>
               </article>
             ))}

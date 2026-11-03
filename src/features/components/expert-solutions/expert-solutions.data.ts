@@ -88,3 +88,8 @@ export const EXPERT_BADGE_REVEAL_START_S = 1;
 export const EXPERT_BADGE_REVEAL_DURATION_S = 0.6;
 export const EXPERT_BADGE_REVEAL_FROM_SCALE = 0.5;
 export const EXPERT_BADGE_REVEAL_EASE = "back.out";
+
+// Box and button of each row's video.
+export const EXPERT_VIDEO_CLASS =
+  "aspect-4/3 max-w-150 flex-[200px] rounded-2xl sm:rounded-[20px] md:rounded-3xl lg:rounded-[40px] max-md:max-w-none max-md:basis-80 2xl:basis-150";
+export const EXPERT_VIDEO_BUTTON_CLASS = "right-4 bottom-4";
