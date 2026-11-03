@@ -9,6 +9,7 @@ export const CTA_HREF = ROUTES.CONTACT;
 // frame identical to the start, so `repeat: -1` reads as continuous motion
 // with no visible seam.
 export const TICKER_REPEAT_COUNT = 2;
+export const TICKER_COPIES = Array.from({ length: TICKER_REPEAT_COUNT });
 
 // A literal px/second speed (not a fixed seconds duration) — duration is
 // derived per-row from its own measured width in use-cta-marquee.ts, so

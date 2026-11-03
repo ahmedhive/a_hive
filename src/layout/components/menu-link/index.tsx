@@ -49,7 +49,7 @@ export default function MenuLink(props: IMenuLinkProps) {
           <span
             ref={text1Ref}
             aria-hidden
-            className="block font-heading font-normal text-(length:--_typography---font-sizes--nav--menu-item) leading-[0.5] tracking-[-0.01em] text-center text-[#808080] uppercase"
+            className="block font-heading font-normal text-(length:--_typography---font-sizes--nav--menu-item) leading-[0.5] tracking-[-0.01em] text-center text-(color:--stroke) uppercase"
           >
             {label}
           </span>

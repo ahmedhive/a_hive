@@ -6,11 +6,9 @@ import {
   CTA_HREF,
   CTA_LABEL,
   CTA_TICKER_TEXT,
-  TICKER_REPEAT_COUNT,
+  TICKER_COPIES,
 } from "./cta-marquee.data";
 import useCtaMarquee from "./use-cta-marquee";
-
-const TICKER_COPIES = Array.from({ length: TICKER_REPEAT_COUNT });
 
 export default function CtaMarquee() {
   const { row1Ref, row2Ref } = useCtaMarquee();
