@@ -37,3 +37,11 @@ export function pickMostIntersecting(
   }
   return best;
 }
+
+// ScrollTrigger `toggleActions` for a reveal that plays once when its start is
+// reached and never reverses or replays. Used instead of `once: true`: that
+// option kills the trigger the moment it fires, and when the page loads with
+// the scroll position already past the start (a refresh partway down) the kill
+// happens while ScrollTrigger is still looping over its trigger list, which
+// throws "Cannot read properties of undefined (reading 'end')".
+export const PLAY_ONCE_ON_ENTER = "play none none none";

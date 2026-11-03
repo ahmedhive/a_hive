@@ -73,6 +73,10 @@ export const FEEDBACK_HOVER_SHIFT_VW = [
   [0, -8, 0, 10],
   [0, -8, -10, 0],
 ];
+export const FEEDBACK_HOVER_QUERY =
+  "(min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference)";
+// Marks the hover tweens so cleanup can kill them without touching the fly-in.
+export const FEEDBACK_HOVER_TWEEN_TAG = "hover";
 export const FEEDBACK_HOVER_SCALE = 1.1;
 export const FEEDBACK_HOVER_IN_S = 0.8;
 export const FEEDBACK_HOVER_OUT_S = 0.6;

@@ -1,5 +1,11 @@
 import { Quotes, TrustedFounders } from "../components";
-import { HatsIWear, HeroBanner, StatsGrid, WhyWorkWithMe } from "./components";
+import {
+  HatsIWear,
+  HeroBanner,
+  LifeBehindTheWork,
+  StatsGrid,
+  WhyWorkWithMe,
+} from "./components";
 
 export default function About() {
   return (
@@ -10,6 +16,7 @@ export default function About() {
       <HatsIWear />
       <Quotes />
       <TrustedFounders />
+      <LifeBehindTheWork />
     </main>
   );
 }

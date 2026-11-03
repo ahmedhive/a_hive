@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import {
   gsap,
+  PLAY_ONCE_ON_ENTER,
   prefersReducedMotion,
   SplitText,
   useIsomorphicLayoutEffect,
@@ -46,7 +47,7 @@ export default function useHatsIWear() {
       scrollTrigger: {
         trigger: title,
         start: HATS_REVEAL_SCROLL_START,
-        once: true,
+        toggleActions: PLAY_ONCE_ON_ENTER,
       },
     });
     tl.from(split.chars, {
@@ -85,23 +86,26 @@ export default function useHatsIWear() {
       const risers = track.querySelectorAll<HTMLElement>(
         "[data-hat-card]:not(:first-child)",
       );
-      gsap.fromTo(
-        risers,
-        { yPercent: HATS_CARD_FROM_Y_PERCENT, opacity: 0 },
-        {
-          yPercent: 0,
-          opacity: 1,
-          duration: HATS_CARD_DURATION_S,
-          stagger: HATS_CARD_STAGGER_S,
-          ease: HATS_CARD_EASE,
+      gsap
+        .timeline({
           scrollTrigger: {
             trigger: track,
             start: HATS_SCROLL_START,
             end: HATS_SCROLL_END,
             scrub: HATS_SCRUB_S,
           },
-        },
-      );
+        })
+        .fromTo(
+          risers,
+          { yPercent: HATS_CARD_FROM_Y_PERCENT, opacity: 0 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            duration: HATS_CARD_DURATION_S,
+            stagger: HATS_CARD_STAGGER_S,
+            ease: HATS_CARD_EASE,
+          },
+        );
     });
 
     return () => mm.revert();

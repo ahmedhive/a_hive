@@ -7,6 +7,7 @@ export {
   prefersReducedMotion,
   FULL_INTERSECTION_THRESHOLDS,
   pickMostIntersecting,
+  PLAY_ONCE_ON_ENTER,
 } from "./utils";
 export { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 export {

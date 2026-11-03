@@ -1,5 +1,10 @@
 import { useRef } from "react";
-import { gsap, prefersReducedMotion, useIsomorphicLayoutEffect } from "@/lib";
+import {
+  gsap,
+  PLAY_ONCE_ON_ENTER,
+  prefersReducedMotion,
+  useIsomorphicLayoutEffect,
+} from "@/lib";
 import {
   COUNTER_ROLL_DURATION_S,
   COUNTER_ROLL_EASE,
@@ -33,7 +38,7 @@ export default function useStatsGrid() {
         scrollTrigger: {
           trigger: counter,
           start: COUNTER_SCROLL_START,
-          once: true,
+          toggleActions: PLAY_ONCE_ON_ENTER,
         },
       });
       tl.from(

@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import {
   gsap,
+  PLAY_ONCE_ON_ENTER,
   prefersReducedMotion,
   SplitText,
   useIsomorphicLayoutEffect,
@@ -48,7 +49,7 @@ export default function useExpertSolutions() {
         scrollTrigger: {
           trigger: targets[i],
           start: EXPERT_REVEAL_SCROLL_START,
-          once: true,
+          toggleActions: PLAY_ONCE_ON_ENTER,
         },
       });
       tl.from(split.chars, {

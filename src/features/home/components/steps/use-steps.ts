@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import {
   gsap,
+  PLAY_ONCE_ON_ENTER,
   prefersReducedMotion,
   SplitText,
   useIsomorphicLayoutEffect,
@@ -44,13 +45,13 @@ export default function useSteps() {
     const subtitleSplit = SplitText.create(subtitle, splitConfig);
 
     // Plays once when the header's top reaches the trigger line and never
-    // replays (once: true). Cleanup reverts the splits, so nothing leaks
+    // replays. Cleanup reverts the splits, so nothing leaks
     // across StrictMode's double-invoke.
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: header,
         start: STEPS_REVEAL_SCROLL_START,
-        once: true,
+        toggleActions: PLAY_ONCE_ON_ENTER,
       },
     });
 

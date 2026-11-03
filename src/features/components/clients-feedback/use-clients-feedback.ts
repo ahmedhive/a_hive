@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import {
   gsap,
+  PLAY_ONCE_ON_ENTER,
   prefersReducedMotion,
   ScrollTrigger,
   SplitText,
@@ -21,8 +22,10 @@ import {
   FEEDBACK_HOVER_EASE,
   FEEDBACK_HOVER_IN_S,
   FEEDBACK_HOVER_OUT_S,
+  FEEDBACK_HOVER_QUERY,
   FEEDBACK_HOVER_SCALE,
   FEEDBACK_HOVER_SHIFT_VW,
+  FEEDBACK_HOVER_TWEEN_TAG,
   FEEDBACK_REVEAL_SCROLL_START,
   FEEDBACK_SCROLL_QUERY,
   FEEDBACK_TILT_DEG,
@@ -53,7 +56,7 @@ export default function useClientsFeedback() {
       scrollTrigger: {
         trigger: title,
         start: FEEDBACK_REVEAL_SCROLL_START,
-        once: true,
+        toggleActions: PLAY_ONCE_ON_ENTER,
       },
     });
     tl.from(split.chars, {
@@ -99,15 +102,24 @@ export default function useClientsFeedback() {
         scrollTrigger: {
           trigger: cards,
           start: FEEDBACK_CARDS_SCROLL_START,
-          once: true,
+          toggleActions: PLAY_ONCE_ON_ENTER,
         },
       });
+    });
 
+    // Hover needs a real pointer: on a touch screen a tap fires mouseenter but
+    // there is no mouseleave, so the neighbours would stay shifted.
+    mm.add(FEEDBACK_HOVER_QUERY, () => {
       const items = Array.from(cards.children) as HTMLElement[];
       const faces = items.map((item) => item.firstElementChild as HTMLElement);
 
+      // Whether a hover ever ran: if not, the cards are exactly as the fly-in
+      // left (or has yet to leave) them and cleanup must not touch them.
+      let touched = false;
+
       // Moves every card to the state for `hovered` (or back to rest).
       const settle = (hovered: number | null) => {
+        touched = true;
         const entering = hovered !== null;
         const duration = entering ? FEEDBACK_HOVER_IN_S : FEEDBACK_HOVER_OUT_S;
         items.forEach((item, i) => {
@@ -116,6 +128,7 @@ export default function useClientsFeedback() {
             duration,
             ease: FEEDBACK_HOVER_EASE,
             overwrite: "auto",
+            data: FEEDBACK_HOVER_TWEEN_TAG,
           });
           const lifted = i === hovered;
           gsap.to(faces[i], {
@@ -124,6 +137,7 @@ export default function useClientsFeedback() {
             duration,
             ease: FEEDBACK_HOVER_EASE,
             overwrite: "auto",
+            data: FEEDBACK_HOVER_TWEEN_TAG,
           });
         });
       };
@@ -141,8 +155,12 @@ export default function useClientsFeedback() {
 
       return () => {
         listeners.forEach((remove) => remove());
-        gsap.killTweensOf([...items, ...faces]);
-        gsap.set(items, { clearProps: "x" });
+        // Only the hover's own tweens: the fly-in animates the same items.
+        gsap
+          .getTweensOf([...items, ...faces])
+          .filter((tween) => tween.data === FEEDBACK_HOVER_TWEEN_TAG)
+          .forEach((tween) => tween.kill());
+        if (touched) gsap.set(items, { clearProps: "x" });
         // Back to the resting values React rendered, not cleared: clearing
         // would drop the tilt on desktop.
         faces.forEach((face, i) =>

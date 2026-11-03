@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import {
   gsap,
+  PLAY_ONCE_ON_ENTER,
   prefersReducedMotion,
   ScrollTrigger,
   SplitText,
@@ -53,7 +54,7 @@ export default function useFeaturedWorks() {
       scrollTrigger: {
         trigger: title,
         start: WORKS_REVEAL_SCROLL_START,
-        once: true,
+        toggleActions: PLAY_ONCE_ON_ENTER,
       },
     });
 

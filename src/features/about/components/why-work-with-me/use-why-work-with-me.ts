@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import {
   gsap,
+  PLAY_ONCE_ON_ENTER,
   prefersReducedMotion,
   SplitText,
   useIsomorphicLayoutEffect,
@@ -72,7 +73,7 @@ export default function useWhyWorkWithMe() {
           scrollTrigger: {
             trigger: target,
             start: WHY_WORK_REVEAL_SCROLL_START,
-            once: true,
+            toggleActions: PLAY_ONCE_ON_ENTER,
           },
         });
         tl.from(
