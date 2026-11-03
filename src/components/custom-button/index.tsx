@@ -11,6 +11,7 @@ export default function CustomButton(props: ICustomButton) {
     href,
     target = "_self",
     type = "button",
+    disabled,
     className,
     icon: Icon,
     filled = false,
@@ -65,6 +66,7 @@ export default function CustomButton(props: ICustomButton) {
         : `gap-3 py-4 px-5.5
             md:px-7.5
             lg:py-5.75 lg:px-10`,
+      disabled && "cursor-not-allowed opacity-60",
       className,
     ),
   };
@@ -205,7 +207,12 @@ export default function CustomButton(props: ICustomButton) {
       {content}
     </Link>
   ) : (
-    <button {...sharedProps} type={type}>
+    <button
+      {...sharedProps}
+      type={type}
+      disabled={disabled}
+      aria-busy={disabled}
+    >
       {content}
     </button>
   );

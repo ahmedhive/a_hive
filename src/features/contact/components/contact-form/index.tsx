@@ -7,22 +7,33 @@ import {
   RHFTextarea,
   RHFTextField,
 } from "@/components/react-hook-form";
+import { cn } from "@/lib";
 import {
+  CONTACT_ERROR_MESSAGE,
   CONTACT_FIELD_LABELS,
   CONTACT_FIELD_PLACEHOLDERS,
   CONTACT_FIELDS_CLASS,
   CONTACT_FORM_CLASS,
+  CONTACT_HONEYPOT_CLASS,
+  CONTACT_HONEYPOT_LABEL,
   CONTACT_MESSAGE_CLASS,
+  CONTACT_SENDING_LABEL,
+  CONTACT_STATUS_CLASS,
+  CONTACT_STATUS_ERROR_CLASS,
   CONTACT_SUBMIT_LABEL,
+  CONTACT_SUCCESS_MESSAGE,
 } from "./contact-form.data";
 import { IContactFormProps } from "./contact-form.interface";
+import TurnstileField from "./components/turnstile-field";
+import { HONEYPOT_FIELD } from "./contact-form.fields";
 import useContactForm from "./use-contact-form";
 
 export default function ContactForm<TValues extends FieldValues>(
   props: IContactFormProps<TValues>,
 ) {
   const { children } = props;
-  const { methods, onSubmit } = useContactForm(props);
+  const { methods, onSubmit, status, challengeKey } = useContactForm(props);
+  const { isSubmitting } = methods.formState;
 
   return (
     <FormProvider
@@ -67,8 +78,34 @@ export default function ContactForm<TValues extends FieldValues>(
           wrapperClassName={CONTACT_MESSAGE_CLASS}
           required
         />
+        <div aria-hidden className={CONTACT_HONEYPOT_CLASS}>
+          <RHFTextField
+            name={HONEYPOT_FIELD}
+            label={CONTACT_HONEYPOT_LABEL}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
       </div>
-      <CustomButton type="submit" label={CONTACT_SUBMIT_LABEL} />
+      <TurnstileField key={challengeKey} />
+      <CustomButton
+        type="submit"
+        label={isSubmitting ? CONTACT_SENDING_LABEL : CONTACT_SUBMIT_LABEL}
+        disabled={isSubmitting}
+      />
+      {status === "success" && (
+        <p role="status" className={CONTACT_STATUS_CLASS}>
+          {CONTACT_SUCCESS_MESSAGE}
+        </p>
+      )}
+      {status === "error" && (
+        <p
+          role="alert"
+          className={cn(CONTACT_STATUS_CLASS, CONTACT_STATUS_ERROR_CLASS)}
+        >
+          {CONTACT_ERROR_MESSAGE}
+        </p>
+      )}
     </FormProvider>
   );
 }

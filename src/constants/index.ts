@@ -5,6 +5,10 @@ import { ROUTES } from "./routes";
 export const BRAND_NAME = "AHMEDHIVE";
 export const BRAND_TEXT = `// ${BRAND_NAME}`;
 
+// Where visitors reach me: shown in the menu, and where the contact form's
+// messages are delivered.
+export const CONTACT_EMAIL = "ahmed.hiivee@gmail.com";
+
 // Single source for the WhatsApp number — the wa.me link (social icon, about
 // CTA) and the display/tel: format (menu contact bar) both derive from this
 // rather than each hardcoding their own copy of the same digits.

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { HONEYPOT_FIELD, TURNSTILE_TOKEN_FIELD } from "./contact-form.fields";
 
 // Digits with an optional leading + and the usual separators, 6 to 20 long.
 const PHONE_PATTERN = /^[+()\d][\d\s().-]{5,19}$/;
@@ -29,4 +30,8 @@ export const contactBaseSchema = z.object({
     .trim()
     .min(1, "Message is required")
     .max(5000, "Message must be 5000 characters or less"),
+  [HONEYPOT_FIELD]: z.string().max(200),
+  [TURNSTILE_TOKEN_FIELD]: z
+    .string()
+    .min(1, "Please wait for the spam check to finish"),
 });

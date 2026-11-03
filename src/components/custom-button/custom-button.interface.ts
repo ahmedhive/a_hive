@@ -8,6 +8,7 @@ export interface ICustomButton {
   target?: "_self" | "_blank" | "_parent" | "_top";
   // Only for the <button> form.
   type?: "button" | "submit";
+  disabled?: boolean;
   className?: string;
   // Trailing icon badge (e.g. ArrowIcon) — omitted by default. Passed as a
   // component reference (not a rendered element) so it can be rendered

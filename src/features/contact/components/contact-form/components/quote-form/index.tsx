@@ -1,6 +1,7 @@
 "use client";
 
 import { RHFSelect } from "@/components/react-hook-form";
+import { sendContactMessage } from "../../../../send-contact-message";
 import ContactForm from "../..";
 import {
   QUOTE_BUDGET_LABEL,
@@ -18,6 +19,7 @@ export default function QuoteForm() {
       schema={quoteSchema}
       // The selects start empty, which is not one of their allowed values yet.
       defaultValues={QUOTE_DEFAULT_VALUES as TQuoteValues}
+      send={(values) => sendContactMessage({ form: "get-a-quote", values })}
     >
       <RHFSelect
         name="projectType"

@@ -2,11 +2,10 @@
 
 import { CloseIcon } from "@/assets/icons";
 import { SocialLinks } from "@/components";
-import { BRAND_TEXT, MENU_NAV_LINKS } from "@/constants";
+import { BRAND_TEXT, CONTACT_EMAIL, MENU_NAV_LINKS } from "@/constants";
 import { cn } from "@/lib";
 import { MenuLink } from "@/layout/components";
 import {
-  CONTACT_EMAIL,
   CONTACT_PHONE,
   TAGLINE_ROTATE_DEG,
   TAGLINE_TEXT,
