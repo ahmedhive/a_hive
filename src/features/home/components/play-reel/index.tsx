@@ -25,7 +25,7 @@ export default function PlayReel() {
     handleEnded,
   } = usePlayReel();
   return (
-    <section className="overflow-clip px-[5%] py-25 motion-safe:lg:px-0 motion-safe:lg:py-0">
+    <section className="overflow-clip px-[5%] py-16 sm:py-20 md:py-25 lg:py-37.5 motion-safe:lg:px-0 motion-safe:lg:py-0">
       <h2 className="sr-only">{REEL_LABEL}</h2>
 
       <div ref={trackRef} className="motion-safe:lg:h-[250vh]">

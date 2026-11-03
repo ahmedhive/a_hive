@@ -63,8 +63,8 @@ export default function HeroBanner() {
                 key={avatar.src}
                 src={avatar}
                 alt=""
-                sizes="48px"
-                className="-ml-5 size-9.75 rounded-full border-2 border-white object-cover first:ml-0 md:size-12"
+                sizes="64px"
+                className="-ml-5 size-12.75 rounded-full border-2 border-white object-cover first:ml-0 md:-ml-6.5 md:size-16"
               />
             ))}
           </div>

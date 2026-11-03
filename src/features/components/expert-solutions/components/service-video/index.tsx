@@ -9,7 +9,7 @@ export default function ServiceVideo(props: IServiceVideoProps) {
   const { videoRef, paused, toggle } = useServiceVideo();
 
   return (
-    <div className="relative aspect-4/3 max-w-150 flex-[200px] overflow-hidden rounded-3xl max-md:max-w-none max-md:basis-80 2xl:basis-150">
+    <div className="relative aspect-4/3 max-w-150 flex-[200px] overflow-hidden rounded-2xl sm:rounded-[20px] md:rounded-3xl lg:rounded-[40px] max-md:max-w-none max-md:basis-80 2xl:basis-150">
       <video
         ref={videoRef}
         src={src}

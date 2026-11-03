@@ -16,14 +16,14 @@ export default function AboutMe() {
   const { titleRef } = useAboutMe();
 
   return (
-    <section className="relative overflow-clip px-[5%] py-16 text-black-secondary sm:py-20 md:py-28 lg:py-32">
+    <section className="relative overflow-clip px-[5%] text-black-secondary py-16 sm:py-20 md:py-25 lg:py-37.5">
       <div className="mx-auto flex w-full max-w-[1680px] flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
         <div>
           <Caption
             prefix={ABOUT_CAPTION_PREFIX}
             emphasis={ABOUT_CAPTION_EMPHASIS}
             suffix={ABOUT_CAPTION_SUFFIX}
-            className="mb-6"
+            className="mb-5 sm:mb-6 lg:mb-10"
           />
 
           <h2
@@ -38,7 +38,7 @@ export default function AboutMe() {
             label={ABOUT_CTA_LABEL}
             href={ABOUT_CTA_HREF}
             target="_blank"
-            className="mt-8"
+            className="mt-5 sm:mt-6 lg:mt-8"
           />
         </div>
 

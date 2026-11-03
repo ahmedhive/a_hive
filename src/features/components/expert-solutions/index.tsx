@@ -21,10 +21,10 @@ export default function ExpertSolutions() {
     <>
       <section
         ref={sectionRef}
-        className="bg-blush px-[5%] py-25 text-black-secondary lg:py-37.5"
+        className="bg-blush px-[5%] text-black-secondary py-16 sm:py-20 md:py-25 lg:py-37.5"
       >
         <div className="mx-auto w-full max-w-420">
-          <header className="relative mb-13 text-center lg:mb-20">
+          <header className="relative mb-8 sm:mb-11 md:mb-13 lg:mb-20 text-center">
             <h2
               ref={titleRef}
               className="text-(length:--_typography---font-sizes--heading--h2) leading-none font-normal tracking-[-0.03em] uppercase"
@@ -55,7 +55,7 @@ export default function ExpertSolutions() {
                     >
                       {title}
                     </h3>
-                    <p className="mb-4 font-bold text-black-secondary uppercase">
+                    <p className="mb-4 text-base font-bold text-black-secondary uppercase lg:mb-5 lg:text-xl">
                       {EXPERT_TAGS_LABEL}
                     </p>
                     <ul className="flex max-w-152.5 flex-wrap gap-x-2 gap-y-3">

@@ -17,9 +17,9 @@ export default function ClientsFeedback() {
   const { titleRef, badgeRef, cardsRef } = useClientsFeedback();
 
   return (
-    <section className="overflow-clip px-[5%] pb-16 text-black-secondary sm:pb-20 lg:pb-25 xl:pb-37.5">
+    <section className="overflow-clip px-[5%] text-black-secondary pb-16 sm:pb-20 md:pb-25 lg:pb-37.5">
       <div className="mx-auto w-full max-w-420">
-        <header className="relative mb-13 text-center lg:mb-20">
+        <header className="relative mb-8 sm:mb-11 md:mb-13 lg:mb-20 text-center">
           <h2
             ref={titleRef}
             className="text-(length:--_typography---font-sizes--heading--h2) leading-none font-normal tracking-[-0.03em] uppercase"
@@ -51,7 +51,7 @@ export default function ClientsFeedback() {
             >
               <article
                 className={cn(
-                  "flex h-full flex-col lg:rotate-(--tilt) lg:scale-(--hover-scale) justify-between rounded-3xl p-5 sm:p-6 md:min-h-122.5 lg:min-h-155 lg:rounded-[40px] lg:p-8",
+                  "flex h-full flex-col lg:rotate-(--tilt) lg:scale-(--hover-scale) justify-between p-5 sm:p-6 md:min-h-122.5 lg:min-h-155 lg:p-8 rounded-2xl sm:rounded-[20px] md:rounded-3xl lg:rounded-[40px]",
                   dark ? "bg-taupe text-white" : "bg-mist text-black-secondary",
                 )}
                 style={
@@ -65,7 +65,7 @@ export default function ClientsFeedback() {
                   count={FEEDBACK_STAR_COUNT}
                   label={`${FEEDBACK_STAR_COUNT} out of ${FEEDBACK_STAR_COUNT} stars`}
                   className={cn(
-                    "mb-13 gap-1 lg:mb-0",
+                    "gap-1 max-md:mb-13",
                     dark ? "text-amber" : "text-flame",
                   )}
                   starClassName="size-5 shrink-0 lg:size-7.5"
@@ -74,18 +74,18 @@ export default function ClientsFeedback() {
                   <blockquote className="mb-5 text-base leading-[1.4] md:mb-6 md:text-xl lg:mb-10 lg:text-2xl 2xl:text-[28px]">
                     {quote}
                   </blockquote>
-                  <div className="flex items-center gap-2 lg:gap-3">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <Image
                       src={image}
                       alt=""
                       sizes="64px"
-                      className="size-12 shrink-0 rounded-full object-cover sm:size-14 lg:size-16"
+                      className="size-12 shrink-0 rounded-full object-cover sm:size-14 md:size-16"
                     />
                     <div>
-                      <p className="mb-1 font-heading text-base leading-[0.8] md:text-xl lg:mb-2 lg:text-2xl">
+                      <p className="mb-1 font-heading text-base leading-[0.8] md:mb-2 md:text-xl lg:text-2xl">
                         {name}
                       </p>
-                      <p className="text-base md:text-lg">{role}</p>
+                      <p className="text-base lg:text-lg">{role}</p>
                     </div>
                   </div>
                 </div>

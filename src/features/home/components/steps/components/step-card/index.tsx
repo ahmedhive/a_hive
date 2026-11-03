@@ -28,8 +28,8 @@ export default function StepCard(props: IStepCardProps) {
         className="relative z-1 mb-8 hidden shrink-0 text-black-secondary lg:block"
       />
 
-      <div className="relative z-2 w-full grow rounded-[40px] bg-white px-4 py-11 text-center sm:py-8 lg:pt-10 lg:pb-16 xl:px-5">
-        <p className="mb-6 font-heading text-2xl leading-none tracking-[-0.01em] text-black-secondary">
+      <div className="relative z-2 w-full grow bg-white rounded-2xl sm:rounded-[20px] md:rounded-3xl lg:rounded-[40px] px-4 py-11 text-center sm:py-8 lg:pt-10 lg:pb-16 xl:px-5 2xl:px-10">
+        <p className="mb-4 font-heading text-base leading-none md:mb-5 md:text-xl lg:mb-6 lg:text-2xl tracking-[-0.01em] text-black-secondary">
           Step {step.count}
         </p>
 
@@ -59,7 +59,9 @@ export default function StepCard(props: IStepCardProps) {
           id={descriptionId}
           className="overflow-hidden lg:invisible lg:h-0"
         >
-          <p className="pt-6 text-lg leading-[1.4]">{step.description}</p>
+          <p className="pt-4 text-base leading-[1.4] md:pt-5 md:text-lg lg:pt-6">
+            {step.description}
+          </p>
         </div>
 
         {/* Centered on the card's bottom edge: the wrapper starts at the edge
