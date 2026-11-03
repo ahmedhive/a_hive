@@ -1,13 +1,12 @@
+import { ITabItem } from "@/components/tabs/tabs.interface";
 import { QuoteForm, SayHelloForm } from "../contact-form/components";
-import { IContactTab } from "./contact-tabs.interface";
 
-export const CONTACT_TABS: IContactTab[] = [
-  { id: "say-hello", label: "Say hello", Form: SayHelloForm },
-  { id: "get-a-quote", label: "Get a quote", Form: QuoteForm },
+export const CONTACT_TABS_LABEL = "Contact form";
+export const CONTACT_TABS: ITabItem[] = [
+  { id: "say-hello", label: "Say hello", Content: SayHelloForm },
+  { id: "get-a-quote", label: "Get a quote", Content: QuoteForm },
 ];
 
-export const CONTACT_TAB_CLASS =
-  "cursor-pointer border-b-4 pb-2 font-heading text-(length:--_typography---font-sizes--heading--h5) leading-none uppercase transition-opacity duration-300";
-export const CONTACT_TAB_ACTIVE_CLASS = "border-black-secondary opacity-100";
-export const CONTACT_TAB_INACTIVE_CLASS =
-  "border-transparent opacity-20 hover:opacity-60";
+// The tab row's spacing: gaps between tabs and the space above the form
+// follow the reference (28px / 60px apart; 24 / 36 / 48px above).
+export const CONTACT_TABS_LIST_CLASS = "mb-6 gap-7 md:mb-9 lg:mb-12 lg:gap-15";
