@@ -17,7 +17,7 @@ import {
 import useHeroBanner from "./use-hero-banner";
 
 export default function HeroBanner() {
-  const { captionRef, titleRef, imageRef } = useHeroBanner();
+  const { captionRef, titleRef } = useHeroBanner();
 
   return (
     <section className="relative overflow-clip px-[5%] pt-30 pb-16 text-black-secondary min-[480px]:pb-20 min-[768px]:pt-37.5 min-[768px]:pb-25 min-[992px]:pt-46 min-[992px]:pb-37.5 min-[1440px]:pt-68.25 min-[1920px]:overflow-visible">
@@ -42,7 +42,7 @@ export default function HeroBanner() {
         >
           {HERO_TITLE_BEFORE}
           <span
-            ref={imageRef}
+            data-hero-image
             aria-hidden
             className="mx-1 inline-block aspect-95/44 w-18.75 overflow-hidden rounded-full align-middle min-[480px]:w-22.5 min-[768px]:w-27.5 min-[992px]:mx-2 min-[992px]:w-37.5 min-[1920px]:w-52.5"
           >
