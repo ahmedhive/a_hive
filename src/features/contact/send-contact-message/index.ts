@@ -9,7 +9,7 @@ import {
 import { contactBaseSchema } from "../components/contact-form/contact-form.schema";
 import { quoteSchema } from "../components/contact-form/components/quote-form/quote-form.schema";
 import {
-  CONFIRMATION_SUBJECT,
+  // CONFIRMATION_SUBJECT, // confirmation
   CONTACT_FROM,
   SEND_TIMEOUT_MS,
 } from "./send-contact-message.data";
@@ -18,8 +18,8 @@ import {
   TSendContactMessageResult,
 } from "./send-contact-message.interface";
 import {
-  buildConfirmationHtml,
-  buildConfirmationText,
+  // buildConfirmationHtml, // confirmation
+  // buildConfirmationText, // confirmation
   buildHtml,
   buildSubject,
   buildText,
@@ -78,22 +78,27 @@ export async function sendContactMessage(
     return { ok: false };
   }
 
+  // The visitor confirmation email is switched off for now: it doubles the
+  // emails per submission, halving the free plan's 100 emails/day (100
+  // submissions/day without it, 50 with it). To bring it back, uncomment this
+  // block and the three imports marked "confirmation" above.
+  //
   // The message has reached me, so the visitor's confirmation is a courtesy:
   // if it fails, the send still counts as done.
-  const { error: confirmationError } = await resend.emails.send(
-    {
-      from: CONTACT_FROM,
-      to: values.email,
-      replyTo: CONTACT_EMAIL,
-      subject: CONFIRMATION_SUBJECT,
-      text: buildConfirmationText(),
-      html: buildConfirmationHtml(),
-    },
-    { signal: AbortSignal.timeout(SEND_TIMEOUT_MS) },
-  );
-  if (confirmationError) {
-    console.error("Resend rejected the confirmation:", confirmationError);
-  }
+  // const { error: confirmationError } = await resend.emails.send(
+  //   {
+  //     from: CONTACT_FROM,
+  //     to: values.email,
+  //     replyTo: CONTACT_EMAIL,
+  //     subject: CONFIRMATION_SUBJECT,
+  //     text: buildConfirmationText(),
+  //     html: buildConfirmationHtml(),
+  //   },
+  //   { signal: AbortSignal.timeout(SEND_TIMEOUT_MS) },
+  // );
+  // if (confirmationError) {
+  //   console.error("Resend rejected the confirmation:", confirmationError);
+  // }
 
   return { ok: true };
 }
