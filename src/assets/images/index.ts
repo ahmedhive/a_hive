@@ -31,7 +31,3 @@ export { default as FeedbackShyamImg } from "./feedback-shyam-img.jpg";
 export { default as FeedbackEthanImg } from "./feedback-ethan-img.jpg";
 export { default as AboutHeaderImg } from "./about-header-img.jpg";
 export { default as AboutStatsGridImg } from "./about-stats-grid-img.jpg";
-export { default as AboutStatsVisual1Img } from "./about-stats-visual-1.svg";
-export { default as AboutStatsVisual2Img } from "./about-stats-visual-2.svg";
-export { default as AboutStatsVisual3Img } from "./about-stats-visual-3.svg";
-export { default as AboutStatsVisual4Img } from "./about-stats-visual-4.svg";

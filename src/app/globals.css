@@ -271,7 +271,7 @@
 /* ─────────────────────────────────────────────────────────────
    Quotes section — the reference's grid-box layout (components/
    quotes). A square-cell background grid (22 columns by 11 rows,
-   11 by 22 from 991px down, hidden from 767px down) with an
+   11 by 22 below `lg`, hidden below `md`) with an
    overlay grid of the same shape holding the strip, the quote box
    and six stat tiles at fixed cell coordinates. The placements
    below are the reference's, breakpoint by breakpoint, written as
@@ -354,7 +354,7 @@
   grid-area: 8 / 20 / 10 / 22;
 }
 
-@media screen and (min-width: 1920px) {
+@media (width >= theme(--breakpoint-2xl)) {
   .quotes-tile {
     padding: 8px;
   }
@@ -363,11 +363,11 @@
   }
 }
 
-/* Per-stat layouts (992px up). The quote box and the "200+" and "3+" tiles
+/* Per-stat layouts (`lg` and up). The quote box and the "200+" and "3+" tiles
    take the cells set for the active stat, which also replace the reference's
-   own 1920px placements for them. "data-quotes-layout" is the key from
+   own `2xl` placements for them. "data-quotes-layout" is the key from
    QUOTES_LAYOUT_KEYS. Keep the media query in step with QUOTES_MOVE_QUERY. */
-@media screen and (min-width: 992px) {
+@media (width >= theme(--breakpoint-lg)) {
   [data-quotes-layout="base"] [data-quotes-area="quote"] {
     grid-area: 4 / 5 / 10 / 15;
   }
@@ -419,7 +419,7 @@
   }
 }
 
-@media screen and (max-width: 991px) {
+@media (width < theme(--breakpoint-lg)) {
   .quotes-bg {
     grid-template-columns: repeat(11, 1fr);
   }
@@ -461,7 +461,7 @@
   }
 }
 
-@media screen and (max-width: 767px) {
+@media (width < theme(--breakpoint-md)) {
   .quotes-section {
     padding: 83px 20px;
   }
@@ -514,7 +514,7 @@
   }
 }
 
-@media screen and (max-width: 479px) {
+@media (width < theme(--breakpoint-sm)) {
   .quotes-section {
     padding-top: 38px;
   }

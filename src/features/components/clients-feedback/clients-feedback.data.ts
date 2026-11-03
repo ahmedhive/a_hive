@@ -48,9 +48,9 @@ export const TESTIMONIALS: ITestimonial[] = [
 // Fly-in, same as the reference's [data-slide-cards] timeline: once the cards
 // reach the middle of the screen they slide in from 100vw to the right,
 // rotated 40deg about their bottom-right corner, staggered over 0.4s. Desktop
-// only; below 992px the cards sit in a static grid.
+// only; below 1024px the cards sit in a static grid.
 export const FEEDBACK_SCROLL_QUERY =
-  "(min-width: 992px) and (prefers-reduced-motion: no-preference)";
+  "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
 export const FEEDBACK_CARDS_SCROLL_START = "top center";
 export const FEEDBACK_CARD_FROM_X = "100vw";
 export const FEEDBACK_CARD_FROM_ROTATION_DEG = 40;

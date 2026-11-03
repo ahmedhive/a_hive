@@ -67,7 +67,7 @@ export const TRUSTED_FAN_EASE = "power2.inOut";
 // Hover on the content (desktop with a real pointer): the content comes to
 // full opacity while the wheel shrinks.
 export const TRUSTED_HOVER_QUERY =
-  "(min-width: 992px) and (hover: hover) and (prefers-reduced-motion: no-preference)";
+  "(min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference)";
 export const TRUSTED_MOTION_QUERY = "(prefers-reduced-motion: no-preference)";
 export const TRUSTED_HOVER_DURATION_S = 0.5;
 export const TRUSTED_HOVER_EASE = "power4.inOut";

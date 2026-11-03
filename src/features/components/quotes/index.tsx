@@ -65,10 +65,10 @@ export default function Quotes() {
             >
               {MARQUEE_COPIES.map((_, i) => (
                 <div key={i} className="flex items-center">
-                  <p className="mr-10 font-medium uppercase max-[479px]:mr-6">
+                  <p className="mr-10 font-medium uppercase max-sm:mr-6">
                     {QUOTES_MARQUEE_TEXT}
                   </p>
-                  <PixelGlyphIcon className="mr-10 shrink-0 max-[479px]:mr-6" />
+                  <PixelGlyphIcon className="mr-10 shrink-0 max-sm:mr-6" />
                 </div>
               ))}
             </div>
@@ -85,21 +85,18 @@ export default function Quotes() {
                 <blockquote>
                   <p
                     ref={quoteRef}
-                    className="mb-8 text-(length:--_typography---font-sizes--body--badge) leading-[1.3] min-[992px]:text-[min(6cqw,2.5rem)] max-[767px]:mb-15 max-[479px]:mb-9.5"
+                    className="mb-8 text-(length:--_typography---font-sizes--body--badge) leading-[1.3] lg:text-[min(6cqw,2.5rem)] max-md:mb-15 max-sm:mb-9.5"
                   >
                     {isPerson ? `"${quote}"` : quote}
                   </p>
                 </blockquote>
                 <figcaption
                   ref={authorRef}
-                  className="border-l border-dashed border-white pl-6 max-[479px]:pl-4"
+                  className="border-l border-dashed border-white pl-6 max-sm:pl-4"
                 >
                   <p className="font-bold uppercase">{title}</p>
                   <p
-                    className={cn(
-                      "max-[479px]:text-base",
-                      !isPerson && "uppercase",
-                    )}
+                    className={cn("max-sm:text-base", !isPerson && "uppercase")}
                   >
                     {subtitle}
                   </p>

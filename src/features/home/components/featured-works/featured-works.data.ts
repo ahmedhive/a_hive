@@ -3,7 +3,7 @@ export const WORKS_BADGE = "DIGITAL SCREENS";
 export const WORKS_CTA_LABEL = "Learn More";
 
 // The pinned stack only exists at 768px and up with motion allowed — the
-// reference drops it at 767px. Must equal the `min-[768px]:` classes in
+// reference drops it at 767px. Must equal the `md:` classes in
 // featured-works/index.tsx and work-card/index.tsx: matchMedia can't read the
 // breakpoint from them.
 export const WORKS_PINNED_QUERY =

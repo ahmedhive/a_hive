@@ -6,12 +6,12 @@ export const REEL_WORDS = ["Play", "Reel"] as const;
 export const REEL_VIDEO_SRC = "/videos/play-reel-vid.mp4";
 export const REEL_POSTER_SRC = "/videos/play-reel-poster.jpg";
 
-// The pinned, scroll-driven layout only exists from 992px up with motion
-// allowed (the reference drops it at 991px). Must equal the
-// `motion-safe:min-[992px]:` classes in index.tsx: matchMedia can't read the
+// The pinned, scroll-driven layout only exists from 1024px up with motion
+// allowed (the reference drops it just below). Must equal the
+// `motion-safe:lg:` classes in index.tsx: matchMedia can't read the
 // breakpoint from them.
 export const REEL_SCROLL_QUERY =
-  "(min-width: 992px) and (prefers-reduced-motion: no-preference)";
+  "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
 
 // The reference's scroll timeline runs on a 250vh track and plays from
 // 32% to 60% of the track's travel through the viewport, which works out to

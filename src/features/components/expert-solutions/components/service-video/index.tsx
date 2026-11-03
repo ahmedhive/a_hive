@@ -78,7 +78,7 @@ export default function ServiceVideo(props: IServiceVideoProps) {
   };
 
   return (
-    <div className="relative aspect-4/3 max-w-150 flex-[200px] overflow-hidden rounded-3xl max-[767px]:max-w-none max-[767px]:basis-80 min-[1920px]:basis-150">
+    <div className="relative aspect-4/3 max-w-150 flex-[200px] overflow-hidden rounded-3xl max-md:max-w-none max-md:basis-80 2xl:basis-150">
       <video
         ref={videoRef}
         src={src}

@@ -17,14 +17,14 @@ export default function WorkCard(props: IWorkCardProps) {
     <article
       style={{ backgroundColor: work.paneColor, zIndex: total - index }}
       className={cn(
-        "group relative mx-auto grid w-full max-w-370 grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] overflow-clip min-[768px]:grid-cols-2",
+        "group relative mx-auto grid w-full max-w-370 grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] overflow-clip md:grid-cols-2",
         RADIUS_CLASS,
         index > 0 &&
-          "motion-safe:min-[768px]:absolute motion-safe:min-[768px]:inset-x-0 motion-safe:min-[768px]:top-0",
+          "motion-safe:md:absolute motion-safe:md:inset-x-0 motion-safe:md:top-0",
       )}
     >
-      <div className="flex flex-col items-start justify-center px-5 py-8 min-[480px]:px-8 min-[480px]:py-10 min-[768px]:py-15 min-[992px]:px-15 min-[992px]:py-20">
-        <h3 className="max-w-none text-(length:--_typography---font-sizes--heading--h4) leading-none font-normal tracking-[-0.01em] text-black-secondary uppercase min-[768px]:max-w-[18ch]">
+      <div className="flex flex-col items-start justify-center px-5 py-8 sm:px-8 sm:py-10 md:py-15 lg:px-15 lg:py-20">
+        <h3 className="max-w-none text-(length:--_typography---font-sizes--heading--h4) leading-none font-normal tracking-[-0.01em] text-black-secondary uppercase md:max-w-[18ch]">
           <Link
             href={work.href}
             className="underline decoration-transparent decoration-[3px] transition-[text-decoration-color] duration-300 hover:decoration-black-secondary"
@@ -33,7 +33,7 @@ export default function WorkCard(props: IWorkCardProps) {
           </Link>
         </h3>
 
-        <p className="mt-4 mb-8 max-w-130 text-base leading-6 text-black-secondary min-[480px]:mt-5 min-[480px]:mb-12 min-[992px]:mt-6 min-[992px]:mb-15 min-[992px]:text-xl min-[992px]:leading-7.5 min-[1920px]:max-w-151.75">
+        <p className="mt-4 mb-8 max-w-130 text-base leading-6 text-black-secondary sm:mt-5 sm:mb-12 lg:mt-6 lg:mb-15 lg:text-xl lg:leading-7.5 2xl:max-w-151.75">
           {work.description}
         </p>
 
@@ -46,7 +46,7 @@ export default function WorkCard(props: IWorkCardProps) {
 
       <div
         style={{ backgroundColor: work.imagePaneColor }}
-        className="flex items-center justify-center p-6 min-[480px]:px-8 min-[480px]:py-13 min-[768px]:p-8 min-[1440px]:py-20"
+        className="flex items-center justify-center p-6 sm:px-8 sm:py-13 md:p-8 xl:py-20"
       >
         <div
           className={cn(

@@ -68,10 +68,10 @@ export const QUOTES_LAYOUT_KEYS = ["base", "620", "base", "2", "3", "15"];
 // box moves too. Everything else stays put.
 export const QUOTES_MOVING_SLOTS = [3, 5];
 
-// Cells only change from 992px up (the tablet and phone layouts stay put).
-// Must equal the `min-width: 992px` query around the layout rules in
+// Cells only change from 1024px up (the tablet and phone layouts stay put).
+// Must equal the `min-width: 1024px` query around the layout rules in
 // globals.css: matchMedia can't read it from there.
-export const QUOTES_MOVE_QUERY = "(min-width: 992px)";
+export const QUOTES_MOVE_QUERY = "(min-width: 1024px)";
 
 // Placement change. The box and any tile that doesn't cross it glide to their
 // new cells together; a tile whose move would cross the box fades out where it
@@ -86,7 +86,7 @@ export const QUOTES_TILE_FADE_EASE = "power2.out";
 export const QUOTES_PATH_SAMPLES = 24;
 
 // The background grid of square cells: 22 columns by 11 rows on desktop (11
-// by 22 from 991px down, hidden from 767px down). One cell near the end is
+// by 22 below 1024px, hidden below 768px). One cell near the end is
 // hidden at tablet widths, as in the reference.
 export const QUOTES_BG_CELLS = 242;
 export const QUOTES_TABLET_HIDDEN_CELL = 227;

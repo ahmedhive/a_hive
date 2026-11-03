@@ -69,13 +69,13 @@ export const EXPERT_SOLUTIONS: IExpertSolution[] = [
 
 // The band of shrinking lines under the section (the reference's `.border`):
 // the layout's DecorativeLines at full width, 12px down to 3px with 4px gaps.
-// From 991px and 767px down the reference thins them, which the component's
+// Below 1024px and below 768px the reference thins them, which the component's
 // inline heights can't express, so these classes override the first lines'
 // heights (the rest follow the same steps; see the className in index.tsx).
 export const EXPERT_LINE_HEIGHTS_PX = [12, 9, 6, 4, 3];
 export const EXPERT_LINE_GAP_PX = 4;
 export const EXPERT_LINE_RESPONSIVE_HEIGHTS =
-  "max-[991px]:[&>:nth-child(1)]:h-2! max-[991px]:[&>:nth-child(2)]:h-1.5! max-[767px]:[&>:nth-child(1)]:h-1.25! max-[767px]:[&>:nth-child(2)]:h-1! max-[767px]:[&>:nth-child(3)]:h-0.75! max-[767px]:[&>:nth-child(4)]:h-0.5! max-[767px]:[&>:nth-child(5)]:h-px!";
+  "max-lg:[&>:nth-child(1)]:h-2! max-lg:[&>:nth-child(2)]:h-1.5! max-md:[&>:nth-child(1)]:h-1.25! max-md:[&>:nth-child(2)]:h-1! max-md:[&>:nth-child(3)]:h-0.75! max-md:[&>:nth-child(4)]:h-0.5! max-md:[&>:nth-child(5)]:h-px!";
 
 // Title reveal, same as the reference's [data-title-anim]: characters slide
 // down through a mask once the title is 90% into the viewport, then the

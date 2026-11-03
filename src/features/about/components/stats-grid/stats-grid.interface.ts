@@ -1,4 +1,4 @@
-import { StaticImageData } from "next/image";
+import { ComponentType, SVGProps } from "react";
 
 export interface IStat {
   value: string;
@@ -6,6 +6,6 @@ export interface IStat {
   // Box fill and text color classes.
   boxClassName: string;
   // Corner shape drawn in the box, with its placement and tablet size.
-  visual: StaticImageData;
+  Visual: ComponentType<SVGProps<SVGSVGElement>>;
   visualClassName: string;
 }

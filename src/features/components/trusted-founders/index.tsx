@@ -17,7 +17,7 @@ import useTrustedFounders from "./use-trusted-founders";
 
 // The badge and the gradient word always show at full strength; the rest of
 // the content rests at half opacity on desktop and comes up on hover.
-const DIMMED_CLASS = "motion-safe:min-[992px]:opacity-50";
+const DIMMED_CLASS = "motion-safe:lg:opacity-50";
 
 export default function TrustedFounders() {
   const { sectionRef, wheelRef, contentRef } = useTrustedFounders();
@@ -25,7 +25,7 @@ export default function TrustedFounders() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[70vh] items-center justify-center overflow-clip text-black-secondary min-[480px]:min-h-[90vh] min-[768px]:min-h-[120vh] min-[992px]:min-h-[150vh] min-[1920px]:min-h-[200vh]"
+      className="relative flex min-h-[70vh] items-center justify-center overflow-clip text-black-secondary sm:min-h-[90vh] md:min-h-[120vh] lg:min-h-[150vh] 2xl:min-h-[200vh]"
     >
       <h2 className="sr-only">
         {TRUSTED_TITLE_LEAD} {TRUSTED_TITLE_ACCENT}
@@ -37,10 +37,10 @@ export default function TrustedFounders() {
       >
         {/* Sits behind the title; offsets and padding follow the reference's
             breakpoints. */}
-        <p className="absolute -top-8.25 left-2.25 -z-1 -rotate-7 bg-lilac px-3 py-2 font-heading text-(length:--_typography---font-sizes--body--badge) leading-none tracking-[-0.01em] text-black min-[480px]:-top-11.5 min-[480px]:left-7 min-[480px]:-rotate-15 min-[480px]:px-4 min-[480px]:py-3 min-[768px]:-top-13 min-[992px]:-top-18 min-[992px]:left-22.25 min-[992px]:px-7 min-[992px]:py-4 min-[1920px]:-top-19.75 min-[1920px]:left-29.5">
+        <p className="absolute -top-8.25 left-2.25 -z-1 -rotate-7 bg-lilac px-3 py-2 font-heading text-(length:--_typography---font-sizes--body--badge) leading-none tracking-[-0.01em] text-black sm:-top-11.5 sm:left-7 sm:-rotate-15 sm:px-4 sm:py-3 md:-top-13 lg:-top-18 lg:left-22.25 lg:px-7 lg:py-4 2xl:-top-19.75 2xl:left-29.5">
           {TRUSTED_BADGE}
         </p>
-        <p className="mb-5 max-w-[10ch] font-heading text-(length:--_typography---font-sizes--heading--h3) leading-none uppercase min-[480px]:mb-6 min-[992px]:mb-8">
+        <p className="mb-5 max-w-[10ch] font-heading text-(length:--_typography---font-sizes--heading--h3) leading-none uppercase sm:mb-6 lg:mb-8">
           <span data-trusted-dim className={DIMMED_CLASS}>
             {TRUSTED_TITLE_LEAD}
           </span>{" "}
@@ -64,15 +64,15 @@ export default function TrustedFounders() {
               zIndex: TRUSTED_Z_INDEX_BY_CARD[index + 1],
               transform: `translateX(-50%) rotate(${index * TRUSTED_STEP_DEG}deg)`,
             }}
-            className="absolute bottom-0 left-1/2 w-[18vw] origin-bottom pb-[30vw] max-[767px]:w-25 max-[767px]:pb-43.75 max-[479px]:w-20 max-[479px]:pb-32.75 min-[992px]:w-[14vw] min-[992px]:pb-[22vw] min-[1920px]:w-65"
+            className="absolute bottom-0 left-1/2 w-[18vw] origin-bottom pb-[30vw] max-md:w-25 max-md:pb-43.75 max-sm:w-20 max-sm:pb-32.75 lg:w-[14vw] lg:pb-[22vw] 2xl:w-65"
           >
             <Image
               src={image}
               alt=""
-              sizes="(min-width: 992px) 14vw, 18vw"
+              sizes="(min-width: 1024px) 14vw, 18vw"
               className={cn(
                 "h-auto w-full rounded-lg object-cover",
-                "min-[480px]:rounded-2xl min-[768px]:rounded-3xl min-[992px]:rounded-[40px]",
+                "sm:rounded-2xl md:rounded-3xl lg:rounded-[40px]",
               )}
             />
           </div>

@@ -15,3 +15,7 @@ export { default as PixelGlyphIcon } from "./pixel-glyph-icon";
 export { default as PlayIcon } from "./play-icon";
 export { default as PauseIcon } from "./pause-icon";
 export { default as StarIcon } from "./star-icon";
+export { default as StatsVisualOneIcon } from "./stats-visual-one-icon";
+export { default as StatsVisualTwoIcon } from "./stats-visual-two-icon";
+export { default as StatsVisualThreeIcon } from "./stats-visual-three-icon";
+export { default as StatsVisualFourIcon } from "./stats-visual-four-icon";
