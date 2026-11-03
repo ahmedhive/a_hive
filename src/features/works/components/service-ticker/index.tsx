@@ -4,12 +4,11 @@ import { TickerStarIcon } from "@/assets/icons";
 import { DecorativeLines } from "@/components";
 import { cn } from "@/lib";
 import {
-  TICKER_GROUPS,
-  TICKER_LINE_GAP_PX,
-  TICKER_LINE_HEIGHTS_PX,
-  TICKER_LINE_RESPONSIVE_HEIGHTS,
-  TICKER_WORDS,
-} from "./service-ticker.data";
+  TAPERED_LINE_GAP_PX,
+  TAPERED_LINE_HEIGHTS_PX,
+  TAPERED_LINE_RESPONSIVE_HEIGHTS,
+} from "@/components/decorative-lines/decorative-lines.data";
+import { TICKER_GROUPS, TICKER_WORDS } from "./service-ticker.data";
 import useServiceTicker from "./use-service-ticker";
 
 export default function ServiceTicker() {
@@ -45,10 +44,10 @@ export default function ServiceTicker() {
         </div>
       </section>
       <DecorativeLines
-        heights={TICKER_LINE_HEIGHTS_PX}
-        gap={TICKER_LINE_GAP_PX}
+        heights={TAPERED_LINE_HEIGHTS_PX}
+        gap={TAPERED_LINE_GAP_PX}
         lineClassName="bg-wine"
-        className={cn("mt-1 w-full", TICKER_LINE_RESPONSIVE_HEIGHTS)}
+        className={cn("mt-1 w-full", TAPERED_LINE_RESPONSIVE_HEIGHTS)}
       />
     </>
   );

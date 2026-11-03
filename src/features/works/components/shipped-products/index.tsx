@@ -1,4 +1,4 @@
-import { ProjectCard } from "./components";
+import ProjectList from "../../../components/project-list";
 import { PRODUCTS_BADGE, PRODUCTS_TITLE } from "./shipped-products.data";
 import { IShippedProductsProps } from "./shipped-products.interface";
 
@@ -21,11 +21,7 @@ export default function ShippedProducts(props: IShippedProductsProps) {
           </p>
         </header>
 
-        <ul className="grid grid-cols-1 gap-y-9 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-0 lg:gap-x-9 xl:gap-x-15">
-          {works.map((work) => (
-            <ProjectCard key={work.slug} work={work} />
-          ))}
-        </ul>
+        <ProjectList works={works} />
       </div>
     </section>
   );

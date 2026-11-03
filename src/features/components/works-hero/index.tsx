@@ -6,12 +6,11 @@ import {
   HERO_CAPTION_EMPHASIS,
   HERO_CAPTION_PREFIX,
   HERO_CAPTION_SUFFIX,
-  HERO_CTA_HREF,
-  HERO_CTA_LABEL,
-  HERO_TITLE,
-} from "./hero-banner.data";
+} from "./works-hero.data";
+import { IWorksHeroProps } from "./works-hero.interface";
 
-export default function HeroBanner() {
+export default function WorksHero(props: IWorksHeroProps) {
+  const { title, cta } = props;
   const { captionRef, titleRef } = useHeroReveal();
 
   return (
@@ -35,10 +34,10 @@ export default function HeroBanner() {
           ref={titleRef}
           className="max-w-[22ch] text-[clamp(2.75rem,1.4757rem+5.4369vw,5rem)] leading-none font-normal tracking-[0.01em] uppercase"
         >
-          {HERO_TITLE}
+          {title}
         </h1>
 
-        <CustomButton label={HERO_CTA_LABEL} href={HERO_CTA_HREF} />
+        {cta && <CustomButton label={cta.label} href={cta.href} />}
       </div>
     </section>
   );

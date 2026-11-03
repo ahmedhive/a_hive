@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getWorkHref } from "@/data/works";
+import { getWorkTagHref } from "@/data/work-tags";
 import { IProjectCardProps } from "./project-card.interface";
 
 export default function ProjectCard(props: IProjectCardProps) {
@@ -35,11 +36,13 @@ export default function ProjectCard(props: IProjectCardProps) {
         </h3>
         <ul className="flex flex-wrap gap-2">
           {work.tags.map((tag) => (
-            <li
-              key={tag}
-              className="rounded-full border border-black-secondary px-3 py-1 text-sm leading-none font-semibold uppercase lg:px-5 lg:text-base lg:leading-[1.4]"
-            >
-              {tag}
+            <li key={tag}>
+              <Link
+                href={getWorkTagHref(tag)}
+                className="block rounded-full border border-black-secondary px-3 py-1 text-sm leading-none font-semibold uppercase hover:underline lg:px-5 lg:text-base lg:leading-[1.4]"
+              >
+                {tag}
+              </Link>
             </li>
           ))}
         </ul>
