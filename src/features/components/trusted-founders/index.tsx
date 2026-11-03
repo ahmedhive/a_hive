@@ -22,7 +22,7 @@ export default function TrustedFounders() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[70vh] items-center justify-center overflow-clip text-black-secondary sm:min-h-[90vh] md:min-h-[120vh] lg:min-h-[150vh] 2xl:min-h-[200vh]"
+      className="relative box-content flex min-h-[70vh] items-center justify-center overflow-clip py-16 text-black-secondary sm:min-h-[90vh] sm:py-20 md:min-h-[120vh] md:py-25 lg:min-h-[150vh] lg:py-30 2xl:min-h-[200vh]"
     >
       <h2 className="sr-only">
         {TRUSTED_TITLE_LEAD} {TRUSTED_TITLE_ACCENT}

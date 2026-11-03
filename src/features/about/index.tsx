@@ -1,3 +1,4 @@
+import { Quotes, TrustedFounders } from "../components";
 import { HatsIWear, HeroBanner, StatsGrid, WhyWorkWithMe } from "./components";
 
 export default function About() {
@@ -7,6 +8,8 @@ export default function About() {
       <StatsGrid />
       <WhyWorkWithMe />
       <HatsIWear />
+      <Quotes />
+      <TrustedFounders />
     </main>
   );
 }

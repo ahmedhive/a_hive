@@ -8,7 +8,7 @@ export default function HatsIWear() {
   const { titleRef, badgeRef, trackRef } = useHatsIWear();
 
   return (
-    <section className="px-[5%] pt-16 pb-16 sm:pt-20 sm:pb-20 md:pt-25 md:pb-25 lg:pt-37.5 lg:pb-0">
+    <section className="px-[5%] pt-16 pb-16 sm:pt-20 sm:pb-20 md:pt-25 md:pb-25 lg:pt-37.5 lg:pb-37.5">
       <div className="mx-auto w-full max-w-420">
         <header className="relative mb-8 text-center md:mb-13 lg:mb-20">
           <h2
