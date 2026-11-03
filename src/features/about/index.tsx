@@ -1,10 +1,11 @@
-import { HeroBanner, StatsGrid } from "./components";
+import { HeroBanner, StatsGrid, WhyWorkWithMe } from "./components";
 
 export default function About() {
   return (
     <main>
       <HeroBanner />
       <StatsGrid />
+      <WhyWorkWithMe />
     </main>
   );
 }
