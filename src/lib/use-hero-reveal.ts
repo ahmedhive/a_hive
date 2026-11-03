@@ -7,9 +7,9 @@ import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 // Entrance shared by the page hero banners, same as the reference's load
 // timeline: the title's characters slide down through a mask while fading in,
-// then the inline image (`[data-hero-image]` inside the title) pops in from
-// nothing partway through. The caption slides up and fades in once it is in
-// view.
+// then the inline image (`[data-hero-image]` inside the title, when there is
+// one) pops in from nothing partway through. The caption slides up and fades
+// in once it is in view.
 const TITLE_REVEAL_DURATION_S = 1;
 const TITLE_REVEAL_STAGGER_AMOUNT_S = 0.5;
 const TITLE_REVEAL_EASE = "back.inOut";
@@ -39,15 +39,6 @@ export default function useHeroReveal() {
       charsClass: "char",
     });
 
-    // Looked up after the split, not held in a ref: SplitText rebuilds the
-    // title's markup on revert (StrictMode mounts the effect twice), so a
-    // ref would point at a detached copy on the second pass.
-    const image = title.querySelector<HTMLElement>("[data-hero-image]");
-    if (!image) {
-      split.revert();
-      return;
-    }
-
     const charsTween = gsap.from(split.chars, {
       yPercent: -100,
       opacity: 0,
@@ -55,18 +46,25 @@ export default function useHeroReveal() {
       stagger: { amount: TITLE_REVEAL_STAGGER_AMOUNT_S },
       ease: TITLE_REVEAL_EASE,
     });
-    // fromTo with a delay (not a late-positioned .from() in a timeline) so
-    // the image holds at scale 0 until its turn, on every mount pass.
-    const imageTween = gsap.fromTo(
-      image,
-      { scale: 0 },
-      {
-        scale: 1,
-        duration: IMAGE_REVEAL_DURATION_S,
-        delay: IMAGE_REVEAL_START_S,
-        ease: IMAGE_REVEAL_EASE,
-      },
-    );
+
+    // The inline image is optional. Looked up after the split, not held in a
+    // ref: SplitText rebuilds the title's markup on revert (StrictMode mounts
+    // the effect twice), so a ref would point at a detached copy on the second
+    // pass. fromTo with a delay (not a late-positioned .from() in a timeline)
+    // so the image holds at scale 0 until its turn, on every mount pass.
+    const image = title.querySelector<HTMLElement>("[data-hero-image]");
+    const imageTween = image
+      ? gsap.fromTo(
+          image,
+          { scale: 0 },
+          {
+            scale: 1,
+            duration: IMAGE_REVEAL_DURATION_S,
+            delay: IMAGE_REVEAL_START_S,
+            ease: IMAGE_REVEAL_EASE,
+          },
+        )
+      : null;
 
     const captionTween = gsap.from(caption, {
       y: CAPTION_REVEAL_Y_PX,
@@ -83,7 +81,7 @@ export default function useHeroReveal() {
     // revert() so StrictMode's first pass doesn't leave a hidden end state.
     return () => {
       charsTween.revert();
-      imageTween.revert();
+      imageTween?.revert();
       captionTween.scrollTrigger?.kill();
       captionTween.revert();
       split.revert();
