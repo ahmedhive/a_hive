@@ -1,7 +1,6 @@
 "use client";
 
-import { ServiceVideo } from "@/components";
-import { DecorativeLines } from "@/layout/components";
+import { DecorativeLines, ServiceVideo } from "@/components";
 import { cn } from "@/lib";
 import {
   EXPERT_BADGE,

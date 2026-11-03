@@ -68,7 +68,7 @@ export const EXPERT_SOLUTIONS: IExpertSolution[] = [
 ];
 
 // The band of shrinking lines under the section (the reference's `.border`):
-// the layout's DecorativeLines at full width, 12px down to 3px with 4px gaps.
+// the shared DecorativeLines at full width, 12px down to 3px with 4px gaps.
 // Below 1024px and below 768px the reference thins them, which the component's
 // inline heights can't express, so these classes override the first lines'
 // heights (the rest follow the same steps; see the className in index.tsx).

@@ -1,4 +1,5 @@
-import { DecorativeLines, MenuLink } from "@/layout/components";
+import { DecorativeLines } from "@/components";
+import { MenuLink } from "@/layout/components";
 import { BottomBar, TitleBar } from "./components";
 import { FOOTER_LINE_GAP_PX, FOOTER_LINE_HEIGHTS_PX } from "./footer-main.data";
 import { MENU_NAV_LINKS } from "@/constants";

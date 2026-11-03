@@ -33,7 +33,7 @@ export default function HeroBanner() {
 
         <h1
           ref={titleRef}
-          className="max-w-[24ch] text-[clamp(2.75rem,1.4757rem+5.4369vw,5rem)] leading-none font-normal tracking-[0.01em] uppercase"
+          className="max-w-[22ch] text-[clamp(2.75rem,1.4757rem+5.4369vw,5rem)] leading-none font-normal tracking-[0.01em] uppercase"
         >
           {HERO_TITLE}
         </h1>

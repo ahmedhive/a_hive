@@ -25,3 +25,4 @@ export { default as WhyWorkVisualThreeIcon } from "./why-work-visual-three-icon"
 export { default as ScrollIndicatorIcon } from "./scroll-indicator-icon";
 export { default as DesignShapeIcon } from "./design-shape-icon";
 export { default as SelectArrowIcon } from "./select-arrow-icon";
+export { default as TickerStarIcon } from "./ticker-star-icon";
