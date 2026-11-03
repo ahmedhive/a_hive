@@ -3,6 +3,7 @@
 @theme inline {
   --color-black-secondary: var(--black-secondary);
   --color-wine: var(--wine);
+  --color-maroon: var(--maroon);
   --color-rose: var(--rose);
   --color-rose-light: var(--rose-light);
   --color-jet-black: var(--jet-black);
@@ -32,12 +33,15 @@
   --background-image-ember: var(--gradient-ember);
   --background-image-flare: var(--gradient-flare);
   --background-image-halo: var(--gradient-halo);
+  --background-image-dusk: var(--gradient-dusk);
+  --background-image-dawn: var(--gradient-dawn);
 }
 
 :root {
   --black-secondary: #121212;
   --lime: #e8ff76;
   --wine: #4c1d23;
+  --maroon: #500000;
   --rose: #d48c9e;
   --rose-light: #ebd9da;
   --jet-black: #0c0c0c;
@@ -78,6 +82,8 @@
   );
   --gradient-halo: linear-gradient(180deg, var(--white) 30%, var(--wine) 100%);
   --gradient-wipe: linear-gradient(180deg, transparent 0%, var(--wine) 100%);
+  --gradient-dusk: linear-gradient(180deg, var(--white) 20%, var(--wine) 100%);
+  --gradient-dawn: linear-gradient(180deg, var(--wine) 0%, var(--white) 70%);
   --_typography---font-sizes--heading--h5: clamp(
     1.75rem,
     1.5376rem + 0.9061vw,

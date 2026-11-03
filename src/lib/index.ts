@@ -16,3 +16,4 @@ export {
   LUMA_OVERRIDES,
   LIGHT_LUMA_THRESHOLD,
 } from "./luma";
+export { default as useHeroReveal } from "./use-hero-reveal";

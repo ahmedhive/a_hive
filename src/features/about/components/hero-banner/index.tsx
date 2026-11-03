@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { AboutHeaderImg } from "@/assets/images";
 import { Caption, StarRating } from "@/components";
+import { useHeroReveal } from "@/lib";
 import {
   HERO_AVATARS,
   HERO_CAPTION_EMPHASIS,
@@ -14,10 +15,9 @@ import {
   HERO_TITLE_AFTER,
   HERO_TITLE_BEFORE,
 } from "./hero-banner.data";
-import useHeroBanner from "./use-hero-banner";
 
 export default function HeroBanner() {
-  const { captionRef, titleRef } = useHeroBanner();
+  const { captionRef, titleRef } = useHeroReveal();
 
   return (
     <section className="relative overflow-clip px-[5%] pt-30 pb-16 text-black-secondary sm:pb-20 md:pt-37.5 md:pb-25 lg:pt-46 lg:pb-37.5 xl:pt-68.25 2xl:overflow-visible">

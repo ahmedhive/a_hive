@@ -20,18 +20,3 @@ export const HERO_AVATARS = [
   FeedbackIvanImg,
   FeedbackShyamImg,
 ];
-
-// Entrance, same as the reference's load timeline: the title's characters
-// slide down through a mask while fading in, then the inline image pops in
-// from nothing partway through. The caption slides up and fades in once it
-// is in view.
-export const HERO_TITLE_REVEAL_DURATION_S = 1;
-export const HERO_TITLE_REVEAL_STAGGER_AMOUNT_S = 0.5;
-export const HERO_TITLE_REVEAL_EASE = "back.inOut";
-export const HERO_IMAGE_REVEAL_START_S = 0.53;
-export const HERO_IMAGE_REVEAL_DURATION_S = 0.5;
-export const HERO_IMAGE_REVEAL_EASE = "power1.inOut";
-export const HERO_CAPTION_REVEAL_DURATION_S = 0.5;
-export const HERO_CAPTION_REVEAL_Y_PX = 30;
-export const HERO_CAPTION_REVEAL_EASE = "power1.out";
-export const HERO_CAPTION_SCROLL_START = "top bottom";

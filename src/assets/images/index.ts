@@ -39,3 +39,4 @@ export { default as AboutLife1Img } from "./about-life-1-img.jpg";
 export { default as AboutLife2Img } from "./about-life-2-img.jpg";
 export { default as AboutLife3Img } from "./about-life-3-img.jpg";
 export { default as AboutLife4Img } from "./about-life-4-img.jpg";
+export { default as ServicesHeaderImg } from "./services-header-img.jpg";

@@ -22,3 +22,5 @@ export { default as StatsVisualFourIcon } from "./stats-visual-four-icon";
 export { default as WhyWorkVisualOneIcon } from "./why-work-visual-one-icon";
 export { default as WhyWorkVisualTwoIcon } from "./why-work-visual-two-icon";
 export { default as WhyWorkVisualThreeIcon } from "./why-work-visual-three-icon";
+export { default as ScrollIndicatorIcon } from "./scroll-indicator-icon";
+export { default as DesignShapeIcon } from "./design-shape-icon";
