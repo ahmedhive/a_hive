@@ -20,3 +20,4 @@ export {
 export { default as useHeroReveal } from "./use-hero-reveal";
 export { default as useTitleReveal } from "./use-title-reveal";
 export { default as useCounterRoll } from "./use-counter-roll";
+export { buildPageMetadata } from "./seo";

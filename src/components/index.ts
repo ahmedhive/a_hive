@@ -1,6 +1,7 @@
 export { default as Caption } from "./caption";
 export { default as CustomButton } from "./custom-button";
 export { default as DecorativeLines } from "./decorative-lines";
+export { default as JsonLd } from "./json-ld";
 export { default as CustomLabel } from "./custom-label";
 export { default as CustomCursor } from "./custom-cursor";
 export { default as SmoothScroll } from "./smooth-scroll";

@@ -7,8 +7,9 @@ const nextConfig: NextConfig = {
   // functional purpose, so it's turned off alongside the headers below.
   poweredByHeader: false,
   // 90 is for the large project banners, which should keep their detail; the
-  // rest use the default.
-  images: { qualities: [75, 90] },
+  // rest use the default. AVIF is tried first and WebP is the fallback: the
+  // same pixels at a smaller size.
+  images: { qualities: [75, 90], formats: ["image/avif", "image/webp"] },
   async headers() {
     return [
       {

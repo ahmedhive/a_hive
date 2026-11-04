@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import { getTagBySlug, getWorksByTag } from "@/data/work-tags";
 import { WorkTags } from "@/features";
+import { buildPageMetadata } from "@/lib/seo";
 
 interface IPageProps {
   params: Promise<{ tag: string }>;
@@ -13,11 +14,14 @@ export async function generateMetadata(props: IPageProps): Promise<Metadata> {
   const tag = getTagBySlug(slug);
   if (!tag) return {};
 
-  return {
+  // A tag page only re-lists projects that already have their own pages, so
+  // it stays out of the index.
+  return buildPageMetadata({
     title: `${tag} Works | Ahmed Hive`,
     description: `Products shipped by Ahmed Hive tagged ${tag}.`,
-    alternates: { canonical: `${ROUTES.WORK_TAGS}/${slug}` },
-  };
+    path: `${ROUTES.WORK_TAGS}/${slug}`,
+    noIndex: true,
+  });
 }
 
 export default async function Page(props: IPageProps) {

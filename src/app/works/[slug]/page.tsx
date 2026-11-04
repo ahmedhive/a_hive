@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { JsonLd } from "@/components";
 import { ROUTES } from "@/constants/routes";
+import { getWorkSeoTitle } from "@/data/site";
+import { getWorkStructuredData } from "@/data/structured-data";
 import { WORK_DETAIL_SLUGS, getWorkDetails } from "@/data/work-details";
-import { getWorkBySlug } from "@/data/works";
+import { getWorkBySlug, getWorkHref } from "@/data/works";
 import { WorkDetails } from "@/features";
+import { buildPageMetadata } from "@/lib/seo";
 
 interface IPageProps {
   params: Promise<{ slug: string }>;
@@ -18,11 +22,11 @@ export async function generateMetadata(props: IPageProps): Promise<Metadata> {
   const work = getWorkBySlug(slug);
   if (!work || !getWorkDetails(slug)) return {};
 
-  return {
-    title: `${work.title} | Ahmed Hive`,
+  return buildPageMetadata({
+    title: getWorkSeoTitle(slug, work.title),
     description: work.description,
-    alternates: { canonical: `${ROUTES.WORKS}/${slug}` },
-  };
+    path: getWorkHref(slug),
+  });
 }
 
 export default async function Page(props: IPageProps) {
@@ -33,5 +37,10 @@ export default async function Page(props: IPageProps) {
   // full list of works.
   if (!work || !details) redirect(ROUTES.WORKS);
 
-  return <WorkDetails work={work} details={details} />;
+  return (
+    <>
+      <JsonLd data={getWorkStructuredData(work)} />
+      <WorkDetails work={work} details={details} />
+    </>
+  );
 }

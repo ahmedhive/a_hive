@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { ROUTES } from "@/constants/routes";
+import { PAGE_SEO } from "@/data/site";
 import { Contact } from "@/features";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact | Ahmed Hive",
-  description:
-    "Say hello or start a project with Ahmed Hive, a Product Manager and Product Designer who takes ideas from roadmap to shipped product.",
-  alternates: { canonical: "/contact" },
-};
+export const metadata: Metadata = buildPageMetadata({
+  ...PAGE_SEO.contact,
+  path: ROUTES.CONTACT,
+});
 
 export default function Page() {
   return <Contact />;
