@@ -56,8 +56,8 @@ export const WORKS: IWork[] = [
     imagePaneColor: "#DAC068",
   },
   {
-    slug: "clinics-flo-clinic-crm",
-    title: "Clinics Flo Clinic CRM",
+    slug: "clinics-flo-all-in-one-clinic-crm",
+    title: "Clinics Flo - All In One Clinic CRM",
     description:
       "Clinics Flo gives clinics one place to manage leads, appointments, and patient conversations, with automated workflows, review requests, campaigns, and a full finance center.",
     tags: ["Strategy", "Design", "Build", "Complexity"],

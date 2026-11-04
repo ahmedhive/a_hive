@@ -1,2 +1,9 @@
 export { default as Project4ListImg } from "./project-4-list-img.jpg";
 export { default as Project4FeaturedImg } from "./project-4-featured-img.png";
+export { default as Project4BannerImg } from "./project-4-banner-img.jpg";
+export { default as Project4LeftImg } from "./project-4-left-img.jpg";
+export { default as Project4RightImg } from "./project-4-right-img.jpg";
+export { default as Project4DescImg } from "./project-4-desc-img.jpg";
+export { default as Project4Result1Img } from "./project-4-result-1-img.jpg";
+export { default as Project4Result2Img } from "./project-4-result-2-img.jpg";
+export { default as Project4Result3Img } from "./project-4-result-3-img.jpg";
