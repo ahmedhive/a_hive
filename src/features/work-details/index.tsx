@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { DecorativeLines } from "@/components";
 import {
   TAPERED_LINE_GAP_PX,
@@ -18,6 +19,8 @@ import {
   AFTER_LINES_SPACER_CLASS,
   BANNER_CLASS,
   DESC_IMAGE_CLASS,
+  LINES_COLOR_CLASS,
+  LINES_COLOR_VARIABLE,
 } from "./work-details.data";
 import { IWorkDetailsProps } from "./work-details.interface";
 
@@ -48,12 +51,18 @@ export default function WorkDetails(props: IWorkDetailsProps) {
       />
       <QuoteReveal lines={details.quote} />
       <WorkResult result={details.result} />
-      <DecorativeLines
-        heights={TAPERED_LINE_HEIGHTS_PX}
-        gap={TAPERED_LINE_GAP_PX}
-        lineClassName={details.result.bgClassName}
-        className={cn("mt-1 w-full", TAPERED_LINE_RESPONSIVE_HEIGHTS)}
-      />
+      <div
+        style={
+          { [LINES_COLOR_VARIABLE]: details.result.bgColor } as CSSProperties
+        }
+      >
+        <DecorativeLines
+          heights={TAPERED_LINE_HEIGHTS_PX}
+          gap={TAPERED_LINE_GAP_PX}
+          lineClassName={LINES_COLOR_CLASS}
+          className={cn("mt-1 w-full", TAPERED_LINE_RESPONSIVE_HEIGHTS)}
+        />
+      </div>
       <div className={AFTER_LINES_SPACER_CLASS} />
     </main>
   );

@@ -32,8 +32,8 @@ export const WORKS: IWork[] = [
     imagePaneColor: "#81CFB8",
   },
   {
-    slug: "ebraingo-event-platform",
-    title: "eBrainGo Event Platform",
+    slug: "ebraingo-end-to-end-event-platform",
+    title: "eBrainGo End To End Event Platform",
     description:
       "eBrainGo runs events end to end, a company portal to plan them, an attendee app to live them, plus sponsor and speaker portals, gamification, and an AI event assistant built in.",
     tags: ["Planning", "Design", "Build", "PMM"],

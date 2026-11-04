@@ -14,7 +14,7 @@ export default function QuoteReveal(props: IQuoteRevealProps) {
       <div className="mx-auto flex w-full max-w-420 flex-col items-center text-center">
         {lines.map((line) => (
           <div key={line} className="relative inline-flex pt-1 pr-1">
-            <h3 className="max-w-[10ch] text-(length:--marquee-text-size) leading-[0.8] tracking-[-0.03em] uppercase">
+            <h3 className="whitespace-nowrap text-(length:--marquee-text-size) leading-[0.8] tracking-[-0.03em] uppercase">
               {line}
             </h3>
             {/* Slides off to the right as the section scrolls, uncovering the

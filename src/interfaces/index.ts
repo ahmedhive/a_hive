@@ -67,6 +67,6 @@ export interface IWorkDetails {
     text: string;
     images: StaticImageData[];
     // The section's background, also used for the lines under it.
-    bgClassName: string;
+    bgColor: string;
   };
 }

@@ -40,7 +40,6 @@ export const PROJECT_1_DETAILS: IWorkDetails = {
     title: "The Results",
     text: "Kayya gives business owners a live view of loans, payments, and payouts in one dashboard, while borrowers track balances, turn on Auto-Pay, and pay in a few taps from their phone.",
     images: [Project1Result1Img, Project1Result2Img, Project1Result3Img],
-    bgClassName: "bg-mint",
+    bgColor: "#F2FFFA",
   },
-  visitSiteHref: "https://google.com",
 };

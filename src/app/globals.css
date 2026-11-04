@@ -15,7 +15,6 @@
   --color-ash: var(--ash);
   --color-charcoal: var(--charcoal);
   --color-lime: var(--lime);
-  --color-mint: var(--mint);
   --color-iron: var(--iron);
   --color-linen: var(--linen);
   --color-sun: var(--sun);
@@ -41,7 +40,6 @@
 :root {
   --black-secondary: #121212;
   --lime: #e8ff76;
-  --mint: #f2fffa;
   --wine: #4c1d23;
   --maroon: #500000;
   --rose: #d48c9e;

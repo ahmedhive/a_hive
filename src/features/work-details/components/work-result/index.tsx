@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { cn, useTitleReveal } from "@/lib";
+import { useTitleReveal } from "@/lib";
 import { IWorkResultProps } from "./work-result.interface";
 import {
   BODY_TEXT_CLASS,
@@ -16,7 +16,11 @@ export default function WorkResult(props: IWorkResultProps) {
   useTitleReveal(sectionRef);
 
   return (
-    <section ref={sectionRef} className={cn(SECTION_CLASS, result.bgClassName)}>
+    <section
+      ref={sectionRef}
+      className={SECTION_CLASS}
+      style={{ backgroundColor: result.bgColor }}
+    >
       {/* From 640px the text column and every image stick near the top, so the
           images pile up over each other as they scroll past. */}
       <div className="mx-auto flex w-full max-w-420 flex-col items-start gap-8 sm:flex-row sm:gap-6 md:gap-10">
