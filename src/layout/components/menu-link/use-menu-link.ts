@@ -93,7 +93,11 @@ export default function useMenuLink(hasIndex: boolean, isActive: boolean) {
     tlRef.current = tl;
 
     return () => {
-      tl.kill();
+      // revert(), not kill(): kill() leaves the inline transform/opacity the
+      // timeline wrote (e.g. when an active link was jumped to progress(1)).
+      // A rebuilt timeline (StrictMode's double effect run, Fast Refresh) would
+      // then capture that end state as its start, and could never reset it.
+      tl.revert();
       tlRef.current = null;
       split1.revert();
       split2.revert();
@@ -108,7 +112,9 @@ export default function useMenuLink(hasIndex: boolean, isActive: boolean) {
   // (no easing), so this is instant on mount and on route change alike — it
   // only re-runs when `isActive` itself flips, not on every render.
   useIsomorphicLayoutEffect(() => {
-    tlRef.current?.progress(isActive ? 1 : 0);
+    // pause() too: a hover's play() un-pauses the timeline, and progress()
+    // alone doesn't re-pause it — a reset to 0 would just play forward again.
+    tlRef.current?.pause().progress(isActive ? 1 : 0);
   }, [isActive]);
 
   // While active, hover/focus must do nothing — the link is already showing
