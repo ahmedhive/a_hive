@@ -36,13 +36,17 @@ export default function WorkResult(props: IWorkResultProps) {
               key={index}
               className="relative aspect-81/70 w-full overflow-hidden rounded-2xl sm:sticky sm:top-20 sm:rounded-3xl lg:rounded-[40px]"
             >
-              <Image
-                src={image}
-                alt=""
-                fill
-                sizes="(min-width: 1680px) 810px, 50vw"
-                className="object-cover"
-              />
+              {/* The sticky box can't be the positioned parent of a fill image (Next
+                warns), so the image sits in an absolutely positioned layer. */}
+              <div className="absolute inset-0">
+                <Image
+                  src={image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1680px) 810px, 50vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           ))}
         </div>

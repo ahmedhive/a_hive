@@ -5,7 +5,7 @@ import TagList from "../../../tag-list";
 import { IProjectCardProps } from "./project-card.interface";
 
 export default function ProjectCard(props: IProjectCardProps) {
-  const { work } = props;
+  const { work, priority } = props;
   const href = getWorkHref(work.slug);
 
   return (
@@ -21,6 +21,7 @@ export default function ProjectCard(props: IProjectCardProps) {
         <Image
           src={work.listImage}
           alt=""
+          priority={priority}
           sizes="(min-width: 1680px) 810px, (min-width: 640px) 45vw, 100vw"
           className="size-full object-cover transition-transform duration-500 ease-out motion-safe:group-hover/card:scale-115"
         />

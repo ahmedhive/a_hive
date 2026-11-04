@@ -41,16 +41,21 @@ export default function useCounterRoll(rootRef: RefObject<HTMLElement | null>) {
           toggleActions: PLAY_ONCE_ON_ENTER,
         },
       });
-      tl.from(
-        tops,
-        {
-          yPercent: -COUNTER_ROLL_FROM_Y_PERCENT,
-          duration: COUNTER_ROLL_DURATION_S,
-          ease: COUNTER_ROLL_EASE,
-        },
-        0,
-      )
-        .from(
+      // A counter has no suffix (or, with one digit, no bottom column) when
+      // its value is e.g. "05", and GSAP warns when asked to tween nothing.
+      if (tops.length) {
+        tl.from(
+          tops,
+          {
+            yPercent: -COUNTER_ROLL_FROM_Y_PERCENT,
+            duration: COUNTER_ROLL_DURATION_S,
+            ease: COUNTER_ROLL_EASE,
+          },
+          0,
+        );
+      }
+      if (bottoms.length) {
+        tl.from(
           bottoms,
           {
             yPercent: COUNTER_ROLL_FROM_Y_PERCENT,
@@ -58,8 +63,10 @@ export default function useCounterRoll(rootRef: RefObject<HTMLElement | null>) {
             ease: COUNTER_ROLL_EASE,
           },
           0,
-        )
-        .from(
+        );
+      }
+      if (suffixes.length) {
+        tl.from(
           suffixes,
           {
             yPercent: COUNTER_SUFFIX_FROM_Y_PERCENT,
@@ -68,6 +75,7 @@ export default function useCounterRoll(rootRef: RefObject<HTMLElement | null>) {
           },
           COUNTER_SUFFIX_START_S,
         );
+      }
       return tl;
     });
 
