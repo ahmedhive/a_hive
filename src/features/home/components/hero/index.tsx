@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { StatBadgeIcon } from "@/assets/icons";
 import { HeroForegroundImg, HeroNoiseImg } from "@/assets/images";
-import { SocialLinks } from "@/components";
+import { SocialLinks, Subtitle } from "@/components";
 import {
   HERO_DESCRIPTION,
   HERO_STAT,
@@ -38,17 +38,11 @@ export default function Hero() {
       </div>
 
       <div className="relative z-30 w-full px-[6vw] grid grid-cols-1 grid-rows-1 sm:grid-cols-[auto_auto] sm:grid-rows-2 sm:justify-between gap-4">
-        <h2
-          ref={subtitleRef}
-          className="text-[clamp(44px,4.44vw,64px)] leading-none tracking-[-0.0405em]"
-        >
-          {HERO_SUBTITLE_LINES[0]} <br />
-          {HERO_SUBTITLE_LINES[1]}
-        </h2>
+        <Subtitle ref={subtitleRef} lines={HERO_SUBTITLE_LINES} />
 
         <p
           ref={descriptionRef}
-          className="max-w-[clamp(280px,31.25vw,450px)] text-[clamp(16px,1.25vw,18px)] font-medium leading-[1.5556]"
+          className="max-w-[clamp(17.5rem,31.25vw,28.125rem)] text-[clamp(1rem,1.25vw,1.125rem)] font-medium leading-[1.5556]"
         >
           {HERO_DESCRIPTION}
         </p>
@@ -57,13 +51,7 @@ export default function Hero() {
           ref={socialLinksRef}
           className="order-2 sm:order-0 flex items-center gap-3"
         >
-          <p className="text-[clamp(16px,1.39vw,20px)] font-medium leading-normal">
-            Reach via
-          </p>
-          <div className="h-px w-10 bg-white-secondary" />
-          <div className="flex gap-4">
-            <SocialLinks />
-          </div>
+          <SocialLinks />
         </div>
 
         <div
@@ -71,11 +59,12 @@ export default function Hero() {
           className="order-1 sm:order-0 flex items-center gap-4"
         >
           <StatBadgeIcon
-            className="h-[clamp(52px,calc(2.5vw+24px),60px)]
-              w-[clamp(42.77px,calc(2.056vw+19.74px),49.35px)]"
+            aria-hidden
+            className="h-[clamp(3.25rem,calc(2.5vw+1.5rem),3.75rem)]
+              w-[clamp(2.673125rem,calc(2.056vw+1.23375rem),3.084375rem)]"
           />
           <div>
-            <p className="font-heading text-[clamp(28px,2.5vw,36px)] leading-none">
+            <p className="font-heading text-[clamp(1.75rem,2.5vw,2.25rem)] leading-none">
               {HERO_STAT.value}
             </p>
             <p className="text-[16px]">{HERO_STAT.label}</p>
@@ -99,7 +88,7 @@ export default function Hero() {
       </div>
 
       <div ref={imageRef} className="pointer-events-none absolute inset-0 z-20">
-        <div className="absolute inset-x-0 top-0 lg:top-[clamp(40px,10%,157px)] bottom-0">
+        <div className="absolute inset-x-0 top-0 lg:top-[clamp(2.5rem,10%,9.8125rem)] bottom-0">
           <Image
             src={HeroForegroundImg}
             alt=""

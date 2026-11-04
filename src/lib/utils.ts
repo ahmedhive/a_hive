@@ -5,6 +5,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// A new array in random order (Fisher-Yates), leaving the input untouched.
+export function shuffle<T>(items: readonly T[]): T[] {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 export function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
@@ -37,3 +47,11 @@ export function pickMostIntersecting(
   }
   return best;
 }
+
+// ScrollTrigger `toggleActions` for a reveal that plays once when its start is
+// reached and never reverses or replays. Used instead of `once: true`: that
+// option kills the trigger the moment it fires, and when the page loads with
+// the scroll position already past the start (a refresh partway down) the kill
+// happens while ScrollTrigger is still looping over its trigger list, which
+// throws "Cannot read properties of undefined (reading 'end')".
+export const PLAY_ONCE_ON_ENTER = "play none none none";

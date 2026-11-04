@@ -8,8 +8,8 @@ import { Hamburger, MenuOverlay, NavLink, useMenuOverlay } from "./components";
 import useHeader from "./use-header";
 
 export default function Header() {
-  const { headerRef } = useHeader();
   const { phase, panelRef, toggle, close } = useMenuOverlay();
+  const { headerRef } = useHeader(phase !== "closed");
 
   return (
     <>

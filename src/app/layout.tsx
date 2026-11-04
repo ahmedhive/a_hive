@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
-import { Header, Preloader } from "@/layout";
+import { Footer, Header, Preloader } from "@/layout";
 import "./globals.css";
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CustomCursor, SmoothScroll } from "@/components";
+import { PAGE_SEO, SITE_NAME, SITE_URL } from "@/data/site";
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
@@ -19,18 +20,16 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Ahmed Hive | Product Manager & Product Designer",
-  description:
-    "Product Manager and Product Designer helping founders turn complex ideas into clean, high converting digital products.",
-  applicationName: "Ahmed Hive | Product Manager & Product Designer",
-  authors: [{ name: "ahmersdev" }],
+  title: PAGE_SEO.home.title,
+  description: PAGE_SEO.home.description,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
   referrer: "origin-when-cross-origin",
-  creator: "ahmer",
-  publisher: "ahmersdev",
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   robots: {
     index: true,
     follow: true,
-    nocache: true,
     googleBot: {
       index: true,
       follow: true,
@@ -40,19 +39,17 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  metadataBase: new URL("https://ahmedhive.com/"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "Ahmed Hive | Product Manager & Product Designer",
-    description:
-      "Product Manager and Product Designer helping founders turn complex ideas into clean, high converting digital products.",
-    url: "https://ahmedhive.com/",
-    siteName: "Ahmed Hive | Product Manager & Product Designer",
+    title: PAGE_SEO.home.title,
+    description: PAGE_SEO.home.description,
+    siteName: SITE_NAME,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Ahmed Hive | Product Manager & Product Designer",
+        alt: PAGE_SEO.home.title,
       },
     ],
     locale: "en-US",
@@ -60,13 +57,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ahmed Hive | Product Manager & Product Designer",
-    description:
-      "Product Manager and Product Designer helping founders turn complex ideas into clean, high converting digital products.",
-    creator: "@ahmersdev",
+    title: PAGE_SEO.home.title,
+    description: PAGE_SEO.home.description,
     images: {
       url: "/og-image.png",
-      alt: "Ahmed Hive | Product Manager & Product Designer",
+      alt: PAGE_SEO.home.title,
     },
   },
 };
@@ -74,7 +69,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  // No maximumScale: capping it (esp. at 1) blocks pinch-to-zoom, which
+  // fails WCAG 1.4.4 (Resize Text) for anyone who needs to zoom in.
   colorScheme: "light",
   themeColor: "#FDFDFD",
 };
@@ -94,6 +90,7 @@ export default function RootLayout({
         <Preloader />
         <Header />
         {children}
+        <Footer />
         <Analytics />
         <SpeedInsights />
       </body>

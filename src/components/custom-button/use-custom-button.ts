@@ -27,22 +27,57 @@ import {
   TEXT_COLOR_DURATION_S,
   TEXT_COLOR_EASE,
 } from "./custom-button.data";
+import { ICustomButton } from "./custom-button.interface";
 
 interface IUseCustomButtonOptions {
   // filled buttons skip the fill/dash-color/text-color block entirely (see
   // ICustomButton's `filled` doc); hasIcon gates whether the dash ref is
   // required (dash is only rendered when there's no icon) and whether the
-  // icon-roll segment is built; isLg gates the whole-button hover shrink
-  // (size="lg" only — see ICustomButton.size doc).
+  // icon-roll segment is built; size="lg" gates the whole-button hover
+  // shrink (see ICustomButton.size doc). notchColor and borderColor feed
+  // the style/class values returned below.
   filled: boolean;
   hasIcon: boolean;
-  isLg: boolean;
+  size: NonNullable<ICustomButton["size"]>;
+  notchColor?: string;
+  borderColor?: string;
 }
 
 export default function useCustomButton(options: IUseCustomButtonOptions) {
-  const { filled, hasIcon, isLg } = options;
+  const { filled, hasIcon, size, notchColor, borderColor } = options;
 
-  const containerRef = useRef<HTMLAnchorElement>(null);
+  // White unless overridden; the class is dropped (not overridden) when a
+  // colour is passed, so the inline style never has to fight it.
+  const notchBgClass = notchColor ? undefined : "bg-white";
+  const notchStyle = notchColor ? { backgroundColor: notchColor } : undefined;
+  // Same split for the outline: the class stays when no colour is passed, and
+  // is dropped (not overridden) when one is.
+  const borderColorClass = borderColor ? undefined : "border-black-secondary";
+  const borderStyle = borderColor ? { borderColor } : undefined;
+  // A custom-coloured notch overhangs the 2px border by 1px each side (4px
+  // tall, like the reference's masks). Exactly border-thick, its edges stop
+  // lining up with the border's once an ancestor is scaled (e.g. the pinned
+  // Featured Works stack) and a sliver of border shows through.
+  const notchTopClass = notchColor ? "-top-0.75 h-1" : "-top-0.5 h-0.5";
+  const notchBottomClass = notchColor
+    ? "-bottom-0.75 h-1"
+    : "-bottom-0.5 h-0.5";
+
+  const isLg = size === "lg";
+  const labelSizeClass = isLg
+    ? "text-(length:--button-lg-label-size) leading-none"
+    : "text-[20px] leading-5 md:text-[24px] md:leading-6";
+  const iconSlotSizeClass = isLg
+    ? "size-(--button-lg-icon-bg-size)"
+    : "size-8 md:size-9.5";
+  const iconSizeClass = isLg ? "size-(--button-lg-icon-size)" : "size-4";
+
+  // The button renders as a link or as a real button, so the container is any
+  // element; the callback ref is what both tags accept.
+  const containerRef = useRef<HTMLElement | null>(null);
+  const setContainerRef = (node: HTMLElement | null) => {
+    containerRef.current = node;
+  };
   const dashRef = useRef<HTMLSpanElement>(null);
   const notch1Ref = useRef<HTMLSpanElement>(null);
   const notch2Ref = useRef<HTMLSpanElement>(null);
@@ -69,8 +104,11 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
 
     // Measured, not a fixed constant: the label's font size (and, for the
     // icon badge, its own size) changes across breakpoints/size variants,
-    // so a hardcoded offset would undershoot at other sizes.
-    const lineHeightPx = text1.getBoundingClientRect().height;
+    // so a hardcoded offset would undershoot at other sizes. Measured when
+    // the hover first plays (the tween values below are functions), not
+    // here: a button mounted inside a hidden tab panel has no layout yet and
+    // would measure zero.
+    const lineHeightPx = () => text1.getBoundingClientRect().height;
 
     const splitConfig = { type: "chars", charsClass: "char" } as const;
     const split1 = SplitText.create(text1, splitConfig);
@@ -148,7 +186,7 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
     tl.to(
       [...split1.chars, ...split2.chars],
       {
-        y: -lineHeightPx,
+        y: () => -lineHeightPx(),
         duration: d(CHAR_DURATION_S),
         stagger: { amount: d(STAGGER_AMOUNT_S) },
         ease: CHAR_EASE,
@@ -190,11 +228,11 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
       // real content extent regardless of the box's own computed width —
       // same reasoning already applied to the ticker rows in
       // use-cta-marquee.ts — so half of it is exactly one slot's width.
-      const iconSlotWidthPx = iconRow.scrollWidth / 2;
+      const iconSlotWidthPx = () => iconRow.scrollWidth / 2;
       tl.to(
         iconRow,
         {
-          x: -iconSlotWidthPx,
+          x: () => -iconSlotWidthPx(),
           duration: d(ICON_ROLL_DURATION_S),
           ease: ICON_ROLL_EASE,
         },
@@ -216,7 +254,17 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
   const onMouseLeave = () => tlRef.current?.reverse();
 
   return {
-    containerRef,
+    isLg,
+    notchBgClass,
+    notchStyle,
+    borderColorClass,
+    borderStyle,
+    notchTopClass,
+    notchBottomClass,
+    labelSizeClass,
+    iconSlotSizeClass,
+    iconSizeClass,
+    setContainerRef,
     dashRef,
     notch1Ref,
     notch2Ref,

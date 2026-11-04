@@ -1,28 +1,75 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-gray: var(--gray);
   --color-black-secondary: var(--black-secondary);
   --color-wine: var(--wine);
+  --color-maroon: var(--maroon);
   --color-rose: var(--rose);
+  --color-rose-light: var(--rose-light);
   --color-jet-black: var(--jet-black);
   --color-transparent: var(--transparent);
   --color-white: var(--white);
   --color-white-secondary: var(--white-secondary);
+  --color-stroke: var(--stroke);
+  --color-mist: var(--mist);
+  --color-ash: var(--ash);
+  --color-charcoal: var(--charcoal);
+  --color-lime: var(--lime);
+  --color-iron: var(--iron);
+  --color-linen: var(--linen);
+  --color-sun: var(--sun);
+  --color-blush: var(--blush);
+  --color-peach: var(--peach);
+  --color-sky: var(--sky);
+  --color-lilac: var(--lilac);
+  --color-taupe: var(--taupe);
+  --color-amber: var(--amber);
+  --color-flame: var(--flame);
+  --color-tangerine: var(--tangerine);
+  --color-vivid-red: var(--vivid-red);
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-bebas-neue);
   --background-image-wipe: var(--gradient-wipe);
+  --background-image-ember: var(--gradient-ember);
+  --background-image-flare: var(--gradient-flare);
+  --background-image-halo: var(--gradient-halo);
+  --background-image-dusk: var(--gradient-dusk);
+  --background-image-dawn: var(--gradient-dawn);
 }
 
 :root {
-  --gray: #383838;
   --black-secondary: #121212;
+  --lime: #e8ff76;
   --wine: #4c1d23;
+  --maroon: #500000;
   --rose: #d48c9e;
+  --rose-light: #ebd9da;
   --jet-black: #0c0c0c;
   --transparent: #fff0;
   --white: #fff;
   --white-secondary: #fdfdfd;
+  --stroke: #808080;
+  --mist: #f0f0f0;
+  --ash: #d9d9d9;
+  --charcoal: #383838;
+  --iron: #464646;
+  --linen: #e9dcd2;
+  --sun: #ff8198;
+  --blush: #f5e9ea;
+  --peach: #fff6f2;
+  --sky: #76ddff;
+  --lilac: #d1aaff;
+  --taupe: #7b6f69;
+  --amber: #fdbc53;
+  --flame: #ff691e;
+  --tangerine: #fd601c;
+  --vivid-red: #ee1515;
+  --gradient-ember: linear-gradient(180deg, #880404 0%, #d35516 100%);
+  --gradient-flare: linear-gradient(
+    180deg,
+    var(--vivid-red) 0%,
+    var(--flame) 100%
+  );
   --gradient-wine: radial-gradient(
     50% 50% at 50% 50%,
     var(--wine) 0%,
@@ -33,11 +80,24 @@
     var(--white-secondary) 32%,
     var(--black-secondary) 90%
   );
+  --gradient-halo: linear-gradient(180deg, var(--white) 30%, var(--wine) 100%);
   --gradient-wipe: linear-gradient(180deg, transparent 0%, var(--wine) 100%);
+  --gradient-dusk: linear-gradient(180deg, var(--white) 20%, var(--wine) 100%);
+  --gradient-dawn: linear-gradient(180deg, var(--wine) 0%, var(--white) 70%);
   --_typography---font-sizes--heading--h5: clamp(
     1.75rem,
     1.5376rem + 0.9061vw,
     2.625rem
+  );
+  --_typography---font-sizes--heading--h2: clamp(
+    3.75rem,
+    -0.1942rem + 16.8285vw,
+    20rem
+  );
+  --_typography---font-sizes--heading--h3: clamp(
+    2.75rem,
+    1.4757rem + 5.4369vw,
+    8rem
   );
   --_typography---font-sizes--heading--h4: clamp(
     2rem,
@@ -45,20 +105,67 @@
     5.25rem
   );
   --_typography---font-sizes--nav--menu-item: clamp(
-    32px,
-    calc(3.36vw + 19.39px),
-    67.8px
+    2rem,
+    calc(3.36vw + 1.211875rem),
+    4.2375rem
+  );
+  --_typography---font-sizes--nav--menu-item-index: clamp(
+    1.2389rem,
+    calc(2.0814vw + 0.7507rem),
+    2.625rem
   );
   --_typography---font-sizes--body--md: clamp(
-    16px,
-    calc(0.376vw + 14.59px),
-    20px
+    1rem,
+    calc(0.376vw + 0.911875rem),
+    1.25rem
   );
+  --progress-year-base: clamp(5rem, 1.3592rem + 15.534vw, 20rem);
+  --_typography---font-sizes--heading--progress-year: var(--progress-year-base);
+  --_typography---font-sizes--body--badge: clamp(
+    1.5rem,
+    1.2573rem + 1.0356vw,
+    2.5rem
+  );
+
+  --button-lg-notch-width: clamp(1.25rem, 3.33vw, 3rem);
+  --button-lg-notch-offset: clamp(1rem, 4.17vw, 3.75rem);
+  --button-lg-label-size: clamp(1.375rem, 4.17vw, 3.75rem);
+  --button-lg-icon-bg-size: clamp(1.75rem, 4.86vw, 4.375rem);
+  --button-lg-icon-size: clamp(0.75rem, 2.22vw, 2rem);
+  --marquee-item-gap: clamp(1.25rem, 3vw, 2.5rem);
+  --marquee-text-size: clamp(3rem, 0.6942rem + 9.8382vw, 12.5rem);
+  --brand-watermark-text-size: clamp(
+    3.75rem,
+    calc(16.83vw - 0.19375rem),
+    14.95rem
+  );
+
+  /* Progress section: image height once the card is in its desktop (`lg`+)
+     layout — fills what's left of the screen below the year and text, within
+     the reference's 300px (285px = everything else in the card + margins). */
+  --progress-img-h: clamp(
+    180px,
+    calc(
+      100dvh - var(--_typography---font-sizes--heading--progress-year) - 285px
+    ),
+    300px
+  );
+}
+
+/* Short-laptop guard (`lg`+ only, the reference has none): cap the year at
+   30% of the screen height so year + badge never spill off-screen. */
+@media (width >= theme(--breakpoint-lg)) {
+  :root {
+    --_typography---font-sizes--heading--progress-year: min(
+      var(--progress-year-base),
+      30dvh
+    );
+  }
 }
 
 @layer base {
   body {
-    @apply bg-white text-gray;
+    @apply bg-white-secondary text-black-secondary;
   }
   html {
     @apply font-sans;
@@ -82,7 +189,8 @@
      slightly overhangs that box in condensed display fonts. charsClass:"char"
      names the wrapper "char-mask" (SplitText's own "-mask" suffix convention)
      so it can be given breathing room here instead of at every call site. */
-  .char-mask {
+  .char-mask,
+  .line-mask {
     overflow-clip-margin: 0.12em;
   }
 
@@ -91,6 +199,10 @@
      text-transparent for the fill) gets one small hand-written rule. */
   .text-stroke {
     -webkit-text-stroke: 1px var(--black-secondary);
+  }
+
+  .nav-text-stroke {
+    -webkit-text-stroke: 1px var(--stroke);
   }
 }
 
@@ -172,4 +284,274 @@
 }
 .site-header.is-on-light .border-white-secondary {
   border-color: var(--black-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Quotes section — the reference's grid-box layout (components/
+   quotes). A square-cell background grid (22 columns by 11 rows,
+   11 by 22 below `lg`, hidden below `md`) with an
+   overlay grid of the same shape holding the strip, the quote box
+   and six stat tiles at fixed cell coordinates. The placements
+   below are the reference's, breakpoint by breakpoint, written as
+   plain media queries rather than utilities so the cascade stays
+   in source order (later, narrower rules win). Grid areas read
+   row-start / column-start / row-end / column-end; a reversed pair
+   is swapped by the browser, as in the reference.
+   ───────────────────────────────────────────────────────────── */
+.quotes-section {
+  background-color: #000;
+}
+.quotes-bg {
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  width: 100%;
+}
+.quotes-cell {
+  aspect-ratio: 1;
+  border: 0 solid #1b1711;
+  border-width: 0 1px 1px 0;
+}
+.quotes-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  grid-template-rows: repeat(11, minmax(0, 1fr));
+  width: 100%;
+  height: 100%;
+}
+.quotes-tile {
+  container-type: inline-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border: 1px solid var(--black-secondary);
+  background-color: rgb(0 0 0 / 0.8);
+}
+.quotes-box {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: clip;
+  padding: 6% 32px;
+  border: 1px solid var(--black-secondary);
+  background-color: rgb(0 0 0 / 0.8);
+}
+.quotes-strip {
+  display: flex;
+  align-items: center;
+  overflow: clip;
+  border: 1px solid var(--black-secondary);
+  background-color: rgb(0 0 0 / 0.8);
+}
+
+[data-quotes-area="strip"] {
+  grid-area: 2 / -3 / 2 / 13;
+}
+[data-quotes-area="quote"] {
+  grid-area: 4 / 5 / 10 / 15;
+}
+[data-quotes-slot="1"] {
+  grid-area: 2 / 4 / 4 / 6;
+}
+[data-quotes-slot="2"] {
+  grid-area: 11 / 2 / 9 / 4;
+}
+[data-quotes-slot="3"] {
+  grid-area: 3 / 15 / 5 / 17;
+}
+[data-quotes-slot="4"] {
+  grid-area: 3 / 21 / 5 / 19;
+}
+[data-quotes-slot="5"] {
+  grid-area: 6 / 17 / 8 / 19;
+}
+[data-quotes-slot="6"] {
+  grid-area: 8 / 20 / 10 / 22;
+}
+
+@media (width >= theme(--breakpoint-2xl)) {
+  .quotes-tile {
+    padding: 8px;
+  }
+  .quotes-box {
+    padding: 56px 48px;
+  }
+}
+
+/* Per-stat layouts (`lg` and up). The quote box and the "200+" and "3+" tiles
+   take the cells set for the active stat, which also replace the reference's
+   own `2xl` placements for them. "data-quotes-layout" is the key from
+   QUOTES_LAYOUT_KEYS. Keep the media query in step with QUOTES_MOVE_QUERY. */
+@media (width >= theme(--breakpoint-lg)) {
+  [data-quotes-layout="base"] [data-quotes-area="quote"] {
+    grid-area: 4 / 5 / 10 / 15;
+  }
+  [data-quotes-layout="base"] [data-quotes-slot="3"] {
+    grid-area: 3 / 15 / 5 / 17;
+  }
+  [data-quotes-layout="base"] [data-quotes-slot="5"] {
+    grid-area: 6 / 17 / 8 / 19;
+  }
+
+  [data-quotes-layout="620"] [data-quotes-area="quote"] {
+    grid-area: 5 / 4 / 11 / 14;
+  }
+  [data-quotes-layout="620"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
+  }
+  [data-quotes-layout="620"] [data-quotes-slot="5"] {
+    grid-area: 6 / 16 / 8 / 18;
+  }
+
+  [data-quotes-layout="15"] [data-quotes-area="quote"] {
+    grid-area: 5 / 10 / 11 / 20;
+  }
+  [data-quotes-layout="15"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
+  }
+  [data-quotes-layout="15"] [data-quotes-slot="5"] {
+    grid-area: 5 / 7 / 7 / 9;
+  }
+
+  [data-quotes-layout="3"] [data-quotes-area="quote"] {
+    grid-area: 5 / 8 / 11 / 18;
+  }
+  [data-quotes-layout="3"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
+  }
+  [data-quotes-layout="3"] [data-quotes-slot="5"] {
+    grid-area: 7 / 6 / 9 / 8;
+  }
+
+  [data-quotes-layout="2"] [data-quotes-area="quote"] {
+    grid-area: 4 / 9 / 10 / 19;
+  }
+  [data-quotes-layout="2"] [data-quotes-slot="3"] {
+    grid-area: 5 / 2 / 7 / 4;
+  }
+  [data-quotes-layout="2"] [data-quotes-slot="5"] {
+    grid-area: 7 / 6 / 9 / 8;
+  }
+}
+
+@media (width < theme(--breakpoint-lg)) {
+  .quotes-bg {
+    grid-template-columns: repeat(11, 1fr);
+  }
+  .quotes-cell-tablet-hidden {
+    display: none;
+  }
+  .quotes-overlay {
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(22, minmax(0, 1fr));
+  }
+  .quotes-box {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+  [data-quotes-area="strip"] {
+    grid-column-end: 2;
+  }
+  [data-quotes-area="quote"] {
+    grid-column: 5 / 11;
+    grid-row-end: 10;
+  }
+  [data-quotes-slot="1"] {
+    grid-area: 15 / 7 / 17 / 9;
+  }
+  [data-quotes-slot="2"] {
+    grid-area: 8 / 2 / 11 / 5;
+  }
+  [data-quotes-slot="3"] {
+    grid-area: 10 / 8 / 13 / 11;
+  }
+  [data-quotes-slot="4"] {
+    grid-area: 18 / 10 / 20 / 12;
+  }
+  [data-quotes-slot="5"] {
+    grid-area: 12 / 4 / 14 / 6;
+  }
+  [data-quotes-slot="6"] {
+    grid-area: 17 / 2 / 22 / 5;
+  }
+}
+
+@media (width < theme(--breakpoint-md)) {
+  .quotes-section {
+    padding: 83px 20px;
+  }
+  .quotes-cell {
+    display: none;
+  }
+  .quotes-bg {
+    display: block;
+  }
+  .quotes-overlay {
+    position: relative;
+    inset: auto;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .quotes-tile {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .quotes-box {
+    margin-bottom: 20px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .quotes-strip {
+    margin-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  [data-quotes-area="strip"],
+  [data-quotes-area="quote"] {
+    grid-area: span 1 / span 4 / span 1 / span 4;
+  }
+  [data-quotes-slot="1"] {
+    grid-area: span 2 / span 1 / span 2 / span 1;
+  }
+  [data-quotes-slot="2"],
+  [data-quotes-slot="4"] {
+    grid-area: span 1 / span 1 / span 1 / span 1;
+  }
+  [data-quotes-slot="3"] {
+    grid-area: 3 / 3 / 5 / 4;
+  }
+  [data-quotes-slot="5"] {
+    grid-area: 4 / 2 / 5 / 3;
+  }
+  [data-quotes-slot="6"] {
+    grid-area: 4 / 4 / 5 / 5;
+  }
+}
+
+@media (width < theme(--breakpoint-sm)) {
+  .quotes-section {
+    padding-top: 38px;
+  }
+  .quotes-overlay {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .quotes-box {
+    padding: 20px;
+    border-color: #ffffff52;
+  }
+  [data-quotes-area="strip"],
+  [data-quotes-area="quote"] {
+    grid-area: span 1 / span 2 / span 1 / span 2;
+  }
+  [data-quotes-slot="2"],
+  [data-quotes-slot="3"],
+  [data-quotes-slot="4"],
+  [data-quotes-slot="5"],
+  [data-quotes-slot="6"] {
+    grid-area: span 2 / span 1 / span 2 / span 1;
+  }
 }

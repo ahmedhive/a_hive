@@ -6,11 +6,9 @@ import {
   CTA_HREF,
   CTA_LABEL,
   CTA_TICKER_TEXT,
-  TICKER_REPEAT_COUNT,
+  TICKER_COPIES,
 } from "./cta-marquee.data";
 import useCtaMarquee from "./use-cta-marquee";
-
-const TICKER_COPIES = Array.from({ length: TICKER_REPEAT_COUNT });
 
 export default function CtaMarquee() {
   const { row1Ref, row2Ref } = useCtaMarquee();
@@ -29,7 +27,7 @@ export default function CtaMarquee() {
         {TICKER_COPIES.map((_, i) => (
           <h2
             key={i}
-            className="mr-[clamp(20px,3vw,40px)] text-[clamp(3rem,0.6942rem+9.8382vw,12.5rem)] leading-none uppercase"
+            className="mr-(--marquee-item-gap) text-(length:--marquee-text-size) leading-none uppercase"
           >
             {CTA_TICKER_TEXT}
           </h2>
@@ -44,7 +42,7 @@ export default function CtaMarquee() {
         {TICKER_COPIES.map((_, i) => (
           <h2
             key={i}
-            className="text-stroke mr-[clamp(20px,3vw,40px)] text-[clamp(3rem,0.6942rem+9.8382vw,12.5rem)] leading-none text-transparent uppercase"
+            className="text-stroke mr-(--marquee-item-gap) text-(length:--marquee-text-size) leading-none text-transparent uppercase"
           >
             {CTA_TICKER_TEXT}
           </h2>
@@ -55,7 +53,6 @@ export default function CtaMarquee() {
         <CustomButton
           label={CTA_LABEL}
           href={CTA_HREF}
-          target="_blank"
           icon={ArrowIcon}
           filled
           size="lg"

@@ -16,13 +16,15 @@ import {
   HEADER_SCROLL_TWEEN_DURATION_S,
 } from "./header.data";
 import useHeaderLuma from "./use-header-luma";
+import useHeaderPeek from "./use-header-peek";
 
-export default function useHeader() {
+export default function useHeader(isMenuOpen: boolean) {
   const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const isHome = pathname === ROUTES.HOME;
 
   useHeaderLuma(headerRef, pathname);
+  useHeaderPeek(headerRef, pathname, isMenuOpen);
 
   // One-time entrance reveal. Header lives in the root layout, so it mounts
   // exactly once for the whole session (client-side navigation only swaps

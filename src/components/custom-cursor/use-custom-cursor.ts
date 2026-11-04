@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   FULL_INTERSECTION_THRESHOLDS,
   gsap,
@@ -30,10 +30,23 @@ export default function useCustomCursor() {
   const rootRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  // Starts true so server/client markup match on first render; flipped
+  // before paint (useIsomorphicLayoutEffect) whenever the cursor can never
+  // actually run, so index.tsx can unmount the dot/ring nodes entirely
+  // instead of leaving two permanently invisible, `will-change`-promoted
+  // (i.e. forced onto their own GPU compositor layer) elements sitting in
+  // the DOM for every touch/reduced-motion visit.
+  const [isEnabled, setIsEnabled] = useState(true);
 
   useIsomorphicLayoutEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    if (prefersReducedMotion()) return;
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      setIsEnabled(false);
+      return;
+    }
+    if (prefersReducedMotion()) {
+      setIsEnabled(false);
+      return;
+    }
 
     const root = rootRef.current;
     const dot = dotRef.current;
@@ -178,5 +191,5 @@ export default function useCustomCursor() {
     };
   }, []);
 
-  return { rootRef, dotRef, ringRef };
+  return { rootRef, dotRef, ringRef, isEnabled };
 }

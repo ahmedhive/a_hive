@@ -1,7 +1,13 @@
 import { InstagramIcon, LinkedinIcon, WhatsappIcon } from "@/assets/icons";
-import { ISocialLink } from "@/interfaces";
+import { INavLink, ISocialLink } from "@/interfaces";
+import { ROUTES } from "./routes";
 
-export const BRAND_TEXT = "// AHMEDHIVE";
+export const BRAND_NAME = "AHMEDHIVE";
+export const BRAND_TEXT = `// ${BRAND_NAME}`;
+
+// Where visitors reach me: shown in the menu, and where the contact form's
+// messages are delivered.
+export const CONTACT_EMAIL = "ahmed.hiivee@gmail.com";
 
 // Single source for the WhatsApp number — the wa.me link (social icon, about
 // CTA) and the display/tel: format (menu contact bar) both derive from this
@@ -27,4 +33,12 @@ export const SOCIAL_LINKS: ISocialLink[] = [
     href: "https://www.linkedin.com/in/ahmedhive/",
     Icon: LinkedinIcon,
   },
+];
+
+export const MENU_NAV_LINKS: INavLink[] = [
+  { label: "HOME", href: ROUTES.HOME },
+  { label: "ABOUT", href: ROUTES.ABOUT },
+  { label: "WORKS", href: ROUTES.WORKS },
+  { label: "SERVICES", href: ROUTES.SERVICES },
+  { label: "CONTACT", href: ROUTES.CONTACT },
 ];

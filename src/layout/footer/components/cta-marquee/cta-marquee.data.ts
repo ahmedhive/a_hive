@@ -1,14 +1,15 @@
-import { WHATSAPP_LINK } from "@/constants";
+import { ROUTES } from "@/constants/routes";
 
 export const CTA_TICKER_TEXT = "Let’s Connect And Let’s Work Together";
 export const CTA_LABEL = "Let's Contact";
-export const CTA_HREF = WHATSAPP_LINK;
+export const CTA_HREF = ROUTES.CONTACT;
 
 // Each row renders the phrase twice back-to-back: tweening the track exactly
 // -50%/+50% of its own width (i.e. one full phrase-width) lands it back on a
 // frame identical to the start, so `repeat: -1` reads as continuous motion
 // with no visible seam.
 export const TICKER_REPEAT_COUNT = 2;
+export const TICKER_COPIES = Array.from({ length: TICKER_REPEAT_COUNT });
 
 // A literal px/second speed (not a fixed seconds duration) — duration is
 // derived per-row from its own measured width in use-cta-marquee.ts, so

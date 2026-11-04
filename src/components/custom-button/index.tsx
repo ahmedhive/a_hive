@@ -10,16 +10,18 @@ export default function CustomButton(props: ICustomButton) {
     label,
     href,
     target = "_self",
+    type = "button",
+    disabled,
     className,
     icon: Icon,
     filled = false,
     size = "default",
+    notchColor,
+    borderColor,
   } = props;
 
-  const isLg = size === "lg";
-
   const {
-    containerRef,
+    setContainerRef,
     dashRef,
     notch1Ref,
     notch2Ref,
@@ -29,30 +31,48 @@ export default function CustomButton(props: ICustomButton) {
     iconRowRef,
     onMouseEnter,
     onMouseLeave,
-  } = useCustomButton({ filled, hasIcon: !!Icon, isLg });
+    isLg,
+    notchBgClass,
+    notchStyle,
+    borderColorClass,
+    borderStyle,
+    notchTopClass,
+    notchBottomClass,
+    labelSizeClass,
+    iconSlotSizeClass,
+    iconSizeClass,
+  } = useCustomButton({
+    filled,
+    hasIcon: !!Icon,
+    size,
+    notchColor,
+    borderColor,
+  });
 
-  return (
-    <Link
-      ref={containerRef}
-      href={href}
-      target={target}
-      rel={target === "_blank" ? "noreferrer" : undefined}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocus={onMouseEnter}
-      onBlur={onMouseLeave}
-      className={cn(
-        "relative inline-flex items-center rounded-full border-2 border-black-secondary",
-        filled ? "bg-rose" : "bg-transparent",
-        isLg
-          ? `gap-[clamp(4px,1.39vw,20px)] py-[clamp(8px,1.94vw,28px)]
-            pr-[clamp(8px,4.17vw,60px)] pl-[clamp(16px,4.17vw,60px)]`
-          : `gap-3 py-4 px-5.5
+  const sharedProps = {
+    ref: setContainerRef,
+    style: borderStyle,
+    onMouseEnter,
+    onMouseLeave,
+    onFocus: onMouseEnter,
+    onBlur: onMouseLeave,
+    className: cn(
+      "relative inline-flex items-center rounded-full border-2",
+      borderColorClass,
+      filled ? "bg-rose-light" : "bg-transparent",
+      isLg
+        ? `gap-[clamp(0.25rem,1.39vw,1.25rem)] py-[clamp(0.5rem,1.94vw,1.75rem)]
+            pr-[clamp(0.5rem,4.17vw,3.75rem)] pl-(--button-lg-notch-offset)`
+        : `gap-3 py-4 px-5.5
             md:px-7.5
             lg:py-5.75 lg:px-10`,
-        className,
-      )}
-    >
+      disabled && "cursor-not-allowed opacity-60",
+      className,
+    ),
+  };
+
+  const content = (
+    <>
       {/* Notch marks: small white stitches sitting on the border itself —
           only make sense against a visible border, so they shrink and
           slide off toward the nearest edge once the button fills (or,
@@ -62,10 +82,13 @@ export default function CustomButton(props: ICustomButton) {
       <span
         ref={notch1Ref}
         aria-hidden
+        style={notchStyle}
         className={cn(
-          "absolute -top-0.5 h-0.5 rounded-full bg-white",
+          "absolute rounded-full",
+          notchTopClass,
+          notchBgClass,
           isLg
-            ? "left-[clamp(16px,4.17vw,60px)] w-[clamp(20px,3.33vw,48px)]"
+            ? "left-(--button-lg-notch-offset) w-(--button-lg-notch-width)"
             : `left-5.5 w-5
               md:left-7.5
               lg:left-10
@@ -75,10 +98,13 @@ export default function CustomButton(props: ICustomButton) {
       <span
         ref={notch2Ref}
         aria-hidden
+        style={notchStyle}
         className={cn(
-          "absolute -bottom-0.5 h-0.5 rounded-full bg-white",
+          "absolute rounded-full",
+          notchBottomClass,
+          notchBgClass,
           isLg
-            ? "right-[clamp(46px,7.64vw,110px)] w-[clamp(20px,3.33vw,48px)]"
+            ? "right-[clamp(2.875rem,7.64vw,6.875rem)] w-(--button-lg-notch-width)"
             : `right-5.5 w-5
               md:right-7.5
               lg:right-10
@@ -88,10 +114,13 @@ export default function CustomButton(props: ICustomButton) {
       <span
         ref={notch3Ref}
         aria-hidden
+        style={notchStyle}
         className={cn(
-          "absolute -bottom-0.5 h-0.5 rounded-full bg-white",
+          "absolute rounded-full",
+          notchBottomClass,
+          notchBgClass,
           isLg
-            ? "right-[clamp(30px,4.86vw,70px)] w-[clamp(12px,2.08vw,30px)]"
+            ? "right-[clamp(1.875rem,4.86vw,4.375rem)] w-[clamp(0.75rem,2.08vw,1.875rem)]"
             : `right-14.5 w-2.5
               md:right-16.5
               lg:right-19`,
@@ -105,7 +134,7 @@ export default function CustomButton(props: ICustomButton) {
           ref={dashRef}
           className={cn(
             "h-0.5 shrink-0 rounded-full bg-black-secondary",
-            isLg ? "w-[clamp(20px,3.33vw,48px)]" : "w-5 sm:w-6.25",
+            isLg ? "w-(--button-lg-notch-width)" : "w-5 sm:w-6.25",
           )}
         />
       )}
@@ -113,16 +142,14 @@ export default function CustomButton(props: ICustomButton) {
       <span
         className={cn(
           "relative block overflow-clip",
-          isLg ? "h-[clamp(22px,4.17vw,60px)]" : "h-5 md:h-6",
+          isLg ? "h-(--button-lg-label-size)" : "h-5 md:h-6",
         )}
       >
         <span
           ref={text1Ref}
           className={cn(
             "block font-heading text-black-secondary",
-            isLg
-              ? "text-[clamp(22px,4.17vw,60px)] leading-none"
-              : "text-[20px] leading-5 md:text-[24px] md:leading-6",
+            labelSizeClass,
           )}
         >
           {label}
@@ -132,9 +159,7 @@ export default function CustomButton(props: ICustomButton) {
           aria-hidden
           className={cn(
             "block font-heading text-black-secondary",
-            isLg
-              ? "text-[clamp(22px,4.17vw,60px)] leading-none"
-              : "text-[20px] leading-5 md:text-[24px] md:leading-6",
+            labelSizeClass,
           )}
         >
           {label}
@@ -146,39 +171,49 @@ export default function CustomButton(props: ICustomButton) {
           aria-hidden
           className={cn(
             "shrink-0 overflow-clip rounded-full bg-black-secondary",
-            isLg ? "size-[clamp(28px,4.86vw,70px)]" : "size-8 md:size-9.5",
+            iconSlotSizeClass,
           )}
         >
           <span ref={iconRowRef} className="flex">
             <span
               className={cn(
                 "flex shrink-0 items-center justify-center",
-                isLg ? "size-[clamp(28px,4.86vw,70px)]" : "size-8 md:size-9.5",
+                iconSlotSizeClass,
               )}
             >
-              <Icon
-                className={cn(
-                  "text-white-secondary",
-                  isLg ? "size-[clamp(12px,2.22vw,32px)]" : "size-4",
-                )}
-              />
+              <Icon className={cn("text-white-secondary", iconSizeClass)} />
             </span>
             <span
               className={cn(
                 "flex shrink-0 items-center justify-center",
-                isLg ? "size-[clamp(28px,4.86vw,70px)]" : "size-8 md:size-9.5",
+                iconSlotSizeClass,
               )}
             >
-              <Icon
-                className={cn(
-                  "text-white-secondary",
-                  isLg ? "size-[clamp(12px,2.22vw,32px)]" : "size-4",
-                )}
-              />
+              <Icon className={cn("text-white-secondary", iconSizeClass)} />
             </span>
           </span>
         </span>
       )}
+    </>
+  );
+
+  return href !== undefined ? (
+    <Link
+      {...sharedProps}
+      href={href}
+      target={target}
+      rel={target === "_blank" ? "noreferrer" : undefined}
+    >
+      {content}
     </Link>
+  ) : (
+    <button
+      {...sharedProps}
+      type={type}
+      disabled={disabled}
+      aria-busy={disabled}
+    >
+      {content}
+    </button>
   );
 }

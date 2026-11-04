@@ -2,17 +2,15 @@
 
 import { CloseIcon } from "@/assets/icons";
 import { SocialLinks } from "@/components";
-import { BRAND_TEXT } from "@/constants";
+import { BRAND_TEXT, CONTACT_EMAIL, MENU_NAV_LINKS } from "@/constants";
 import { cn } from "@/lib";
+import { MenuLink } from "@/layout/components";
 import {
-  CONTACT_EMAIL,
   CONTACT_PHONE,
-  MENU_NAV_LINKS,
   TAGLINE_ROTATE_DEG,
   TAGLINE_TEXT,
 } from "./menu-overlay.data";
 import { IMenuOverlayProps } from "./menu-overlay.interface";
-import { MenuLink } from "./components";
 
 export default function MenuOverlay(props: IMenuOverlayProps) {
   const { phase, panelRef, onClose } = props;
@@ -22,6 +20,9 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
   return (
     <div
       ref={panelRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site menu"
       aria-hidden={!isVisible}
       inert={phase === "closed" ? true : undefined}
       // `phase` starts as "closed" on both the server and the initial client
@@ -48,7 +49,7 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
               backgroundClip: "text",
               color: "transparent",
             }}
-            className="pointer-events-none relative font-heading font-normal text-[clamp(60px,calc(16.83vw-3.1px),239.2px)] leading-[0.8] tracking-[-0.03em] text-center whitespace-nowrap opacity-30 pt-15 md:pt-11 lg:pt-0"
+            className="pointer-events-none relative font-heading font-normal text-(length:--brand-watermark-text-size) leading-[0.8] tracking-[-0.03em] text-center whitespace-nowrap opacity-30 pt-15 md:pt-11 lg:pt-0"
           >
             {BRAND_TEXT}
           </p>
@@ -56,9 +57,9 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
             style={{
               transform: `translate(-50%, -50%) rotate(${TAGLINE_ROTATE_DEG}deg)`,
             }}
-            className="pointer-events-none absolute top-1/2 left-1/2 hidden bg-rose px-[clamp(12px,calc(1.19vw+18.86px),36px)] py-[clamp(16px,calc(0.595vw+11.43px),20px)] md:block"
+            className="pointer-events-none absolute top-1/2 left-1/2 hidden bg-rose px-[clamp(0.75rem,calc(1.19vw+1.17875rem),2.25rem)] py-[clamp(1rem,calc(0.595vw+0.714375rem),1.25rem)] md:block"
           >
-            <span className="font-heading font-normal text-[clamp(28px,calc(1.04vw+20px),35px)] leading-[0.8] tracking-[-0.01em] whitespace-nowrap text-black-secondary uppercase">
+            <span className="font-heading font-normal text-[clamp(1.75rem,calc(1.04vw+1.25rem),2.1875rem)] leading-[0.8] tracking-[-0.01em] whitespace-nowrap text-black-secondary uppercase">
               {TAGLINE_TEXT}
             </span>
           </div>
@@ -67,22 +68,24 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
             data-menu-close=""
             aria-label="Close menu"
             onClick={onClose}
-            className="absolute top-4 right-4 md:top-8 md:right-8 z-10 flex size-[clamp(48px,calc(3.19vw+36.03px),82px)] items-center justify-center rounded-[clamp(12px,calc(0.75vw+9.18px),20px)] border border-white/30 bg-black-secondary"
+            className="absolute top-4 right-4 md:top-8 md:right-8 z-10 flex size-[clamp(3rem,calc(3.19vw+2.251875rem),5.125rem)] items-center justify-center rounded-[clamp(0.75rem,calc(0.75vw+0.57375rem),1.25rem)] border border-white/30 bg-black-secondary"
           >
-            <CloseIcon className="size-[clamp(24px,calc(1.69vw+17.66px),42px)] text-white-secondary" />
+            <CloseIcon className="size-[clamp(1.5rem,calc(1.69vw+1.10375rem),2.625rem)] text-white-secondary" />
           </button>
         </div>
 
-        <ul className="flex flex-col">
-          {MENU_NAV_LINKS.map(({ label, href }) => (
-            <MenuLink
-              key={label}
-              label={label}
-              href={href}
-              onNavigate={onClose}
-            />
-          ))}
-        </ul>
+        <nav aria-label="Primary">
+          <ul className="flex flex-col">
+            {MENU_NAV_LINKS.map(({ label, href }) => (
+              <MenuLink
+                key={label}
+                label={label}
+                href={href}
+                onNavigate={onClose}
+              />
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-4 px-15 py-10 md:justify-between">
@@ -93,12 +96,8 @@ export default function MenuOverlay(props: IMenuOverlayProps) {
           {CONTACT_EMAIL}
         </a>
 
-        <div className="flex items-center gap-3">
-          <p className="font-sans font-bold text-(length:--_typography---font-sizes--body--md) leading-normal tracking-normal text-white">
-            Follow us
-          </p>
-          <div className="h-px w-5 md:w-10 bg-white-secondary" />
-          <SocialLinks className="text-white-secondary" />
+        <div className="flex items-center gap-2 md:gap-3">
+          <SocialLinks label="Follow us" labelClassName="font-bold" />
         </div>
 
         <a

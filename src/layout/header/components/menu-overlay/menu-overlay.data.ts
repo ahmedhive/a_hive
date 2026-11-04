@@ -1,6 +1,4 @@
-import { ROUTES } from "@/constants/routes";
 import { WHATSAPP_PHONE_INTL } from "@/constants";
-import { INavLink } from "@/interfaces";
 
 // Panel slides from -100dvh to 0dvh on open; close reverses the same tween.
 // Implemented as yPercent (-100 -> 0) on an h-dvh element rather than literal
@@ -10,16 +8,7 @@ import { INavLink } from "@/interfaces";
 export const PANEL_DURATION_S = 0.8;
 export const PANEL_EASE = "power1.out";
 
-export const CONTACT_EMAIL = "ahmed.hiivee@gmail.com";
 export const CONTACT_PHONE = WHATSAPP_PHONE_INTL;
 
 export const TAGLINE_TEXT = "PM MIND DESIGNER HANDS";
 export const TAGLINE_ROTATE_DEG = -15;
-
-export const MENU_NAV_LINKS: INavLink[] = [
-  { label: "HOME", href: ROUTES.HOME },
-  { label: "ABOUT", href: ROUTES.ABOUT },
-  { label: "WORKS", href: ROUTES.WORKS },
-  { label: "SERVICES", href: ROUTES.SERVICES },
-  { label: "CONTACT", href: ROUTES.CONTACT },
-];

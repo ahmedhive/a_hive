@@ -1,5 +1,5 @@
+import { MENU_NAV_LINKS } from "@/constants";
 import { ROUTES } from "@/constants/routes";
-import { INavLink } from "@/interfaces";
 
 export const BRAND_HREF = ROUTES.HOME;
 
@@ -32,9 +32,21 @@ export const HEADER_REVEAL_DURATION_S = 0.5;
 export const HEADER_REVEAL_EASE = "power1.out";
 export const HEADER_REVEAL_Y_PERCENT_FROM = -100;
 
-export const NAV_LINKS: INavLink[] = [
-  { label: "ABOUT", href: ROUTES.ABOUT },
-  { label: "WORKS", href: ROUTES.WORKS },
-  { label: "SERVICES", href: ROUTES.SERVICES },
-  { label: "CONTACT", href: ROUTES.CONTACT },
-];
+// Desktop nav omits Home — the brand mark already links there (see
+// BRAND_HREF above), so it's the same route list the mobile/footer menu
+// uses (MENU_NAV_LINKS) minus that one entry, not a second copy of it.
+export const NAV_LINKS = MENU_NAV_LINKS.filter(
+  (link) => link.href !== ROUTES.HOME,
+);
+
+// Scroll-up peek: the header slides out of view on scroll down and only
+// returns when the user scrolls up, then hides again once they stop.
+export const HEADER_PEEK_VISIBLE_MS = 2500;
+// Ignores trackpad wobble: only scroll moves bigger than this count as a
+// direction change.
+export const HEADER_PEEK_SCROLL_THRESHOLD_PX = 10;
+export const HEADER_PEEK_DURATION_S = 0.4;
+export const HEADER_PEEK_EASE = "power2.out";
+// Extra distance past the header's own height so its scrolled-state top
+// inset and shadow are fully off-screen when hidden.
+export const HEADER_PEEK_HIDE_EXTRA_PX = 24;
