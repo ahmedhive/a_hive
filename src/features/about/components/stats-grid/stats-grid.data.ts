@@ -36,15 +36,3 @@ export const STATS: IStat[] = [
     visualClassName: "text-white right-0 bottom-0 max-lg:h-auto max-lg:w-22.5",
   },
 ];
-
-// Counter roll, same as the reference's [data-counter] timeline: once a box
-// reaches the bottom of the viewport its digit columns roll into place (top
-// columns downward, bottom columns upward) over 2s, then the suffix fades up
-// just before the roll lands.
-export const COUNTER_SCROLL_START = "top bottom";
-export const COUNTER_ROLL_DURATION_S = 2;
-export const COUNTER_ROLL_EASE = "power3.inOut";
-export const COUNTER_ROLL_FROM_Y_PERCENT = 90;
-export const COUNTER_SUFFIX_START_S = 1.94;
-export const COUNTER_SUFFIX_FROM_Y_PERCENT = 20;
-export const COUNTER_SUFFIX_EASE = "power2.out";

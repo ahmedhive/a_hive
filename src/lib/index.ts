@@ -18,3 +18,5 @@ export {
   LIGHT_LUMA_THRESHOLD,
 } from "./luma";
 export { default as useHeroReveal } from "./use-hero-reveal";
+export { default as useTitleReveal } from "./use-title-reveal";
+export { default as useCounterRoll } from "./use-counter-roll";

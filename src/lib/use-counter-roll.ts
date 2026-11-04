@@ -1,32 +1,32 @@
-import { useRef } from "react";
-import {
-  gsap,
-  PLAY_ONCE_ON_ENTER,
-  prefersReducedMotion,
-  useIsomorphicLayoutEffect,
-} from "@/lib";
-import {
-  COUNTER_ROLL_DURATION_S,
-  COUNTER_ROLL_EASE,
-  COUNTER_ROLL_FROM_Y_PERCENT,
-  COUNTER_SCROLL_START,
-  COUNTER_SUFFIX_EASE,
-  COUNTER_SUFFIX_FROM_Y_PERCENT,
-  COUNTER_SUFFIX_START_S,
-} from "./stats-grid.data";
+import { RefObject } from "react";
+import { gsap } from "./gsap";
+import "./gsap-scroll-trigger";
+import { PLAY_ONCE_ON_ENTER, prefersReducedMotion } from "./utils";
+import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
-export default function useStatsGrid() {
-  const sectionRef = useRef<HTMLElement>(null);
+// Counter roll, same as the reference's [data-counter] timeline: once a
+// counter reaches the bottom of the viewport its digit columns roll into place
+// (top columns downward, bottom columns upward) over 2s, then the suffix fades
+// up just before the roll lands.
+const COUNTER_SCROLL_START = "top bottom";
+const COUNTER_ROLL_DURATION_S = 2;
+const COUNTER_ROLL_EASE = "power3.inOut";
+const COUNTER_ROLL_FROM_Y_PERCENT = 90;
+const COUNTER_SUFFIX_START_S = 1.94;
+const COUNTER_SUFFIX_FROM_Y_PERCENT = 20;
+const COUNTER_SUFFIX_EASE = "power2.out";
 
+// Rolls every StatCounter ([data-counter]) inside the root.
+export default function useCounterRoll(rootRef: RefObject<HTMLElement | null>) {
   // Nothing is CSS-pre-hidden: each counter is laid out in its final state,
   // so skipping the tweens under reduced motion leaves the real numbers.
   useIsomorphicLayoutEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const root = rootRef.current;
+    if (!root) return;
     if (prefersReducedMotion()) return;
 
     const timelines = Array.from(
-      section.querySelectorAll<HTMLElement>("[data-counter]"),
+      root.querySelectorAll<HTMLElement>("[data-counter]"),
     ).map((counter) => {
       const tops = counter.querySelectorAll("[data-counter-column='top']");
       const bottoms = counter.querySelectorAll(
@@ -78,7 +78,5 @@ export default function useStatsGrid() {
         tl.revert();
       });
     };
-  }, []);
-
-  return { sectionRef };
+  }, [rootRef]);
 }

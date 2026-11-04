@@ -4,3 +4,4 @@ export { default as TrustedFounders } from "./trusted-founders";
 export { default as ClientsFeedback } from "./clients-feedback";
 export { default as ProjectList } from "./project-list";
 export { default as WorksHero } from "./works-hero";
+export { default as TagList } from "./tag-list";

@@ -20,8 +20,8 @@ export const MAX_FEATURED_WORKS = 5;
 // this order.
 export const WORKS: IWork[] = [
   {
-    slug: "kayya-financing-platform",
-    title: "Kayya Financing Platform",
+    slug: "kayya-in-house-financing-platform",
+    title: "Kayya In-House Financing Platform",
     description:
       "Kayya lets businesses offer in-house financing, payment plans, and memberships, with a borrower app, live payment tracking, payouts, and a super admin view over every location.",
     tags: ["Planning", "Design", "Fintech"],
@@ -89,8 +89,8 @@ export function getWorkBySlug(slug: string) {
   return WORKS.find((work) => work.slug === slug);
 }
 
-// The home page's stacked cards. They still point at the works page until the
-// project pages exist; then they can use getWorkHref(work.slug).
+// The home page's stacked cards. A project without a page yet sends its
+// visitors on to the works list.
 export const FEATURED_WORKS: IFeaturedWork[] = WORKS.flatMap((work) =>
   work.featured
     ? [
@@ -98,7 +98,7 @@ export const FEATURED_WORKS: IFeaturedWork[] = WORKS.flatMap((work) =>
           title: work.title,
           description: work.description,
           image: work.featuredImage,
-          href: ROUTES.WORKS,
+          href: getWorkHref(work.slug),
           paneColor: work.paneColor,
           imagePaneColor: work.imagePaneColor,
         },

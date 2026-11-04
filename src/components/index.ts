@@ -9,3 +9,4 @@ export { default as ServiceVideo } from "./service-video";
 export { default as Subtitle } from "./subtitle";
 export { default as Tabs } from "./tabs";
 export { default as StarRating } from "./star-rating";
+export { default as StatCounter } from "./stat-counter";

@@ -1,14 +1,15 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { AboutStatsGridImg } from "@/assets/images";
-import { cn } from "@/lib";
-import { StatCounter } from "./components";
+import { StatCounter } from "@/components";
+import { cn, useCounterRoll } from "@/lib";
 import { STATS } from "./stats-grid.data";
-import useStatsGrid from "./use-stats-grid";
 
 export default function StatsGrid() {
-  const { sectionRef } = useStatsGrid();
+  const sectionRef = useRef<HTMLElement>(null);
+  useCounterRoll(sectionRef);
 
   return (
     <section

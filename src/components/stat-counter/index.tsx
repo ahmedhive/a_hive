@@ -1,4 +1,4 @@
-import { cn } from "@/lib";
+import { cn } from "@/lib/utils";
 import { IStatCounterProps } from "./stat-counter.interface";
 import { columnDigits, toParts } from "./stat-counter.utils";
 
