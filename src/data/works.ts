@@ -44,8 +44,8 @@ export const WORKS: IWork[] = [
     imagePaneColor: "#9B82E3",
   },
   {
-    slug: "gearup-mma-booking-platform",
-    title: "GearUp MMA Booking Platform",
+    slug: "gearup-mma-martial-arts-booking",
+    title: "GearUp MMA Martial Arts Booking",
     description:
       "GearUp MMA connects fighters with martial arts gyms, letting users find and book classes by discipline while gym admins manage classes, members, payments, and growth in one place.",
     tags: ["Strategy", "Design", "Build", "Fitness"],
