@@ -68,8 +68,8 @@ export const WORKS: IWork[] = [
     imagePaneColor: "#30B795",
   },
   {
-    slug: "mr-delivery-on-demand-app",
-    title: "Mr. Delivery On Demand App",
+    slug: "mr-delivery-on-demand-delivery-app",
+    title: "Mr. Delivery On Demand Delivery App",
     description:
       "Mr. Delivery makes parcel and food delivery simple, from booking a rider and live tracking to in-app chat and payments, with a rider onboarding flow and a super admin to run it.",
     tags: ["PMM", "Strategies", "Team Handling", "Build"],
