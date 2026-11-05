@@ -6,10 +6,10 @@ import {
   HERO_CAPTION_EMPHASIS,
   HERO_CAPTION_PREFIX,
   HERO_CAPTION_SUFFIX,
-} from "./works-hero.data";
-import { IWorksHeroProps } from "./works-hero.interface";
+} from "./work-hero.data";
+import { IWorkHeroProps } from "./work-hero.interface";
 
-export default function WorksHero(props: IWorksHeroProps) {
+export default function WorkHero(props: IWorkHeroProps) {
   const { title, cta } = props;
   const { captionRef, titleRef } = useHeroReveal();
 

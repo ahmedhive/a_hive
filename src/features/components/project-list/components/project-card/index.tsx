@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getWorkHref } from "@/data/works";
+import { getWorkHref } from "@/data/work";
 import TagList from "../../../tag-list";
 import { IProjectCardProps } from "./project-card.interface";
 

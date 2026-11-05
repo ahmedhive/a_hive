@@ -3,7 +3,7 @@ import { PRODUCTS_BADGE, PRODUCTS_TITLE } from "./shipped-products.data";
 import { IShippedProductsProps } from "./shipped-products.interface";
 
 export default function ShippedProducts(props: IShippedProductsProps) {
-  const { works } = props;
+  const { work } = props;
 
   return (
     <section className="overflow-clip px-[5%] py-16 text-black-secondary sm:py-20 md:py-25 lg:py-37.5">
@@ -21,7 +21,7 @@ export default function ShippedProducts(props: IShippedProductsProps) {
           </p>
         </header>
 
-        <ProjectList works={works} />
+        <ProjectList work={work} />
       </div>
     </section>
   );

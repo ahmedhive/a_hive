@@ -23,7 +23,7 @@ export interface IFeaturedWork {
 }
 
 interface IWorkBase {
-  // The URL segment of the project's page (/works/<slug>); unique.
+  // The URL segment of the project's page (/work/<slug>); unique.
   slug: string;
   title: string;
   description: string;
@@ -31,7 +31,7 @@ interface IWorkBase {
   listImage: StaticImageData;
 }
 
-// A featured work (at most MAX_FEATURED_WORKS of them) also carries what the
+// A featured work (at most MAX_FEATURED_WORK of them) also carries what the
 // home page's stacked cards need; the rest must not.
 export type IWork =
   | (IWorkBase & { featured: false })

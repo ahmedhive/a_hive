@@ -6,7 +6,7 @@ import {
   Project2Result2Img,
   Project2Result3Img,
   Project2RightImg,
-} from "@/assets/works";
+} from "@/assets/work";
 import { IWorkDetails } from "@/interfaces";
 
 export const PROJECT_2_DETAILS: IWorkDetails = {

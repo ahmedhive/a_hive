@@ -38,7 +38,7 @@ export const SOCIAL_LINKS: ISocialLink[] = [
 export const MENU_NAV_LINKS: INavLink[] = [
   { label: "HOME", href: ROUTES.HOME },
   { label: "ABOUT", href: ROUTES.ABOUT },
-  { label: "WORKS", href: ROUTES.WORKS },
+  { label: "WORK", href: ROUTES.WORK },
   { label: "SERVICES", href: ROUTES.SERVICES },
   { label: "CONTACT", href: ROUTES.CONTACT },
 ];

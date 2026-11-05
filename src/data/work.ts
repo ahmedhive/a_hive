@@ -9,16 +9,16 @@ import {
   Project4ListImg,
   Project5FeaturedImg,
   Project5ListImg,
-} from "@/assets/works";
+} from "@/assets/work";
 import { ROUTES } from "@/constants/routes";
 import { IFeaturedWork, IWork } from "@/interfaces";
 
-export const MAX_FEATURED_WORKS = 5;
+export const MAX_FEATURED_WORK = 5;
 
-// Every project, in the order they were added. The works page shows them in a
+// Every project, in the order they were added. The work page shows them in a
 // random order on each visit; the home page's stack shows the featured ones in
 // this order.
-export const WORKS: IWork[] = [
+export const WORK: IWork[] = [
   {
     slug: "kayya-in-house-financing-platform",
     title: "Kayya In-House Financing Platform",
@@ -82,16 +82,16 @@ export const WORKS: IWork[] = [
 ];
 
 export function getWorkHref(slug: string) {
-  return `${ROUTES.WORKS}/${slug}`;
+  return `${ROUTES.WORK}/${slug}`;
 }
 
 export function getWorkBySlug(slug: string) {
-  return WORKS.find((work) => work.slug === slug);
+  return WORK.find((work) => work.slug === slug);
 }
 
 // The home page's stacked cards. A project without a page yet sends its
-// visitors on to the works list.
-export const FEATURED_WORKS: IFeaturedWork[] = WORKS.flatMap((work) =>
+// visitors on to the work list.
+export const FEATURED_WORK: IFeaturedWork[] = WORK.flatMap((work) =>
   work.featured
     ? [
         {
@@ -108,11 +108,11 @@ export const FEATURED_WORKS: IFeaturedWork[] = WORKS.flatMap((work) =>
 
 // These run when the module loads, so a mistake in the list above fails the
 // build and the dev server instead of showing up as a broken page.
-if (FEATURED_WORKS.length > MAX_FEATURED_WORKS) {
+if (FEATURED_WORK.length > MAX_FEATURED_WORK) {
   throw new Error(
-    `At most ${MAX_FEATURED_WORKS} works can be featured, found ${FEATURED_WORKS.length}.`,
+    `At most ${MAX_FEATURED_WORK} projects can be featured, found ${FEATURED_WORK.length}.`,
   );
 }
-if (new Set(WORKS.map((work) => work.slug)).size !== WORKS.length) {
+if (new Set(WORK.map((work) => work.slug)).size !== WORK.length) {
   throw new Error("Every work needs its own slug.");
 }

@@ -5,7 +5,7 @@ import { ROUTES } from "@/constants/routes";
 import { getWorkSeoTitle } from "@/data/site";
 import { getWorkStructuredData } from "@/data/structured-data";
 import { WORK_DETAIL_SLUGS, getWorkDetails } from "@/data/work-details";
-import { getWorkBySlug, getWorkHref } from "@/data/works";
+import { getWorkBySlug, getWorkHref } from "@/data/work";
 import { WorkDetails } from "@/features";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -34,8 +34,8 @@ export default async function Page(props: IPageProps) {
   const work = getWorkBySlug(slug);
   const details = getWorkDetails(slug);
   // A project whose page isn't written yet (or a mistyped link) lands on the
-  // full list of works.
-  if (!work || !details) redirect(ROUTES.WORKS);
+  // full list of work.
+  if (!work || !details) redirect(ROUTES.WORK);
 
   return (
     <>

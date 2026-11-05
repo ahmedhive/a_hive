@@ -6,7 +6,7 @@ import {
 } from "@/features/components";
 import {
   AboutMe,
-  FeaturedWorks,
+  FeaturedWork,
   Hero,
   PlayReel,
   Progress,
@@ -20,7 +20,7 @@ export default function Home() {
       <AboutMe />
       <Progress />
       <Steps />
-      <FeaturedWorks />
+      <FeaturedWork />
       <Quotes />
       <ExpertSolutions />
       <PlayReel />

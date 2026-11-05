@@ -57,7 +57,7 @@ export default function useCustomButton(options: IUseCustomButtonOptions) {
   // A custom-coloured notch overhangs the 2px border by 1px each side (4px
   // tall, like the reference's masks). Exactly border-thick, its edges stop
   // lining up with the border's once an ancestor is scaled (e.g. the pinned
-  // Featured Works stack) and a sliver of border shows through.
+  // Featured Work stack) and a sliver of border shows through.
   const notchTopClass = notchColor ? "-top-0.75 h-1" : "-top-0.5 h-0.5";
   const notchBottomClass = notchColor
     ? "-bottom-0.75 h-1"

@@ -6,19 +6,19 @@ import {
   TAPERED_LINE_RESPONSIVE_HEIGHTS,
 } from "@/components/decorative-lines/decorative-lines.data";
 import { cn, shuffle } from "@/lib/utils";
-import { ProjectList, WorksHero } from "../components";
+import { ProjectList, WorkHero } from "../components";
 import { IWorkTagsProps } from "./work-tags.interface";
 
 export default async function WorkTags(props: IWorkTagsProps) {
-  const { tag, works } = props;
+  const { tag, work } = props;
 
-  // Like the works page, the projects come in a new random order on every
+  // Like the work page, the projects come in a new random order on every
   // visit, so this page is rendered per request.
   await connection();
 
   return (
     <main>
-      <WorksHero title={tag} />
+      <WorkHero title={tag} />
       <DecorativeLines
         heights={TAPERED_LINE_HEIGHTS_PX}
         gap={TAPERED_LINE_GAP_PX}
@@ -27,7 +27,7 @@ export default async function WorkTags(props: IWorkTagsProps) {
       />
       <section className="px-[5%] py-16 text-black-secondary sm:py-20 md:py-25 lg:py-37.5">
         <div className="mx-auto w-full max-w-420">
-          <ProjectList works={shuffle(works)} />
+          <ProjectList work={shuffle(work)} />
         </div>
       </section>
     </main>

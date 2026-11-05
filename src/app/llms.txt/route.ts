@@ -11,7 +11,7 @@ import {
   getWorkSeoHeading,
 } from "@/data/site";
 import { WORK_DETAIL_SLUGS } from "@/data/work-details";
-import { getWorkBySlug, getWorkHref } from "@/data/works";
+import { getWorkBySlug, getWorkHref } from "@/data/work";
 
 export const dynamic = "force-static";
 
@@ -44,7 +44,7 @@ export function GET() {
     `- [Home](${getAbsoluteUrl(ROUTES.HOME)}): ${PAGE_SEO.home.description}`,
     `- [About](${getAbsoluteUrl(ROUTES.ABOUT)}): ${PAGE_SEO.about.description}`,
     `- [Services](${getAbsoluteUrl(ROUTES.SERVICES)}): ${PAGE_SEO.services.description}`,
-    `- [Works](${getAbsoluteUrl(ROUTES.WORKS)}): ${PAGE_SEO.works.description}`,
+    `- [Work](${getAbsoluteUrl(ROUTES.WORK)}): ${PAGE_SEO.work.description}`,
     `- [Contact](${getAbsoluteUrl(ROUTES.CONTACT)}): ${PAGE_SEO.contact.description}`,
     "",
     "## Case studies",

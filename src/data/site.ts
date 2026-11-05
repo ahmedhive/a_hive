@@ -72,7 +72,7 @@ export const PAGE_SEO = {
     description:
       "Product discovery, roadmaps, PRDs and product design for startups and product teams. One person from first idea to final screen.",
   },
-  works: {
+  work: {
     title: "Product Case Studies: SaaS, Mobile & Web Apps | Ahmed Hive",
     description:
       "Real products I planned and designed: fintech, events, fitness, healthcare CRM and delivery apps, from the first roadmap to the shipped product.",
@@ -113,6 +113,6 @@ export const SITEMAP_STATIC_ROUTES = [
   ROUTES.HOME,
   ROUTES.ABOUT,
   ROUTES.SERVICES,
-  ROUTES.WORKS,
+  ROUTES.WORK,
   ROUTES.CONTACT,
 ] as const;

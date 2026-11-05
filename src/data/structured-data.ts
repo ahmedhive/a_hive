@@ -1,5 +1,5 @@
 import { IWork } from "@/interfaces";
-import { getWorkHref } from "./works";
+import { getWorkHref } from "./work";
 import {
   SITE_BIO,
   SITE_LOCATION,

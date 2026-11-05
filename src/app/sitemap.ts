@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { ROUTES } from "@/constants/routes";
 import { SITEMAP_STATIC_ROUTES, getAbsoluteUrl } from "@/data/site";
 import { WORK_DETAIL_SLUGS } from "@/data/work-details";
-import { getWorkHref } from "@/data/works";
+import { getWorkHref } from "@/data/work";
 
 // Tag pages are left out on purpose: they only re-list projects that have
 // their own pages, and are marked noindex.

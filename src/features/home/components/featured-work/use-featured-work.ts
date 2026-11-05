@@ -8,27 +8,27 @@ import {
   useIsomorphicLayoutEffect,
 } from "@/lib";
 import {
-  WORKS_PEEL_ROTATE_X_DEG,
-  WORKS_PEEL_Y_PERCENT,
-  WORKS_STACK_INITIAL,
-  WORKS_STEP_DURATION_S,
-  WORKS_STEP_EASE,
-  WORKS_TIMELINE_STEPS,
-  WORKS_BADGE_REVEAL_DURATION_S,
-  WORKS_BADGE_REVEAL_EASE,
-  WORKS_BADGE_REVEAL_FROM_SCALE,
-  WORKS_BADGE_REVEAL_START_S,
-  WORKS_PINNED_QUERY,
-  WORKS_REVEAL_SCROLL_START,
-  WORKS_SCROLL_END,
-  WORKS_SCROLL_START,
-  WORKS_SCRUB_S,
-  WORKS_TITLE_REVEAL_DURATION_S,
-  WORKS_TITLE_REVEAL_EASE,
-  WORKS_TITLE_REVEAL_STAGGER_AMOUNT_S,
-} from "./featured-works.data";
+  WORK_PEEL_ROTATE_X_DEG,
+  WORK_PEEL_Y_PERCENT,
+  WORK_STACK_INITIAL,
+  WORK_STEP_DURATION_S,
+  WORK_STEP_EASE,
+  WORK_TIMELINE_STEPS,
+  WORK_BADGE_REVEAL_DURATION_S,
+  WORK_BADGE_REVEAL_EASE,
+  WORK_BADGE_REVEAL_FROM_SCALE,
+  WORK_BADGE_REVEAL_START_S,
+  WORK_PINNED_QUERY,
+  WORK_REVEAL_SCROLL_START,
+  WORK_SCROLL_END,
+  WORK_SCROLL_START,
+  WORK_SCRUB_S,
+  WORK_TITLE_REVEAL_DURATION_S,
+  WORK_TITLE_REVEAL_EASE,
+  WORK_TITLE_REVEAL_STAGGER_AMOUNT_S,
+} from "./featured-work.data";
 
-export default function useFeaturedWorks() {
+export default function useFeaturedWork() {
   const headerRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const badgeRef = useRef<HTMLParagraphElement>(null);
@@ -53,25 +53,25 @@ export default function useFeaturedWorks() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: title,
-        start: WORKS_REVEAL_SCROLL_START,
+        start: WORK_REVEAL_SCROLL_START,
         toggleActions: PLAY_ONCE_ON_ENTER,
       },
     });
 
     tl.from(titleSplit.chars, {
       yPercent: -100,
-      duration: WORKS_TITLE_REVEAL_DURATION_S,
-      stagger: { amount: WORKS_TITLE_REVEAL_STAGGER_AMOUNT_S },
-      ease: WORKS_TITLE_REVEAL_EASE,
+      duration: WORK_TITLE_REVEAL_DURATION_S,
+      stagger: { amount: WORK_TITLE_REVEAL_STAGGER_AMOUNT_S },
+      ease: WORK_TITLE_REVEAL_EASE,
     }).from(
       badge,
       {
         opacity: 0,
-        scale: WORKS_BADGE_REVEAL_FROM_SCALE,
-        duration: WORKS_BADGE_REVEAL_DURATION_S,
-        ease: WORKS_BADGE_REVEAL_EASE,
+        scale: WORK_BADGE_REVEAL_FROM_SCALE,
+        duration: WORK_BADGE_REVEAL_DURATION_S,
+        ease: WORK_BADGE_REVEAL_EASE,
       },
-      WORKS_BADGE_REVEAL_START_S,
+      WORK_BADGE_REVEAL_START_S,
     );
 
     // revert() (not kill()) so the sticker's inline start state is cleared:
@@ -87,7 +87,7 @@ export default function useFeaturedWorks() {
 
   // Pinned stack. The CSS (index.tsx / work-card) pins the track and overlaps
   // the cards under the same query; this is the reference's scrubbed timeline
-  // (see the numbers in featured-works.data.ts). matchMedia reverts everything
+  // (see the numbers in featured-work.data.ts). matchMedia reverts everything
   // it created when the query stops matching (resize, reduced motion), handing
   // the layout back to plain flow.
   useIsomorphicLayoutEffect(() => {
@@ -97,25 +97,25 @@ export default function useFeaturedWorks() {
 
     const mm = gsap.matchMedia();
 
-    mm.add(WORKS_PINNED_QUERY, () => {
+    mm.add(WORK_PINNED_QUERY, () => {
       const cards = gsap.utils.toArray<HTMLElement>(stack.children);
 
       // Resting offsets, applied immediately so the cards behind the front
       // one show as strips from the start.
       cards.forEach((card, i) => {
-        const { y, scale } = WORKS_STACK_INITIAL[i];
+        const { y, scale } = WORK_STACK_INITIAL[i];
         gsap.set(card, { y, scale });
       });
 
-      const tl = gsap.timeline({ defaults: { ease: WORKS_STEP_EASE } });
-      const step = { duration: WORKS_STEP_DURATION_S };
+      const tl = gsap.timeline({ defaults: { ease: WORK_STEP_EASE } });
+      const step = { duration: WORK_STEP_DURATION_S };
 
-      WORKS_TIMELINE_STEPS.forEach(({ at, peel, forward }) => {
+      WORK_TIMELINE_STEPS.forEach(({ at, peel, forward }) => {
         tl.to(
           cards[peel],
           {
-            yPercent: WORKS_PEEL_Y_PERCENT,
-            rotationX: WORKS_PEEL_ROTATE_X_DEG,
+            yPercent: WORK_PEEL_Y_PERCENT,
+            rotationX: WORK_PEEL_ROTATE_X_DEG,
             ...step,
           },
           at,
@@ -132,8 +132,8 @@ export default function useFeaturedWorks() {
       let currentFront = -1;
       const setFront = (progress: number) => {
         const time = progress * totalS;
-        const front = WORKS_TIMELINE_STEPS.filter(
-          ({ at }) => time >= at + WORKS_STEP_DURATION_S / 2,
+        const front = WORK_TIMELINE_STEPS.filter(
+          ({ at }) => time >= at + WORK_STEP_DURATION_S / 2,
         ).length;
         if (front === currentFront) return;
         currentFront = front;
@@ -147,10 +147,10 @@ export default function useFeaturedWorks() {
       // drives it.
       ScrollTrigger.create({
         trigger: track,
-        start: WORKS_SCROLL_START,
-        end: WORKS_SCROLL_END,
+        start: WORK_SCROLL_START,
+        end: WORK_SCROLL_END,
         animation: tl,
-        scrub: WORKS_SCRUB_S,
+        scrub: WORK_SCRUB_S,
         onUpdate: (self) => setFront(self.progress),
       });
 

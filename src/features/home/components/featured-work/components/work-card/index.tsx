@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CustomButton } from "@/components";
 import { cn } from "@/lib";
-import { WORKS_CTA_LABEL } from "../../featured-works.data";
+import { WORK_CTA_LABEL } from "../../featured-work.data";
 import { IWorkCardProps } from "./work-card.interface";
 import { RADIUS_CLASS } from "./work-card.data";
 
@@ -38,7 +38,7 @@ export default function WorkCard(props: IWorkCardProps) {
         </p>
 
         <CustomButton
-          label={WORKS_CTA_LABEL}
+          label={WORK_CTA_LABEL}
           href={work.href}
           notchColor={work.paneColor}
         />

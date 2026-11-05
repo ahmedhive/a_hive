@@ -5,8 +5,8 @@ import { PROJECT_3_DETAILS } from "./project-3";
 import { PROJECT_4_DETAILS } from "./project-4";
 import { PROJECT_5_DETAILS } from "./project-5";
 
-// Only the projects whose page has been written; the rest of WORKS has the
-// list fields only, and their pages redirect to the works list.
+// Only the projects whose page has been written; the rest of WORK has the
+// list fields only, and their pages redirect to the work list.
 const WORK_DETAILS: IWorkDetails[] = [
   PROJECT_1_DETAILS,
   PROJECT_2_DETAILS,
