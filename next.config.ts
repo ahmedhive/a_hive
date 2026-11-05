@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
   // rest use the default. AVIF is tried first and WebP is the fallback: the
   // same pixels at a smaller size.
   images: { qualities: [75, 90], formats: ["image/avif", "image/webp"] },
+  // The project pages moved from /works to /work; permanent redirects keep
+  // indexed and shared links working.
+  async redirects() {
+    return [
+      { source: "/works", destination: "/work", permanent: true },
+      { source: "/works/:slug", destination: "/work/:slug", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
