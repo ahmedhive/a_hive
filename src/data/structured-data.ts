@@ -1,6 +1,7 @@
 import { ROUTES } from "@/constants/routes";
 import { IWork } from "@/interfaces";
-import { getWorkHref } from "./work";
+import { WORK_DETAIL_SLUGS } from "./work-details";
+import { WORK, getWorkHref } from "./work";
 import {
   SITE_BIO,
   SITE_LOCATION,
@@ -176,6 +177,7 @@ export function getPageStructuredData(page: keyof typeof FIXED_PAGES) {
         name: PAGE_SEO[page].title,
         description: PAGE_SEO[page].description,
         about,
+        ...(page === "work" && { mainEntity: getWorkItemList() }),
         isPartOf: { "@id": WEBSITE_ID },
         inLanguage: "en",
       },
@@ -187,5 +189,22 @@ export function getPageStructuredData(page: keyof typeof FIXED_PAGES) {
         ],
       },
     ],
+  };
+}
+
+// The case studies that have a page of their own, in the order the list shows.
+function getWorkItemList() {
+  const published = WORK.filter((work) =>
+    WORK_DETAIL_SLUGS.includes(work.slug),
+  );
+
+  return {
+    "@type": "ItemList",
+    itemListElement: published.map((work, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: work.title,
+      url: getAbsoluteUrl(getWorkHref(work.slug)),
+    })),
   };
 }
