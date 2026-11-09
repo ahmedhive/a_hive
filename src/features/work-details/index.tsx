@@ -28,7 +28,7 @@ export default function WorkDetails(props: IWorkDetailsProps) {
   const { work, details } = props;
 
   return (
-    <main>
+    <main id="main-content">
       <WorkHero
         title={work.title}
         tags={work.tags}

@@ -11,7 +11,7 @@ export default async function Work() {
   await connection();
 
   return (
-    <main>
+    <main id="main-content">
       <WorkHero title={WORK_HERO_TITLE} cta={WORK_HERO_CTA} />
       <ServiceTicker />
       <ShippedProducts work={shuffle(WORK)} />

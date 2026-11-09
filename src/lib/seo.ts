@@ -30,7 +30,7 @@ export function buildPageMetadata(input: IPageMetadataInput): Metadata {
       description,
       url: path,
       siteName: SITE_NAME,
-      locale: "en-US",
+      locale: "en_US",
       type: "website",
       images: [{ ...OG_IMAGE, alt: title }],
     },

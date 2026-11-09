@@ -3,7 +3,7 @@ import { HeroBanner, IntroVideo } from "./components";
 
 export default function Services() {
   return (
-    <main>
+    <main id="main-content">
       <HeroBanner />
       <IntroVideo />
       <ExpertSolutions />

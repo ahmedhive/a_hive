@@ -15,7 +15,7 @@ import {
 
 export default function Home() {
   return (
-    <main>
+    <main id="main-content">
       <Hero />
       <AboutMe />
       <Progress />

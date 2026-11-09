@@ -2,7 +2,7 @@ import { ContactHero, ContactTabs } from "./components";
 
 export default function Contact() {
   return (
-    <main>
+    <main id="main-content">
       <ContactHero />
       <ContactTabs />
     </main>

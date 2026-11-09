@@ -17,7 +17,7 @@ export default async function WorkTags(props: IWorkTagsProps) {
   await connection();
 
   return (
-    <main>
+    <main id="main-content">
       <WorkHero title={tag} />
       <DecorativeLines
         heights={TAPERED_LINE_HEIGHTS_PX}

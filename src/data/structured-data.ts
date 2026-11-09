@@ -1,3 +1,4 @@
+import { ROUTES } from "@/constants/routes";
 import { IWork } from "@/interfaces";
 import { getWorkHref } from "./work";
 import {
@@ -89,6 +90,37 @@ export function getWorkStructuredData(work: IWork) {
 
   return {
     "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Work",
+            item: getAbsoluteUrl(ROUTES.WORK),
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: work.title,
+            item: url,
+          },
+        ],
+      },
+      getWorkCreativeWork(work, url),
+    ],
+  };
+}
+
+function getWorkCreativeWork(work: IWork, url: string) {
+  return {
     "@type": "CreativeWork",
     name: work.title,
     description: work.description,
