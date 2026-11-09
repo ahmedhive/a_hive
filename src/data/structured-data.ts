@@ -178,6 +178,7 @@ export function getPageStructuredData(page: keyof typeof FIXED_PAGES) {
         description: PAGE_SEO[page].description,
         about,
         ...(page === "work" && { mainEntity: getWorkItemList() }),
+        ...(page === "services" && { mainEntity: getServiceItemList() }),
         isPartOf: { "@id": WEBSITE_ID },
         inLanguage: "en",
       },
@@ -205,6 +206,24 @@ function getWorkItemList() {
       position: index + 1,
       name: work.title,
       url: getAbsoluteUrl(getWorkHref(work.slug)),
+    })),
+  };
+}
+
+// The same services the home page offers, each tied back to the provider.
+function getServiceItemList() {
+  return {
+    "@type": "ItemList",
+    itemListElement: SITE_SERVICES.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        name: service.name,
+        description: service.description,
+        provider: { "@id": PERSON_ID },
+        areaServed: "Worldwide",
+      },
     })),
   };
 }
