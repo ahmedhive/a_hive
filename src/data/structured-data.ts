@@ -25,7 +25,9 @@ const CREATOR = {
   "@type": "Person",
   "@id": PERSON_ID,
   name: SITE_NAME,
+  jobTitle: SITE_ROLE,
   url: SITE_URL,
+  sameAs: SITE_PROFILE_URLS,
 };
 
 // Person, ProfessionalService and WebSite for the home page, linked by @id so

@@ -97,6 +97,25 @@ const WORK_SEO_HEADINGS: Record<string, string> = {
     "Mr. Delivery: On-Demand Delivery App Case Study",
 };
 
+// Meta descriptions for the case studies, kept under 160 characters so search
+// results show them whole. The longer description stays on the page itself.
+const WORK_SEO_DESCRIPTIONS: Record<string, string> = {
+  "kayya-in-house-financing-platform":
+    "Kayya lets businesses offer in-house financing, payment plans and memberships, with a borrower app, live payment tracking and payouts.",
+  "ebraingo-end-to-end-event-platform":
+    "eBrainGo runs events end to end: a company portal to plan them, an attendee app, sponsor and speaker portals, and an AI event assistant.",
+  "gearup-mma-martial-arts-booking":
+    "GearUp MMA connects fighters with martial arts gyms to find and book classes, while gym admins manage classes, members and payments.",
+  "clinics-flo-all-in-one-clinic-crm":
+    "Clinics Flo gives clinics one place for leads, appointments and patient conversations, with automated workflows, campaigns and a finance center.",
+  "mr-delivery-on-demand-delivery-app":
+    "Mr. Delivery makes parcel and food delivery simple: book a rider, track trips live, chat and pay in app, with rider onboarding and a super admin.",
+};
+
+export function getWorkSeoDescription(slug: string, fallback: string) {
+  return WORK_SEO_DESCRIPTIONS[slug] ?? fallback;
+}
+
 export function getWorkSeoHeading(slug: string, fallbackTitle: string) {
   return WORK_SEO_HEADINGS[slug] ?? `${fallbackTitle} Case Study`;
 }

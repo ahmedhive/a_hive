@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { JsonLd } from "@/components";
 import { ROUTES } from "@/constants/routes";
-import { getWorkSeoTitle } from "@/data/site";
+import { getWorkSeoDescription, getWorkSeoTitle } from "@/data/site";
 import { getWorkStructuredData } from "@/data/structured-data";
 import { WORK_DETAIL_SLUGS, getWorkDetails } from "@/data/work-details";
 import { getWorkBySlug, getWorkHref } from "@/data/work";
@@ -24,7 +24,7 @@ export async function generateMetadata(props: IPageProps): Promise<Metadata> {
 
   return buildPageMetadata({
     title: getWorkSeoTitle(slug, work.title),
-    description: work.description,
+    description: getWorkSeoDescription(slug, work.description),
     path: getWorkHref(slug),
   });
 }
