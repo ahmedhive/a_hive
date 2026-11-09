@@ -10,6 +10,7 @@ import {
   SITE_SERVICES,
   SITE_SUMMARY,
   SITE_URL,
+  PAGE_SEO,
   getAbsoluteUrl,
 } from "./site";
 
@@ -130,5 +131,61 @@ function getWorkCreativeWork(work: IWork, url: string) {
     publisher: CREATOR,
     isPartOf: { "@id": WEBSITE_ID },
     inLanguage: "en",
+  };
+}
+
+const FIXED_PAGES = {
+  about: {
+    type: "AboutPage",
+    path: ROUTES.ABOUT,
+    crumb: "About",
+    about: { "@id": PERSON_ID },
+  },
+  services: {
+    type: "WebPage",
+    path: ROUTES.SERVICES,
+    crumb: "Services",
+    about: { "@id": SERVICE_ID },
+  },
+  work: {
+    type: "CollectionPage",
+    path: ROUTES.WORK,
+    crumb: "Work",
+    about: { "@id": PERSON_ID },
+  },
+  contact: {
+    type: "ContactPage",
+    path: ROUTES.CONTACT,
+    crumb: "Contact",
+    about: { "@id": PERSON_ID },
+  },
+} as const;
+
+// Page type plus breadcrumb for About, Services, Work and Contact, tied to the
+// same Person and service entities as the home page.
+export function getPageStructuredData(page: keyof typeof FIXED_PAGES) {
+  const { type, path, crumb, about } = FIXED_PAGES[page];
+  const url = getAbsoluteUrl(path);
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": type,
+        url,
+        name: PAGE_SEO[page].title,
+        description: PAGE_SEO[page].description,
+        about,
+        isPartOf: { "@id": WEBSITE_ID },
+        inLanguage: "en",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: crumb, item: url },
+        ],
+      },
+    ],
   };
 }

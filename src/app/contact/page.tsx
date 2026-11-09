@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ROUTES } from "@/constants/routes";
+import { JsonLd } from "@/components";
 import { PAGE_SEO } from "@/data/site";
+import { getPageStructuredData } from "@/data/structured-data";
 import { Contact } from "@/features";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -10,5 +12,10 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default function Page() {
-  return <Contact />;
+  return (
+    <>
+      <JsonLd data={getPageStructuredData("contact")} />
+      <Contact />
+    </>
+  );
 }
