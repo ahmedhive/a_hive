@@ -19,6 +19,7 @@ export const CONTACT_EMAIL_FIELDS = [
   { key: "phone", label: "Phone" },
   { key: "company", label: "Company" },
   { key: "projectType", label: "Project type" },
+  { key: "projectTypeOther", label: "Project type details" },
   { key: "budget", label: "Budget" },
   { key: "message", label: "Message" },
 ] as const;

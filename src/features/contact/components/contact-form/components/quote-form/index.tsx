@@ -11,6 +11,7 @@ import {
   QUOTE_PROJECT_TYPE_OPTIONS,
   QUOTE_SELECT_PLACEHOLDER,
 } from "./quote-form.data";
+import { OtherProjectTypeField } from "./components";
 import { quoteSchema, TQuoteValues } from "./quote-form.schema";
 
 export default function QuoteForm() {
@@ -35,6 +36,7 @@ export default function QuoteForm() {
         placeholder={QUOTE_SELECT_PLACEHOLDER}
         required
       />
+      <OtherProjectTypeField />
     </ContactForm>
   );
 }
