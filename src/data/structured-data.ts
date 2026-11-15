@@ -64,7 +64,7 @@ export function getHomeStructuredData() {
       {
         "@type": "ProfessionalService",
         "@id": SERVICE_ID,
-        name: `${SITE_NAME} - Freelance Product Manager & Product Designer`,
+        name: `${SITE_NAME} - Product Manager & Product Designer`,
         description: SITE_SUMMARY,
         url: SITE_URL,
         image: getAbsoluteUrl("/og-image.png"),

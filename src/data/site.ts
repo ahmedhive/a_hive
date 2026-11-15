@@ -9,7 +9,7 @@ export const SITE_ROLE = "Product Manager and Product Designer";
 export const SITE_BIO = `${SITE_NAME}, ${SITE_ROLE}`;
 
 export const SITE_SUMMARY =
-  "Freelance product manager and product designer helping founders and startups go from idea to MVP with product strategy, product discovery and design. 8+ years building products, 200+ projects shipped for founders and product teams.";
+  "Product manager and product designer helping founders and startups go from idea to MVP with product strategy, product discovery and design. 8+ years building products, 200+ projects shipped for founders and product teams.";
 
 // Where the business is based and who it serves; the same facts appear in the
 // About and Contact copy.
@@ -59,9 +59,9 @@ interface IPageSeo {
 // what the site itself shows (years, project count, the five case studies).
 export const PAGE_SEO = {
   home: {
-    title: "Ahmed Hive | Freelance Product Manager & Product Designer",
+    title: "Ahmed Hive | Product Manager & Product Designer",
     description:
-      "Freelance product manager and designer helping founders and startups go from idea to MVP with strategy, discovery and design. 8+ years, 200+ projects.",
+      "Product manager and designer helping founders and startups go from idea to MVP with strategy, discovery and design. 8+ years, 200+ projects.",
   },
   about: {
     title: "About Ahmed | Product Manager Who Designs",
