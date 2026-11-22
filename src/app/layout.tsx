@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CustomCursor, SmoothScroll } from "@/components";
+import Hive from "@/features/hive";
 import { PAGE_SEO, SITE_NAME, SITE_URL } from "@/data/site";
 
 const bebasNeue = Bebas_Neue({
@@ -97,6 +98,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Hive />
         <Analytics />
         <SpeedInsights />
       </body>

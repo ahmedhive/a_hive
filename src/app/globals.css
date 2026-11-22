@@ -555,3 +555,26 @@
     grid-area: span 2 / span 1 / span 2 / span 1;
   }
 }
+
+/* Hive launcher orb and modal entrance (features/hive). */
+@keyframes hive-orb {
+  0%,
+  100% {
+    box-shadow:
+      0 0 6px rgba(212, 140, 158, 0.55),
+      0 0 0 0 rgba(25, 221, 255, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(212, 140, 158, 0.95),
+      0 0 0 6px rgba(25, 221, 255, 0);
+  }
+}
+@keyframes hive-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
