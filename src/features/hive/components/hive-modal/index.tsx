@@ -35,12 +35,15 @@ import useBirthSound from "./use-birth-sound";
 import useHandTracking from "./use-hand-tracking";
 import useHeartbeat from "./use-heartbeat";
 import useHiveScene from "./use-hive-scene";
+import { SpokenSubtitle } from "./hive-modal.subtitle";
 import {
   HUD_BUTTON,
   HUD_CAPTION,
   HUD_INPUT,
   HUD_PILL,
   HUD_PILL_ACTIVE,
+  HUD_ROW,
+  HUD_ROW_INNER,
   LOCKED_PLACEHOLDER,
   NO_WEBGL_TEXT,
 } from "./hive-modal.data";
@@ -218,6 +221,10 @@ export default function HiveModal(props: IHiveModalProps) {
     else if (assistant.replyVisible) caption = assistant.reply;
   }
 
+  // While Hive speaks, its reply appears a phrase at a time with the voice.
+  const spoken =
+    !!caption && caption === assistant.reply && assistant.status === "speaking";
+
   let placeholder = INPUT_PLACEHOLDER;
   if (locked) placeholder = LOCKED_PLACEHOLDER;
   else if (listening) placeholder = listeningText;
@@ -312,7 +319,18 @@ export default function HiveModal(props: IHiveModalProps) {
           )}
         >
           <span className="sr-only">{HIVE_NAME}: </span>
-          {caption}
+          {spoken ? (
+            <>
+              <SpokenSubtitle
+                key={assistant.reply}
+                text={assistant.reply}
+                progress={assistant.speechProgress}
+              />
+              <span className="sr-only">{assistant.reply}</span>
+            </>
+          ) : (
+            caption
+          )}
           {!locked && !caption && !busy && !listening && (
             // Spoken aloud, so hidden on screen but still announced.
             <span className="sr-only">{assistant.reply}</span>
@@ -320,18 +338,20 @@ export default function HiveModal(props: IHiveModalProps) {
         </p>
 
         {!assistant.asked && (
-          <div className="flex flex-wrap justify-center gap-1.5">
-            {ASSISTANT_SUGGESTIONS.map((q) => (
-              <button
-                key={q}
-                type="button"
-                disabled={busy || locked}
-                onClick={() => askQuestion(q)}
-                className={HUD_PILL}
-              >
-                {q}
-              </button>
-            ))}
+          <div className={HUD_ROW}>
+            <div className={HUD_ROW_INNER}>
+              {ASSISTANT_SUGGESTIONS.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  disabled={busy || locked}
+                  onClick={() => askQuestion(q)}
+                  className={cn(HUD_PILL, "shrink-0 whitespace-nowrap")}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
@@ -359,70 +379,72 @@ export default function HiveModal(props: IHiveModalProps) {
           </button>
         </form>
 
-        <div className="flex flex-wrap justify-center gap-1.5">
-          {HIVE_STATES.map((s) => (
+        <div className={HUD_ROW}>
+          <div className={cn(HUD_ROW_INNER, "*:shrink-0 *:whitespace-nowrap")}>
+            {HIVE_STATES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setPreview(s)}
+                disabled={locked}
+                aria-pressed={state === s}
+                aria-label={`Preview ${s} state`}
+                className={cn(
+                  HUD_PILL,
+                  state === s && !locked && HUD_PILL_ACTIVE,
+                )}
+              >
+                {s}
+              </button>
+            ))}
+            {assistant.canListen && (
+              <button
+                type="button"
+                onClick={toggleMic}
+                // Stays usable if it's already listening, so it can be stopped.
+                disabled={busy || (locked && !listening)}
+                aria-pressed={listening}
+                aria-describedby="hive-mic-note"
+                className={cn(HUD_PILL, listening && HUD_PILL_ACTIVE)}
+              >
+                {listening ? MIC_LABELS.on : MIC_LABELS.off}
+              </button>
+            )}
+            {(busy || assistant.status === "speaking") && (
+              <button
+                type="button"
+                onClick={assistant.stopReply}
+                className={HUD_PILL}
+              >
+                {STOP_LABEL}
+              </button>
+            )}
+            {/* One button, so keyboard focus survives the Replay/Skip swap. */}
             <button
-              key={s}
               type="button"
-              onClick={() => setPreview(s)}
-              disabled={locked}
-              aria-pressed={state === s}
-              aria-label={`Preview ${s} state`}
-              className={cn(
-                HUD_PILL,
-                state === s && !locked && HUD_PILL_ACTIVE,
-              )}
-            >
-              {s}
-            </button>
-          ))}
-          {assistant.canListen && (
-            <button
-              type="button"
-              onClick={toggleMic}
-              // Stays usable if it's already listening, so it can be stopped.
-              disabled={busy || (locked && !listening)}
-              aria-pressed={listening}
-              aria-describedby="hive-mic-note"
-              className={cn(HUD_PILL, listening && HUD_PILL_ACTIVE)}
-            >
-              {listening ? MIC_LABELS.on : MIC_LABELS.off}
-            </button>
-          )}
-          {(busy || assistant.status === "speaking") && (
-            <button
-              type="button"
-              onClick={assistant.stopReply}
+              onClick={assembling ? skip : replay}
+              disabled={!ready || !effects}
               className={HUD_PILL}
             >
-              {STOP_LABEL}
+              {assembling ? SKIP_LABEL : REPLAY_LABEL}
             </button>
-          )}
-          {/* One button, so keyboard focus survives the Replay/Skip swap. */}
-          <button
-            type="button"
-            onClick={assembling ? skip : replay}
-            disabled={!ready || !effects}
-            className={HUD_PILL}
-          >
-            {assembling ? SKIP_LABEL : REPLAY_LABEL}
-          </button>
-          <button
-            type="button"
-            onClick={toggleEffects}
-            aria-pressed={effects}
-            className={HUD_PILL}
-          >
-            {effects ? EFFECTS_LABELS.on : EFFECTS_LABELS.off}
-          </button>
-          <button
-            type="button"
-            onClick={() => setSoundOn((on) => !on)}
-            aria-pressed={soundOn}
-            className={HUD_PILL}
-          >
-            {soundOn ? SOUND_LABELS.on : SOUND_LABELS.off}
-          </button>
+            <button
+              type="button"
+              onClick={toggleEffects}
+              aria-pressed={effects}
+              className={HUD_PILL}
+            >
+              {effects ? EFFECTS_LABELS.on : EFFECTS_LABELS.off}
+            </button>
+            <button
+              type="button"
+              onClick={() => setSoundOn((on) => !on)}
+              aria-pressed={soundOn}
+              className={HUD_PILL}
+            >
+              {soundOn ? SOUND_LABELS.on : SOUND_LABELS.off}
+            </button>
+          </div>
         </div>
 
         {assistant.canListen && (

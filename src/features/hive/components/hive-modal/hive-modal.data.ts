@@ -10,6 +10,12 @@ export const HUD_PILL =
 export const HUD_PILL_ACTIVE =
   "border-[#7eefff] bg-[rgba(25,221,255,0.28)] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.45),inset_0_-8px_14px_rgba(25,221,255,0.12),0_0_14px_rgba(25,221,255,0.45)] backdrop-blur-md enabled:hover:bg-[rgba(25,221,255,0.34)]";
 
+// A single line of pills that scrolls sideways on narrow screens. The inner
+// row centres itself while it fits; the padding keeps focus rings unclipped.
+export const HUD_ROW =
+  "w-full overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+export const HUD_ROW_INNER = "mx-auto flex w-max gap-1.5 p-1";
+
 export const HUD_INPUT =
   "h-9 min-w-0 flex-1 rounded-md border border-[rgba(34,211,238,0.33)] bg-[rgba(0,10,14,0.88)] px-3 text-[12px] text-[#9fd8e8] transition-colors duration-200 placeholder:text-[#9fd8e8]/45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#19ddff] disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-[rgba(10,15,18,0.55)] disabled:text-[#9fd8e8]/35 disabled:placeholder:text-[#9fd8e8]/30";
 

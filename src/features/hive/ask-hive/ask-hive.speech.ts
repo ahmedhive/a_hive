@@ -144,6 +144,9 @@ async function* streamModel(
     let all: Buffer = Buffer.alloc(0);
     let forwarded = 0;
     let first = true;
+    // A WAV reply ends with a metadata chunk after the audio, which would
+    // play as a burst of hiss. Its header says how many bytes are audio.
+    let audioBytes = Infinity;
 
     for await (const part of readAudioParts(res.body)) {
       let bytes: Buffer = Buffer.from(part.data ?? "", "base64");
@@ -152,7 +155,15 @@ async function* streamModel(
         clearTimeout(firstAudio);
         if (bytes.subarray(0, 4).toString() === "RIFF") {
           rate = bytes.readUInt32LE(24);
-          bytes = bytes.subarray(44);
+          const dataAt = bytes.indexOf("data", 12);
+          if (dataAt >= 0) {
+            const size = bytes.readUInt32LE(dataAt + 4);
+            // Streams often leave the size as a placeholder.
+            if (size > 0 && size < 0xffffffff) audioBytes = size;
+            bytes = bytes.subarray(dataAt + 8);
+          } else {
+            bytes = bytes.subarray(44);
+          }
         } else {
           rate = Number(part.mimeType?.match(/rate=(\d+)/)?.[1] ?? rate);
         }
@@ -161,6 +172,7 @@ async function* streamModel(
         );
       }
       all = Buffer.concat([all, bytes]);
+      if (all.length > audioBytes) all = all.subarray(0, audioBytes);
 
       const samples = Math.floor(all.length / 2);
       if (samples > limit * MAX_PASSES) {

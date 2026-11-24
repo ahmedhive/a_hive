@@ -114,6 +114,12 @@ function detachRecognition(recognition: ISpeechRecognition) {
   recognition.abort();
 }
 
+// How much the voice effect slows playback (the detune lowers the pitch).
+const VOICE_SPEED = 2 ** (VOICE.detune / 1200);
+// Rough speaking pace, used until the real length of the audio is known.
+const SECONDS_PER_CHAR = 0.085;
+const BROWSER_CHARS_PER_SECOND = 14;
+
 const isAbort = (e: unknown) =>
   e instanceof DOMException && e.name === "AbortError";
 
@@ -159,6 +165,21 @@ export default function useAssistant(
   // wait, and stops if a newer turn (or closing Hive) has replaced it.
   const voiceTokenRef = useRef(0);
   const levelRafRef = useRef(0);
+  // When the current voice started, how long it runs, and, for the browser
+  // voice, how far through the text it has read.
+  const speechClockRef = useRef({ start: 0, seconds: 0, chars: -1, length: 0 });
+
+  const speechProgress = useCallback(() => {
+    const clock = speechClockRef.current;
+    if (clock.chars >= 0 && clock.length) {
+      return Math.min(1, clock.chars / clock.length);
+    }
+    if (!clock.start || !clock.seconds) return 0;
+    return Math.min(
+      1,
+      (performance.now() - clock.start) / 1000 / clock.seconds,
+    );
+  }, []);
 
   const setStatus = useCallback((next: THiveState) => {
     statusRef.current = next;
@@ -250,6 +271,18 @@ export default function useAssistant(
       utterance.lang = voice?.lang ?? SPEECH_LANG;
       utterance.rate = VOICE_RATE;
       utterance.pitch = VOICE_PITCH;
+      utterance.onstart = () => {
+        speechClockRef.current = {
+          start: performance.now(),
+          seconds: text.length / (BROWSER_CHARS_PER_SECOND * VOICE_RATE),
+          chars: -1,
+          length: text.length,
+        };
+      };
+      // Word by word, where the browser reports it.
+      utterance.onboundary = (e) => {
+        if (e.name === "word") speechClockRef.current.chars = e.charIndex;
+      };
       utterance.onend = () => endVoice(token);
       utterance.onerror = (e) => {
         const stopped = e.error === "canceled" || e.error === "interrupted";
@@ -286,6 +319,12 @@ export default function useAssistant(
       source.onended = () => endVoice(token);
       sourceRef.current = source;
       setStatus("speaking");
+      speechClockRef.current = {
+        start: performance.now(),
+        seconds: buffer.duration / VOICE_SPEED,
+        chars: -1,
+        length: 0,
+      };
       source.start();
       startMeter(chain);
     },
@@ -401,6 +440,8 @@ export default function useAssistant(
         let player: IPcmPlayer | null = null;
         let audioFailed = false;
         let ended = false;
+        let audioSamples = 0;
+        let audioRate = 0;
 
         const handle = async (event: THiveStreamEvent) => {
           if (token !== voiceTokenRef.current) return;
@@ -426,6 +467,7 @@ export default function useAssistant(
                   {
                     onStart: () => {
                       if (token !== voiceTokenRef.current) return;
+                      speechClockRef.current.start = performance.now();
                       setStatus("speaking");
                       startMeter(chain);
                     },
@@ -437,6 +479,13 @@ export default function useAssistant(
                   return;
                 }
                 sourceRef.current = player;
+                audioRate = event.rate;
+                speechClockRef.current = {
+                  start: 0,
+                  seconds: (reply.length * SECONDS_PER_CHAR) / VOICE_SPEED,
+                  chars: -1,
+                  length: 0,
+                };
               } catch (e) {
                 audioFailed = true;
                 if (process.env.NODE_ENV === "development") {
@@ -445,9 +494,12 @@ export default function useAssistant(
                 return;
               }
             }
-            player.push(pcmFromBase64(event.pcm));
+            const pcm = pcmFromBase64(event.pcm);
+            audioSamples += pcm.length;
+            player.push(pcm);
           } else if (event.t === "cut") {
             player?.cut(event.sample);
+            audioSamples = Math.min(audioSamples, event.sample);
           } else {
             ended = true;
           }
@@ -484,6 +536,9 @@ export default function useAssistant(
         const finalPlayer = player as IPcmPlayer | null;
         if (finalPlayer) {
           finalPlayer.finish();
+          // Now the real length is known, the subtitles can follow it exactly.
+          speechClockRef.current.seconds =
+            audioSamples / audioRate / VOICE_SPEED;
         } else {
           if (process.env.NODE_ENV === "development") {
             console.info(
@@ -697,6 +752,7 @@ export default function useAssistant(
     error,
     canListen,
     micStarting,
+    speechProgress,
     ask,
     stopReply,
     toggleListen,

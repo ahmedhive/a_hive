@@ -43,7 +43,7 @@ export const THINKING_TEXT = "thinking…";
 export const ASSISTANT_ENDPOINT = "/api/hive";
 export const TRANSCRIBE_ENDPOINT = "/api/hive/transcribe";
 const GREETING_BODY =
-  "I am Hive. Ahmed Hive helps founders turn ideas into real products, from the first sketch to launch. How may I assist you today?";
+  "I am Hive. Ahmed helps founders turn ideas into real products, from the first sketch to launch. How may I assist you today?";
 
 // Pre-recorded, so greeting a visitor never uses speech quota. Chosen from
 // the visitor's own clock. "Good night" means goodbye, so late hours get a
