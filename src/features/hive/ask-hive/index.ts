@@ -20,7 +20,7 @@ const bodySchema = z.object({
     )
     .min(1)
     .max(MAX_TURNS)
-    .refine((m) => m[m.length - 1].role === "user"),
+    .refine((m) => m.at(-1)?.role === "user"),
   // Speech is made here from Hive's own reply and never from client text,
   // so this route can't be used as a free text-to-speech service.
   speak: z.boolean().optional(),
