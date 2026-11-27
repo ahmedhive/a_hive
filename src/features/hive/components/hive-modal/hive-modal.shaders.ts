@@ -17,6 +17,15 @@ float waveBand(vec2 ndc) {
 }
 `;
 
+// The artwork is square, so the shoulders run off its sides. Across this
+// share of its width they break up into loose particles and fade out, and the
+// backdrop shows through behind them instead of ending in a hard edge.
+const SIDE_FADE = /* glsl */ `
+float sideFade(float x) {
+  return smoothstep(0.0, 0.15, min(x, 1.0 - x));
+}
+`;
+
 // Each particle is a small square tile of the artwork. position.xy is the
 // tile's centre in image space (0..1, y up); position.z is a random seed.
 export const TILE_VERTEX = /* glsl */ `
@@ -35,6 +44,7 @@ uniform vec3 uHeadRadius;
 uniform float uYaw;
 uniform float uPitch;
 uniform float uBreath;
+${SIDE_FADE}
 
 varying vec2 vUv;
 varying vec2 vNdc;
@@ -43,6 +53,7 @@ varying float vSpark;
 varying float vGrow;
 varying float vShade;
 varying float vRim;
+varying float vFade;
 
 void main() {
   vec2 target = position.xy;
@@ -51,6 +62,17 @@ void main() {
   vGrow = 1.0;
   vShade = 1.0;
   vRim = 0.0;
+  vFade = sideFade(target.x);
+
+  // Toward the sides, fewer and fewer tiles remain.
+  if (fract(seed * 53.3) > vFade * 1.25) {
+    vLand = 0.0;
+    vSpark = 0.0;
+    vNdc = vec2(2.0);
+    gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
+    gl_PointSize = 1.0;
+    return;
+  }
 
   // Built from the base upward, leaning left to right.
   float order = target.y * 0.72 + target.x * 0.28;
@@ -70,26 +92,33 @@ void main() {
 
   // The head is the front of a rounded skull. Its tiles rotate together
   // around the neck, each keeping its own patch of the artwork.
-  float head = smoothstep(0.27, 0.43, target.y);
+  // Fades in up the neck, so the jaw turns with the face and the neck
+  // stretches smoothly beneath it instead of tearing.
+  float head = smoothstep(0.24, 0.4, target.y);
   if (head > 0.0 && (uYaw != 0.0 || uPitch != 0.0)) {
     vec2 q = target - uHeadCenter;
-    vec2 n = q / uHeadRadius.xy;
+    // The lower half of the skull reaches further down, so the chin and jaw
+    // sit inside it with real depth rather than flat on its outline.
+    vec2 n = q / vec2(uHeadRadius.x, uHeadRadius.y * (q.y < 0.0 ? 1.3 : 1.0));
     float nn = dot(n, n);
     float nz = sqrt(max(0.0, 1.0 - nn));
     // A soft dome: depth reaches zero at the outline with a gentle slope, so
-    // the jaw stays on the neck and the edge doesn't tear.
+    // the edge doesn't tear.
     float z = uHeadRadius.z * max(0.0, 1.0 - nn);
     float yaw = uYaw * head;
     float pitch = uPitch * head;
     float x1 = q.x * cos(yaw) + z * sin(yaw);
     float z1 = -q.x * sin(yaw) + z * cos(yaw);
     float y1 = q.y * cos(pitch) + z1 * sin(pitch);
+    // The whole head also swings a little on the neck as it turns.
+    x1 += sin(yaw) * uHeadRadius.z * 0.3;
     home = uHeadCenter + vec2(x1, y1);
 
-    // Far side falls into shadow and the edge lights into a profile line.
+    // The far side dims and the edge lights into a profile line. Kept gentle,
+    // so nothing goes dark near the chin.
     float turn = clamp((abs(uYaw) + abs(uPitch)) / 0.16, 0.0, 1.0) * head;
     float facing = -n.x * sin(yaw) + nz * cos(yaw);
-    vShade = mix(1.0, smoothstep(-0.12, 0.5, facing), turn);
+    vShade = mix(1.0, smoothstep(-0.35, 0.4, facing), turn * 0.55);
     if (nn <= 1.1) {
       float edge = 1.0 - clamp(facing, 0.0, 1.0);
       vRim = turn * edge * edge * edge;
@@ -126,6 +155,13 @@ void main() {
     pos += dc / dcl * wave;
   }
 
+  // The survivors near the sides drift loose, outward and a little apart.
+  float loose = (1.0 - vFade) * e;
+  pos += vec2(
+    sign(target.x - 0.5) * fract(seed * 17.1) * 0.035,
+    (fract(seed * 29.3) - 0.5) * 0.025
+  ) * loose;
+
   vLand = smoothstep(0.9, 1.0, p);
   // Only some of the river is lit, so it reads as a stream, not a sheet.
   vSpark = step(fract(seed * 91.7), 0.4);
@@ -155,6 +191,7 @@ varying float vSpark;
 varying float vGrow;
 varying float vShade;
 varying float vRim;
+varying float vFade;
 
 const float EDGE = 0.09;
 
@@ -196,6 +233,7 @@ void main() {
   }
 
   col += col * waveBand(vNdc) * 1.4;
+  col *= mix(0.3, 1.0, vFade);
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -223,7 +261,11 @@ void main() {
     return;
   }
 
-  vec2 screen = vec2((position.x - 0.5) / uCover.x + 0.5, position.y / uCover.y);
+  // Anchored to the top, so any trimming comes off the foreground.
+  vec2 screen = vec2(
+    (position.x - 0.5) / uCover.x + 0.5,
+    1.0 - (1.0 - position.y) / uCover.y
+  );
   vec2 ndc = screen * 2.0 - 1.0;
 
   if (uPointerOn > 0.0) {
@@ -254,6 +296,7 @@ uniform float uTime;
 uniform float uLights;
 uniform float uReveal;
 ${WAVE}
+${SIDE_FADE}
 
 varying vec2 vUv;
 varying vec2 vNdc;
@@ -275,7 +318,7 @@ void main() {
   vec2 art = (ndc - uArtCenter) / (2.0 * uArtHalf) + 0.5;
   float mask = 0.0;
   if (art.x >= 0.0 && art.x <= 1.0 && art.y >= 0.0 && art.y <= 1.0) {
-    mask = texture2D(uMask, art).r;
+    mask = texture2D(uMask, art).r * sideFade(art.x);
   }
   if (mask >= 0.99) discard;
 

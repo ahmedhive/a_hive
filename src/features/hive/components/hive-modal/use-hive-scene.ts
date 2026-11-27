@@ -7,6 +7,7 @@ import {
   ART_HEAD,
   ART_HEAD_WIDTH,
   ART_SOURCE,
+  MAX_BACKDROP_STRETCH,
   BLOOM_S,
   BREATH_AMOUNT,
   BREATH_S,
@@ -321,8 +322,14 @@ export default function useHiveScene(inputRef: RefObject<IHiveInput>) {
             (1 + Math.abs(faceNdc.x)) * aspect,
             1 + Math.abs(faceNdc.y),
           ) + 0.25;
-        const coverX = aspect > imageAspect ? 1 : aspect / imageAspect;
-        const coverY = aspect > imageAspect ? imageAspect / aspect : 1;
+        // How much of the backdrop is on screen. On screens wider than the
+        // image it fills the width by stretching a little rather than
+        // zooming, so the starry sky stays in view; only past the stretch
+        // limit is the bottom trimmed.
+        const wider = aspect / imageAspect;
+        const coverX = wider > 1 ? 1 : wider;
+        const coverY =
+          wider > 1 ? Math.min(wider, MAX_BACKDROP_STRETCH) / wider : 1;
         worldUniforms.uCover.value.set(coverX, coverY);
         worldUniforms.uRes.value.set(width * ratio, height * ratio);
         const worldTilePx =

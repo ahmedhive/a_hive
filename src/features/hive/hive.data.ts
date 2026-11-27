@@ -185,6 +185,9 @@ export const TILE_CELL_MOBILE = 4;
 export const TILE_MIN_LEVEL = 11;
 // The mountains are particles too, a little coarser: the tiles still show
 // full-resolution artwork at rest.
+// How far the backdrop may stretch sideways to fill a wide screen before
+// any of it is cropped.
+export const MAX_BACKDROP_STRETCH = 1.25;
 export const WORLD_CELL_DESKTOP = 3;
 export const WORLD_CELL_MOBILE = 5;
 export const WORLD_MIN_LEVEL = 7;
